@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess</title>
+    <link href="Chess.css" rel="stylesheet"></link>
+</head>
+
+<body onload="myChessMain()">
+    <ul id="menubar"><link href="index.css" rel="stylesheet"></link>
+        <li>Tictactoe</li>
+        <li>Sudoku</li>
+        <li>Maze</li>
+        <li><a href="My2048.html">2048</a></li>
+        <li><a href="Chess.html">Chess</a></li>
+    </ul>
+    <div id="welcome" class="welcome">C H E S S</div>
+    <div id="label" class="label">Click on the corresponding piece to move. Press U to undo and R to redo.</div>
+    <table class="board">
+        <tr>
+            <td id="td00" class="matrix"><img id="img00"></td>
+            <td id="td01" class="matrix"><img id="img01"></td>
+            <td id="td02" class="matrix"><img id="img02"></td>
+            <td id="td03" class="matrix"><img id="img03"></td>
+            <td id="td04" class="matrix"><img id="img04"></td>
+            <td id="td05" class="matrix"><img id="img05"></td>
+            <td id="td06" class="matrix"><img id="img06"></td>
+            <td id="td07" class="matrix"><img id="img07"></td>
+        </tr>
+        <tr>
+            <td id="td10" class="matrix"><img id="img10"></td>
+            <td id="td11" class="matrix"><img id="img11"></td>
+            <td id="td12" class="matrix"><img id="img12"></td>
+            <td id="td13" class="matrix"><img id="img13"></td>
+            <td id="td14" class="matrix"><img id="img14"></td>
+            <td id="td15" class="matrix"><img id="img15"></td>
+            <td id="td16" class="matrix"><img id="img16"></td>
+            <td id="td17" class="matrix"><img id="img17"></td>
+        </tr>
+        <tr>
+            <td id="td20" class="matrix"><img id="img20"></td>
+            <td id="td21" class="matrix"><img id="img21"></td>
+            <td id="td22" class="matrix"><img id="img22"></td>
+            <td id="td23" class="matrix"><img id="img23"></td>
+            <td id="td24" class="matrix"><img id="img24"></td>
+            <td id="td25" class="matrix"><img id="img25"></td>
+            <td id="td26" class="matrix"><img id="img26"></td>
+            <td id="td27" class="matrix"><img id="img27"></td>
+        </tr>
+        <tr>
+            <td id="td30" class="matrix"><img id="img30"></td>
+            <td id="td31" class="matrix"><img id="img31"></td>
+            <td id="td32" class="matrix"><img id="img32"></td>
+            <td id="td33" class="matrix"><img id="img33"></td>
+            <td id="td34" class="matrix"><img id="img34"></td>
+            <td id="td35" class="matrix"><img id="img35"></td>
+            <td id="td36" class="matrix"><img id="img36"></td>
+            <td id="td37" class="matrix"><img id="img37"></td>
+        </tr>
+        <tr>
+            <td id="td40" class="matrix"><img id="img40"></td>
+            <td id="td41" class="matrix"><img id="img41"></td>
+            <td id="td42" class="matrix"><img id="img42"></td>
+            <td id="td43" class="matrix"><img id="img43"></td>
+            <td id="td44" class="matrix"><img id="img44"></td>
+            <td id="td45" class="matrix"><img id="img45"></td>
+            <td id="td46" class="matrix"><img id="img46"></td>
+            <td id="td47" class="matrix"><img id="img47"></td>
+        </tr>
+        <tr>
+            <td id="td50" class="matrix"><img id="img50"></td>
+            <td id="td51" class="matrix"><img id="img51"></td>
+            <td id="td52" class="matrix"><img id="img52"></td>
+            <td id="td53" class="matrix"><img id="img53"></td>
+            <td id="td54" class="matrix"><img id="img54"></td>
+            <td id="td55" class="matrix"><img id="img55"></td>
+            <td id="td56" class="matrix"><img id="img56"></td>
+            <td id="td57" class="matrix"><img id="img57"></td>
+        </tr>
+        <tr>
+            <td id="td60" class="matrix"><img id="img60"></td>
+            <td id="td61" class="matrix"><img id="img61"></td>
+            <td id="td62" class="matrix"><img id="img62"></td>
+            <td id="td63" class="matrix"><img id="img63"></td>
+            <td id="td64" class="matrix"><img id="img64"></td>
+            <td id="td65" class="matrix"><img id="img65"></td>
+            <td id="td66" class="matrix"><img id="img66"></td>
+            <td id="td67" class="matrix"><img id="img67"></td>
+        </tr>
+        <tr>
+            <td id="td70" class="matrix"><img id="img70"></td>
+            <td id="td71" class="matrix"><img id="img71"></td>
+            <td id="td72" class="matrix"><img id="img72"></td>
+            <td id="td73" class="matrix"><img id="img73"></td>
+            <td id="td74" class="matrix"><img id="img74"></td>
+            <td id="td75" class="matrix"><img id="img75"></td>
+            <td id="td76" class="matrix"><img id="img76"></td>
+            <td id="td77" class="matrix"><img id="img77"></td>
+        </tr>
+    </table>
+</body>
+<script src="Chess.js"></script>
+
+</html>

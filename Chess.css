@@ -1,0 +1,49 @@
+.welcome
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    height:120px;
+    font-size:5.4rem;
+    font-family:monospace;
+}
+.label
+{
+    /* display:flex; */
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    height:60px;
+    font-size:1.2rem;
+    font-family:monospace;
+}
+.matrix
+{
+    text-align:center;
+    justify-content:center;
+    align-items:center;
+    height:72px;
+    width:69px;
+    border-width:5px;
+    border-style:solid;
+    border-color:rgb(102,0,51);
+    cursor:pointer;
+    /* padding:5px;
+    background-clip:content-box; */
+    font-size:2.7rem;
+    font-family:monospace;
+    font-weight:bolder;
+}
+.board
+{
+    display:flex;
+    border-collapse:collapse;
+    justify-content:center;
+    align-items:center;
+    /* height:100vh; */
+}
+body
+{
+    align-content:center;
+}

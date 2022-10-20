@@ -1,12 +1,8 @@
-var a=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],b=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],win=2048,flag=0,choice=false,fl=false,lose=false;
-function r(min,max)
-{
-    return Math.floor((Math.random()*(max-min+1))+min);
-}
+let a=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],b=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],win=2048,flag=0,choice=false,fl=false,lose=false;
 window.addEventListener("keyup",function(event)
 {
     fl=true;
-    var c=b;
+    let c=b;
     if(event.code=="ArrowUp"||event.code=="KeyW"||event.code=="Numpad8")
     {
         up();
@@ -60,18 +56,22 @@ window.addEventListener("keyup",function(event)
         choice=true;
     }
 }
-)
+);
+function r(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
 function copyboard(a)
 {
-    var b=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
-    for(var i=0;i<4;i++)
-    for(var j=0;j<4;j++)
+    let b=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+    for(let i=0;i<4;i++)
+    for(let j=0;j<4;j++)
     b[i][j]=a[i][j];
     return b;
 }
 function generate()
 {
-    var i=0,j=0;
+    let i=0,j=0;
     do
     {
         i=r(0,3);
@@ -85,8 +85,8 @@ function generate()
 }
 function display()
 {
-    for(var i=0;i<4;i++)
-    for(var j=0;j<4;j++)
+    for(let i=0;i<4;i++)
+    for(let j=0;j<4;j++)
     {
         if(a[i][j]==0)
         document.getElementById(`${i}${j}`).innerText=``;
@@ -132,8 +132,8 @@ function display()
 function checklose()
 {
     lose=true;
-    for(var i=0;i<4;i++)
-    for(var j=0;j<4;j++)
+    for(let i=0;i<4;i++)
+    for(let j=0;j<4;j++)
     if(a[i][j]==0)
     lose=false;
     if(lose==false)
@@ -152,18 +152,18 @@ function checklose()
 }
 function checkwin()
 {
-    for(var i=0;i<4;i++)
-    for(var j=0;j<4;j++)
+    for(let i=0;i<4;i++)
+    for(let j=0;j<4;j++)
     if(a[i][j]%win==0 && a[i][j]!=0)
     return true;
     return false;
 }
 function up()
 {
-    for(var j=0;j<4;j++)
+    for(let j=0;j<4;j++)
     {
-        for(var i=0;i<3;i++)
-        for(var k=i+1;k<4;k++)
+        for(let i=0;i<3;i++)
+        for(let k=i+1;k<4;k++)
         if(a[i][j]==0 && a[k][j]!=0)
         {
             if(lose)
@@ -194,10 +194,10 @@ function up()
 }
 function left()
 {
-    for(var i=0;i<4;i++)
+    for(let i=0;i<4;i++)
     {
-        for(var j=0;j<3;j++)
-        for(var k=j+1;k<4;k++)
+        for(let j=0;j<3;j++)
+        for(let k=j+1;k<4;k++)
         if(a[i][j]==0 && a[i][k]!=0)
         {
             if(lose)
@@ -228,10 +228,10 @@ function left()
 }
 function down()
 {
-    for(var j=0;j<4;j++)
+    for(let j=0;j<4;j++)
     {
-        for(var i=3;i>0;i--)
-        for(var k=i-1;k>=0;k--)
+        for(let i=3;i>0;i--)
+        for(let k=i-1;k>=0;k--)
         if(a[i][j]==0 && a[k][j]!=0)
         {
             if(lose)
@@ -262,10 +262,10 @@ function down()
 }
 function right()
 {
-    for(var i=0;i<4;i++)
+    for(let i=0;i<4;i++)
     {
-        for(var j=3;j>0;j--)
-        for(var k=j-1;k>=0;k--)
+        for(let j=3;j>0;j--)
+        for(let k=j-1;k>=0;k--)
         if(a[i][j]==0 && a[i][k]!=0)
         {
             if(lose)
@@ -302,12 +302,12 @@ function undo()
 }
 /*function lol()
 {
-    var c=2;
-    for(var i=0;i<4;i++)
-    for(var j=0;j<4;j++,c*=2)
+    let c=2;
+    for(let i=0;i<4;i++)
+    for(let j=0;j<4;j++,c*=2)
     a[i][j]=c;
 }*/
-function My2048main()
+function my2048Main()
 {
     generate();
     generate();
