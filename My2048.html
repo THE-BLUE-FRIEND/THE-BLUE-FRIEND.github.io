@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2048</title>
-    <link href="My2048.css" rel="stylesheet"></link>
 </head>
-
 <body onload="my2048Main()">
+    <link href="My2048.css" rel="stylesheet"></link>
     <ul id="menubar"><link href="index.css" rel="stylesheet"></link>
         <li>Tictactoe</li>
-        <li>Sudoku</li>
+        <li><a href="Sudoku.html">Sudoku</a></li>
         <li>Maze</li>
         <li><a href="My2048.html">2048</a></li>
         <li><a href="Chess.html">Chess</a></li>
     </ul>
-    <div id="welcome" class="welcome">2 0 4 8</div>
-    <div id="label" class="label">Press W,A,S,D or 8,4,2,6 or arrow keys to play. Press U to undo.</div>
+    <div id="welcome">2 0 4 8</div>
+    <div id="label">Press W,A,S,D or 8,4,2,6 or arrow keys to play. Press U to undo.</div>
     <table class="board">
         <tr>
             <td id="00" class="matrix"></td>
@@ -45,7 +43,6 @@
             <td id="33" class="matrix"></td>
         </tr>
     </table>
+    <script src="My2048.js"></script>
 </body>
-<script src="My2048.js"></script>
-
 </html>

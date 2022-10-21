@@ -1,4 +1,4 @@
-.welcome
+#welcome
 {
     display:flex;
     justify-content:center;
@@ -8,7 +8,7 @@
     font-size:5.4rem;
     font-family:monospace;
 }
-.label
+#label
 {
     /* display:flex; */
     justify-content:center;

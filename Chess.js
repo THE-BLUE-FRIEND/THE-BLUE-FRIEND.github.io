@@ -1103,7 +1103,7 @@ function r(min,max)
 {
     return Math.floor(Math.random()*(max-min+1)+min);
 }
-function myChessMain()
+function ChessMain()
 {
     let side=r(0,1),currentmove=new Chess(side),previousmove=currentmove.copyclass(),nextmove=currentmove.copyclass(),piecei=-1,piecej=-1,level=2,b=true;
     if(side==1)

@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess</title>
-    <link href="Chess.css" rel="stylesheet"></link>
 </head>
-
-<body onload="myChessMain()">
+<body onload="ChessMain()">
+    <link href="Chess.css" rel="stylesheet"></link>
     <ul id="menubar"><link href="index.css" rel="stylesheet"></link>
         <li>Tictactoe</li>
-        <li>Sudoku</li>
+        <li><a href="Sudoku.html">Sudoku</a></li>
         <li>Maze</li>
         <li><a href="My2048.html">2048</a></li>
         <li><a href="Chess.html">Chess</a></li>
     </ul>
-    <div id="welcome" class="welcome">C H E S S</div>
-    <div id="label" class="label">Click on the corresponding piece to move. Press U to undo and R to redo.</div>
+    <div id="welcome">C H E S S</div>
+    <div id="label">Click on the corresponding piece to move. Press U to undo and R to redo.</div>
     <table class="board">
         <tr>
             <td id="td00" class="matrix"><img id="img00"></td>
@@ -101,7 +99,6 @@
             <td id="td77" class="matrix"><img id="img77"></td>
         </tr>
     </table>
+    <script src="Chess.js"></script>
 </body>
-<script src="Chess.js"></script>
-
 </html>
