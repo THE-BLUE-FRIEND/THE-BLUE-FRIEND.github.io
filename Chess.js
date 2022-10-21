@@ -184,13 +184,13 @@ class Chess
             for(let j=0;j<8;j++)
             {
                 if(b && this.board[i][j]=='o')
-                document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgba(238,238,110,0.6)";
-                else if((i+j)%2==0)
-                document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgba(255,255,255,0.6)";
+                document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgb(238,238,110)";
                 else if(check && this.pl[this.side].k.i==i && this.pl[this.side].k.j==j)
-                document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgba(216,96,116)";
+                document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgb(216,96,116)";
+                else if((i+j)%2==0)
+                document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgb(255,255,255)";
                 else
-                document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgba(90,90,90,0.6)";
+                document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgb(90,90,90)";
                 if(this.checkpiece(this.side,i,j,0)!=0||this.checkpiece(1-this.side,i,j,0)!=0)
                 ;
                 else
