@@ -1,4 +1,4 @@
-let a=new array(9,2),b=new array(9,2),map=new array(9,3),c=new array(9,2),t=false,hint=false;
+let a=new array(9,2),b=new array(9,2),map=new array(9,3),c=new array(9,2),t=false,hint=false,squarei=-1,squarej=-1;
 function array(n,d)
 {
     let a;
@@ -56,6 +56,10 @@ function display(a,row,column)
         document.getElementById(`${i}${j}`).style.color="rgb(210,0,0)";
         else
         document.getElementById(`${i}${j}`).style.color="rgb(0,0,0)";
+        if(i==squarei && j==squarej)
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(168, 202, 247)";
+        else
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(233, 233, 233, 0.6)";
     }
 }
 function initialise()
@@ -363,15 +367,23 @@ function checkcompleteboard()
 function SudokuMain()
 {
     initialise();
-    document.getElementById("label").innerText="Click on a square and enter a number through your keyboard. Press 0 to clear that square. Press H to get a hint.";
+    document.getElementById("label").innerText="Click on a square and enter a number through your keyboard. Enter 0 to clear that square. Press C to clear all your placements. Press H to get a hint.";
     display(b,-1,-1);
-    let squarei=0,squarej=0;
     for(let i=0;i<9;i++)
     for(let j=0;j<9;j++)
     document.getElementById(`${i}${j}`).addEventListener("click",function(event)
     {
-        squarei=i;
-        squarej=j;
+        if(squarei==i && squarej==j)
+        {
+            squarei=-1;
+            squarej=-1;
+        }
+        else
+        {
+            squarei=i;
+            squarej=j;
+        }
+        display(c,-1,-1);
     }
     );
     window.addEventListener("keyup",function(event)
@@ -379,7 +391,7 @@ function SudokuMain()
         let s=event.code;
         if(s.substring(0,s.length-1)=="Digit"||s.substring(0,s.length-1)=="Numpad")
         {
-            if(b[squarei][squarej]!=0)
+            if(squarei!=-1 && squarej!=-1 && b[squarei][squarej]!=0)
             document.getElementById("label").innerText="That space is occupied by default. Please choose another one";
             else
             {
@@ -402,7 +414,10 @@ function SudokuMain()
             if(checksolvable())
             ;
             else
-            document.getElementById("label").innerText="You did it wrong from the start lol. Enter 'C' and do it again.";
+            {
+                document.getElementById("label").innerText="You did it wrong from the start lol. Enter 'C' and do it again.";
+                display(c,-1,-1);
+            }
             b=copyboard(cb);
         }
         if(s=="KeyC" && confirm("Do you want to clear all placements?"))
