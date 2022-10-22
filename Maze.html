@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE BLUE FRIEND</title>
+    <title>Maze</title>
 </head>
-<body>
+<body onload="MazeMain()">
     <link href="index.css" rel="stylesheet"></link>
+    <link href="Maze.css" rel="stylesheet"></link>
     <ul class="menubar">
         <li class="menuitem"><a href="Tictactoe.html">Tictactoe</a></li>
         <li class="menuitem"><a href="Sudoku.html">Sudoku</a></li>
@@ -15,6 +16,10 @@
         <li class="menuitem"><a href="My2048.html">2048</a></li>
         <li class="menuitem"><a href="Chess.html">Chess</a></li>
     </ul>
-    <div id="welcome-text">Welcome to my website</div>
+    <div id="welcome" class="welcome">M A Z E</div>
+    <div id="label">Enter size of the maze in numbers.</div>
+    <div id="setsize"><input type="text" id="needsize"></div>
+    <div id="playground"></div>
+    <script id="script" src="Maze.js"></script>
 </body>
 </html>

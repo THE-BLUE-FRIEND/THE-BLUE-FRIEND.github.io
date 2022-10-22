@@ -32,6 +32,14 @@ function checkequalboard(a,b)
     return false;
     return true;
 }
+function checkanswer(a,b)
+{
+    for(let i=0;i<9;i++)
+    for(let j=0;j<9;j++)
+    if(b[i][j]!=0 && b[i][j]!=a[i][j])
+    return false;
+    return true;
+}
 function elements(a)
 {
     let c=0;
@@ -386,7 +394,7 @@ function SudokuMain()
         display(c,-1,-1);
     }
     );
-    window.addEventListener("keyup",function(event)
+    window.addEventListener("keydown",function(event)
     {
         let s=event.code;
         if(s.substring(0,s.length-1)=="Digit"||s.substring(0,s.length-1)=="Numpad")
@@ -411,11 +419,12 @@ function SudokuMain()
             b=copyboard(c);
             hint=true;
             map=new array(9,3);
-            if(checksolvable())
+            if(checkanswer(a,b) && checksolvable())
             ;
             else
             {
                 document.getElementById("label").innerText="You did it wrong from the start lol. Enter 'C' and do it again.";
+                b=copyboard(cb);
                 display(c,-1,-1);
             }
             b=copyboard(cb);
@@ -424,6 +433,30 @@ function SudokuMain()
         {
             c=copyboard(b);
             document.getElementById("label").innerText="All placements cleared.";
+            display(c,-1,-1);
+        }
+        if(s=="ArrowUp"||s=="KeyW")
+        {
+            if(squarei>0)
+            squarei--;
+            display(c,-1,-1);
+        }
+        if(s=="ArrowLeft"||s=="KeyA")
+        {
+            if(squarej>0)
+            squarej--;
+            display(c,-1,-1);
+        }
+        if(s=="ArrowDown"||s=="KeyS")
+        {
+            if(squarei<8)
+            squarei++;
+            display(c,-1,-1);
+        }
+        if(s=="ArrowRight"||s=="KeyD")
+        {
+            if(squarej<8)
+            squarej++;
             display(c,-1,-1);
         }
     }

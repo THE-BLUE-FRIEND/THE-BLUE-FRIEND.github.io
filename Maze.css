@@ -1,0 +1,56 @@
+#welcome
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    height:120px;
+    font-size:5.4rem;
+    font-family:monospace;
+}
+#label
+{
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    height:60px;
+    font-size:1.2rem;
+    font-family:monospace;
+}
+#needsize
+{
+    text-align:center;
+}
+#setsize
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+td
+{
+    text-align:center;
+    justify-content:center;
+    align-items:center;
+    height:10px;
+    width:15px;
+    padding:0px;
+    font-size:1rem;
+    font-family:monospace;
+    font-weight:bold;
+}
+table
+{
+    display:block;
+    border-collapse:collapse;
+}
+#playground
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+body
+{
+    align-content:center;
+}
