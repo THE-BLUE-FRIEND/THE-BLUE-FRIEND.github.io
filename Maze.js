@@ -259,7 +259,7 @@ function MazeMain()
         {
             play=true;
             let h=document.getElementById("needsize").value;
-            document.getElementById("needsize").style.display="none";
+            document.getElementById("needsize").style.visibility="hidden";
             try
             {
                 if(h=="")
