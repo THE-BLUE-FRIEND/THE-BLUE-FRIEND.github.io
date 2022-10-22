@@ -1,0 +1,82 @@
+#welcome
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    height:120px;
+    font-size:5.4rem;
+    font-family:monospace;
+}
+#label
+{
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    height:60px;
+    font-size:1.2rem;
+    font-family:monospace;
+}
+#needside
+{
+    text-align:center;
+}
+#setside
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+td
+{
+    text-align:center;
+    justify-content:center;
+    align-items:center;
+    height:120px;
+    width:120px;
+    padding:0px;
+    font-size:6rem;
+    font-family:monospace;
+    font-weight:100;
+    border-width:0px;
+}
+#td00
+{
+    border-bottom:6px solid rgb(102,0,51);
+    border-right:6px solid rgb(102,0,51);
+}
+#td02
+{
+    border-bottom:6px solid rgb(102,0,51);
+    border-left:6px solid rgb(102,0,51);
+}
+#td20
+{
+    border-top:6px solid rgb(102,0,51);
+    border-right:6px solid rgb(102,0,51);
+}
+#td22
+{
+    border-top:6px solid rgb(102,0,51);
+    border-left:6px solid rgb(102,0,51);
+}
+#td11
+{
+    border:6px solid rgb(102,0,51);
+}
+
+table
+{
+    display:block;
+    border-collapse:collapse;
+}
+#playground
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+body
+{
+    align-content:center;
+}
