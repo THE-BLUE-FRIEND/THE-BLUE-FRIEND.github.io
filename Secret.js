@@ -5,7 +5,7 @@ function r(min,max)
 function SecretMain()
 {
     document.getElementById("setinfo").style.visibility="hidden";
-    let name=document.getElementById("needinfo").value;
+    let name=document.getElementById("needinfo").value.trim();
     let size;
     for(size=r(5,7);name.length+6>size*6-5;size++);
     let table=document.createElement("table");
