@@ -40,6 +40,10 @@ td
     font-weight:100;
     border-width:0px;
 }
+td:hover
+{
+    background-color:rgb(250, 180, 255);
+}
 #td00
 {
     border-bottom:6px solid rgb(102,0,51);
@@ -64,7 +68,6 @@ td
 {
     border:6px solid rgb(102,0,51);
 }
-
 table
 {
     display:block;
