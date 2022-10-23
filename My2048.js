@@ -307,7 +307,7 @@ function undo()
     for(let j=0;j<4;j++,c*=2)
     a[i][j]=c;
 }*/
-function my2048Main()
+function My2048Main()
 {
     generate();
     generate();
