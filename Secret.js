@@ -7,7 +7,7 @@ function SecretMain()
     document.getElementById("setinfo").style.visibility="hidden";
     let name=document.getElementById("needinfo").value;
     let size;
-    for(size=r(5,7);name.length>size*6-5;size++);
+    for(size=r(5,7);name.length+6>size*6-5;size++);
     let table=document.createElement("table");
     document.getElementById("heart").appendChild(table);
     for(let i=0;i<size*2-3+5*size/2;i++)
