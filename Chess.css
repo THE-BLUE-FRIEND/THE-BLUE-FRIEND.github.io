@@ -18,6 +18,18 @@
     font-size:1.2rem;
     font-family:monospace;
 }
+.label
+{
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    width:69px;
+    height:72px;
+    font-size:1.2rem;
+    font-family:monospace;
+    font-weight:bold;
+    color:rgb(102,0,51);
+}
 .matrix
 {
     text-align:center;

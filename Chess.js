@@ -952,7 +952,7 @@ class Chess
                 t=tt+1;
             }
             this.movepiece(1-this.side,'p',n,i,j,t,true);
-            document.getElementById("label").innerText=""+(char)(j+97)+(8-i)+" = "+Character.toUpperCase(p(t))+" was played";
+            document.getElementById("label").innerText=""+String.fromCharCode(j+97)+(8-i)+" = "+Character.toUpperCase(p(t))+" was played";
         }
         else
         {
@@ -1106,6 +1106,10 @@ function r(min,max)
 function ChessMain()
 {
     let side=r(0,1),currentmove=new Chess(side),previousmove=currentmove.copyclass(),nextmove=currentmove.copyclass(),piecei=-1,piecej=-1,level=2,b=true;
+    for(let i=0;i<8;i++)
+    document.getElementById(`number${i}`).innerText=""+side==0?(8-i):(i+1);
+    for(let i=0;i<8;i++)
+    document.getElementById(`letter${i}`).innerText=""+side==0?String.fromCharCode(i+97):String.fromCharCode((7-i)+97);
     if(side==1)
     {
         currentmove.calculateallmove(level);
