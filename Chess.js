@@ -1105,7 +1105,7 @@ function r(min,max)
 }
 function ChessMain()
 {
-    let side=r(0,1),currentmove=new Chess(side),previousmove=currentmove.copyclass(),nextmove=currentmove.copyclass(),piecei=-1,piecej=-1,level=2,b=true;
+    let side=r(0,1),currentmove=new Chess(side),previousmove=currentmove.copyclass(),nextmove=currentmove.copyclass(),piecei=-1,piecej=-1,level=2,b=true,end=false;
     for(let i=0;i<8;i++)
     document.getElementById(`number${i}`).innerText=""+side==0?(8-i):(i+1);
     for(let i=0;i<8;i++)
@@ -1121,6 +1121,7 @@ function ChessMain()
     for(let j=0;j<8;j++)
     document.getElementById(`td${currentmove.side==0?i:7-i}${currentmove.side==0?j:7-j}`).addEventListener("click",function(event)
     {
+        if(!end)
         if(currentmove.board[i][j]=='o')
         {
             previousmove=currentmove.copyclass();
@@ -1135,6 +1136,8 @@ function ChessMain()
             {
                 document.getElementById("label").innerText="Good heavens! You win :D";
                 b=false;
+                end=true;
+                currentmove.show(b);
                 return;
             }
             currentmove.calculateallmove(level);
@@ -1142,6 +1145,7 @@ function ChessMain()
             if(currentmove.copyclass().checkmate(currentmove.side))
             document.getElementById("label").innerText="Sorry amigo! You lose D:";
             b=true;
+            end=true;
         }
         else
         {
