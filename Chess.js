@@ -1142,10 +1142,13 @@ function ChessMain()
             }
             currentmove.calculateallmove(level);
             nextmove=currentmove.copyclass();
-            if(currentmove.copyclass().checkmate(currentmove.side))
-            document.getElementById("label").innerText="Sorry amigo! You lose D:";
             b=true;
-            end=true;
+            if(currentmove.copyclass().checkmate(currentmove.side))
+            {
+                document.getElementById("label").innerText="Sorry amigo! You lose D:";
+                b=false;
+                end=true;
+            }
         }
         else
         {
