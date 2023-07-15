@@ -215,11 +215,13 @@ function TictactoeMain()
             a[i][j]=usymbol;
             show();
             checkwin();
+            if(!end)
             checktie();
             if(!end && !checkfullboard())
             trywin();
             show();
             checkwin();
+            if(!end)
             checktie();
         }
     }

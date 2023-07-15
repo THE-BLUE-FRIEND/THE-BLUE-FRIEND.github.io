@@ -27,6 +27,11 @@ a
     text-decoration:none;
     color:white;
 }
+#g-id-onload
+{
+    display:flex;
+    justify-content:center;
+}
 #welcome-text
 {
     display:flex;
