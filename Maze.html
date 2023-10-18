@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maze</title>
 </head>
-<body onload="MazeMain()">
+<body>
     <link href="index.css" rel="stylesheet"></link>
     <link href="Maze.css" rel="stylesheet"></link>
     <ul class="menubar">
@@ -19,7 +19,11 @@
     </ul>
     <div id="welcome" class="welcome">M A Z E</div>
     <div id="label">Enter size of the maze in numbers.</div>
-    <div id="setsize"><input type="text" id="needsize"></div>
+    <div id="setsize">
+        <form onsubmit="MazeMain();return false">
+            <input type="text" id="needsize">
+        </form>
+    </div>
     <div id="playground"></div>
     <script id="script" src="Maze.js"></script>
 </body>

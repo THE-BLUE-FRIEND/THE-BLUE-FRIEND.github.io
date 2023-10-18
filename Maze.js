@@ -252,63 +252,57 @@ function searchExit(i,j,dir)
 }
 function MazeMain()
 {
-    let play=false;
+    let h=document.getElementById("needsize").value;
+    document.getElementById("needsize").style.visibility="hidden";
+    try
+    {
+        if(h=="")
+        h=rm(8,42);
+        else
+        h=parseInt(h);
+    }
+    catch(e)
+    {
+        h=rm(8,42);
+    }
+    if(h<8)
+    h=8;
+    else if(h>60)
+    h=60;
+    document.getElementById("label").innerText="Press W,A,S,D or arrow keys or 8,4,2,6 to move.";
+    a=new Array();
+    let table=document.createElement("table");
+    document.getElementById("playground").appendChild(table);
+    for(let i=0;i<h;i++)
+    {
+        let tr=document.createElement("tr");
+        table.appendChild(tr);
+        a[i]=new Array();
+        for(let j=0;j<h*3;j++)
+        {
+            let td=document.createElement("td");
+            td.id=`${i}td${j}`;
+            tr.appendChild(td);
+            a[i][j]=' ';
+        }
+    }
+    makePath();
+    makeExit();
+    makeWalls();
+    for(let i=0;i<a.length;i++)
+    for(let j=0;j<a[0].length;j++)
+    if(a[i][j]=='H')
+    {
+        a[i][j]='•';
+        r=i;
+        c=j;
+        exitr=r;
+        exitc=c;
+    }
+    showExit(r,c);
+    setMaze();
     window.addEventListener("keydown",function(event)
     {
-        if(!play && (event.code=="Enter" ||event.code=="NumpadEnter"))
-        {
-            play=true;
-            let h=document.getElementById("needsize").value;
-            document.getElementById("needsize").style.visibility="hidden";
-            try
-            {
-                if(h=="")
-                h=rm(8,42);
-                else
-                h=parseInt(h);
-            }
-            catch(e)
-            {
-                h=rm(8,42);
-            }
-            if(h<8)
-            h=8;
-            else if(h>56)
-            h=56;
-            document.getElementById("label").innerText="Press W,A,S,D or arrow keys or 8,4,2,6 to move.";
-            a=new Array();
-            let table=document.createElement("table");
-            document.getElementById("playground").appendChild(table);
-            for(let i=0;i<h;i++)
-            {
-                let tr=document.createElement("tr");
-                table.appendChild(tr);
-                a[i]=new Array();
-                for(let j=0;j<h*3;j++)
-                {
-                    let td=document.createElement("td");
-                    td.id=`${i}td${j}`;
-                    tr.appendChild(td);
-                    a[i][j]=' ';
-                }
-            }
-            makePath();
-            makeExit();
-            makeWalls();
-            for(let i=0;i<a.length;i++)
-            for(let j=0;j<a[0].length;j++)
-            if(a[i][j]=='H')
-            {
-                a[i][j]='•';
-                r=i;
-                c=j;
-                exitr=r;
-                exitc=c;
-            }
-            showExit(r,c);
-            setMaze();
-        }
-        if(play)
         if(event.code=="ArrowUp"||event.code=="KeyW"||event.code=="Numpad8")
         {
             if(r==0)
@@ -359,9 +353,11 @@ function MazeMain()
         }
         else if(event.code=="KeyG")
         showexit=!showexit;
-        if( play && (r==0||c==0||r==a.length-1||c==a[r].length-1) && (r!=exitr||c!=exitc) )
-        document.getElementById("label").innerText="Congratulations! You've finally reached the end!";
-        if(play)
+        if(event.code!="KeyG" && (r==0||c==0||r==a.length-1||c==a[r].length-1) && (r!=exitr||c!=exitc) )
+        {
+            document.getElementById("label").innerText="Congratulations! You've finally reached the end!";
+            showexit=true;
+        }
         setMaze();
     }
     );
