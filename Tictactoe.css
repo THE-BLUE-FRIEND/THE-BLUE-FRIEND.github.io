@@ -43,18 +43,14 @@ td
 td:hover
 {
     background-color:rgb(250, 180, 255);
+    transition:all 0.1s;
 }
-.all
+.square
 {
+    background-color:rgba(233, 233, 233, 0.5);
+    border-top:3px solid rgb(102,0,51);
     border-bottom:3px solid rgb(102,0,51);
-    border-right:3px solid rgb(102,0,51);
-}
-.right
-{
-    border-bottom:3px solid rgb(102,0,51);
-}
-.down
-{
+    border-left:3px solid rgb(102,0,51);
     border-right:3px solid rgb(102,0,51);
 }
 table
@@ -68,7 +64,38 @@ table
     justify-content:center;
     align-items:center;
 }
+#reload
+{
+    text-transform:uppercase;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:0px;
+    font-size:1.8rem;
+    font-family:monospace;
+    font-weight:bolder;
+    padding:30px;
+    background:rgb(231, 50, 255);
+    color:rgb(255, 255, 255);
+    cursor:pointer;
+    transition:all 0.1s;
+    height:60px;
+    width:150px;
+}
+#reload:hover
+{
+    background:rgb(205, 1, 228);
+}
 body
 {
     align-content:center;
+}
+#reloadbutton
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:150px;
+    visibility:hidden;
 }

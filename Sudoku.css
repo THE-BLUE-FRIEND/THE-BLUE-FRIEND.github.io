@@ -17,6 +17,47 @@
     font-size:1.2rem;
     font-family:monospace;
 }
+#needsize
+{
+    text-align:center;
+    font-family:monospace;
+}
+#setsize
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+#enter
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:120px;
+}
+#enterbutton
+{
+    text-transform:uppercase;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:0px;
+    font-size:1.8rem;
+    font-family:monospace;
+    font-weight:bolder;
+    padding:30px;
+    background:rgb(231, 50, 255);
+    color:rgb(255, 255, 255);
+    cursor:pointer;
+    transition:all 0.1s;
+    height:25px;
+    width:150px;
+}
+#enterbutton:hover
+{
+    background:rgb(205, 1, 228);
+}
 .square
 {
     text-align:center;
@@ -25,23 +66,21 @@
     height:45px;
     width:45px;
     background-color:rgba(233, 233, 233, 0.5);
-    border-width:3px;
     border-style:solid;
     border-color:rgb(102,0,51);
     cursor:pointer;
-    font-size:1.8rem;
+    font-size:27px;
     font-family:monospace;
     font-weight:bolder;
-    opacity:0.8;
 }
 .square:hover
 {
-    opacity:1;
-    background-color:rgb(225, 202, 221);
+    background-color:rgb(250, 180, 255);
+    transition:all 0.1s;
 }
 .square:active
 {
-    background-color:rgb(168, 202, 247);
+    background-color:rgb(236, 137, 249);
 }
 table
 {
@@ -51,8 +90,8 @@ table
 {
     justify-content:center;
     align-items:center;
-    height:150px;
-    width:150px;
+    height:auto;
+    width:auto;
     padding:0px;
     border-style:solid;
     border-color:rgb(102,0,51);
@@ -64,6 +103,51 @@ table
     border-collapse:collapse;
     justify-content:center;
     align-items:center;
+}
+.space
+{
+    width:200px;
+    display:block;
+}
+.spaceheight
+{
+    height:50px;
+    display:block;
+}
+.minispace
+{
+    width:50px;
+    display:block;
+}
+.option
+{
+    display:flex;
+    text-align:center;
+    justify-content:center;
+    align-items:center;
+    height:60px;
+    width:150px;
+    background:rgb(231, 50, 255);
+    color:rgb(255, 255, 255);
+    border-style:solid;
+    border-color:rgb(102,0,51);
+    cursor:pointer;
+    font-size:21px;
+    font-family:monospace;
+    font-weight:bolder;
+    visibility:hidden;
+}
+.option:hover
+{
+    background:rgb(205, 1, 228);
+    transition:all 0.1s;
+}
+#optiongroup
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:150px;
 }
 body
 {

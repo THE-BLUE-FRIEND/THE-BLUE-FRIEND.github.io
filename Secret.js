@@ -5,6 +5,7 @@ function r(min,max)
 function SecretMain()
 {
     document.getElementById("setinfo").style.visibility="hidden";
+    document.getElementById("enter").remove();
     let name=document.getElementById("needinfo").value.trim();
     let size;
     for(size=r(5,7);name.length+6>size*6-5;size++);
@@ -46,3 +47,8 @@ function SecretMain()
     document.getElementById(`${i}td${j}`).style.backgroundColor="rgb(255,0,0)";
     document.getElementById("share").style.visibility="visible";
 }
+form.addEventListener("submit",function()
+{
+    SecretMain();
+}
+);

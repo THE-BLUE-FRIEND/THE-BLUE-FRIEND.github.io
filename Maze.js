@@ -254,6 +254,7 @@ function MazeMain()
 {
     let h=document.getElementById("needsize").value;
     document.getElementById("needsize").style.visibility="hidden";
+    document.getElementById("enter").remove();
     try
     {
         if(h=="")
@@ -362,3 +363,8 @@ function MazeMain()
     }
     );
 }
+form.addEventListener("submit",function()
+{
+    MazeMain();
+}
+);

@@ -1,229 +1,337 @@
-let a,usymbol,csymbol,turn,end=false;
+let size,target,point,board,usymbol,csymbol,end;
 function show()
 {
-    for(let i=0;i<3;i++)
-    for(let j=0;j<3;j++)
-    document.getElementById(`td${i}${j}`).innerText=""+a[i][j];
+    for(let i=0;i<size;i++)
+    for(let j=0;j<size;j++)
+    document.getElementById(`td${i}${j}`).innerText=""+board[i][j];
 }
-function checkfullboard()
+function r(min,max)
 {
-    for(let i=0;i<3;i++)
-    for(let j=0;j<3;j++)
-    if(a[i][j]==' ')
-    return false;
-    return true;
+    return parseInt(Math.random()*(max-min+1))+min;
 }
-function checkwin()
+function generate(t,space)
 {
-    let s="";
-    for(let i=0;i<3;i++,checkwintrue(s))
-    s=""+a[i][0]+a[i][1]+a[i][2];
-    for(let i=0;i<3;i++,checkwintrue(s))
-    s=""+a[0][i]+a[1][i]+a[2][i];
-    s=""+a[0][0]+a[1][1]+a[2][2];
-    checkwintrue(s);
-    s=""+a[0][2]+a[1][1]+a[2][0];
-    checkwintrue(s);
-}
-function checkwintrue(s)
-{
-    if(s==""+usymbol+usymbol+usymbol)
+    let make=new Array();
+    if(space==0)
     {
-        document.getElementById("label").innerText="Wow you won. That was fantastic! Reload the page to play again!";
-        end=true;
+        make.push(t);
+        return make;
     }
-    else if(s==""+csymbol+csymbol+csymbol)
+    for(let i=t.lastIndexOf(' ')+1;i<t.length+1;i++)
     {
-        document.getElementById("label").innerText="Sorry you lose :/  Reload the page to play again!";
-        end=true;
+        let temp=t.substring(0,i)+" "+t.substring(i);
+        let res=generate(temp,space-1);
+        for(let j=0;j<res.length;j++)
+        make.push(res[j]);
     }
+    return make;
 }
 function checktie()
 {
-    let fl=1;
-    for(let i=0;i<3;i++)
-    for(let j=0;j<3;j++)
-    if(a[i][j]==' ')
-    fl=0;
-    if(fl==1)
-    document.getElementById("label").innerText="It was a tie. Reload the page to play again!";
+    for(let i=0;i<size;i++)
+    for(let j=0;j<size;j++)
+    if(board[i][j]==' ')
+    return false;
+    return true;
 }
-function emptyboard()
+function checkwin(symbol)
 {
-    let c=0;
-    for(let i=0;i<3;i++)
-    for(let j=0;j<3;j++)
-    if(a[i][j]==' ')
-    c++;
-    return c==9;
+    let checkfor="";
+    for(let i=0;i<target;i++)
+    checkfor+=symbol;
+    for(let i=0;i<size;i++)
+    {
+        let check="";
+        for(let j=0;j<size;j++)
+        check+=board[i][j];
+        if(check.indexOf(checkfor)!=-1)
+        return true;
+    }
+    for(let j=0;j<size;j++)
+    {
+        let check="";
+        for(let i=0;i<size;i++)
+        check+=board[i][j];
+        if(check.indexOf(checkfor)!=-1)
+        return true;
+    }
+    for(let i=target-size;i<size-target+1;i++)
+    {
+        let check="";
+        for(let j=Math.max(0,-i);j<Math.min(size,size-i);j++)
+        check+=board[i+j][j];
+        if(check.indexOf(checkfor)!=-1)
+        return true;
+    }
+    for(let i=target-size;i<size-target+1;i++)
+    {
+        let check="";
+        for(let j=Math.max(0,-i);j<Math.min(size,size-i);j++)
+        check+=board[i+j][size-j-1];
+        if(check.indexOf(checkfor)!=-1)
+        return true;
+    }
+    return false;
 }
 function trywin()
 {
-    let s="";
-    for(let i=0;i<3;i++)
-    {
-        s=""+a[i][0]+a[i][1]+a[i][2];
-        if(s==""+csymbol+csymbol+" "||s==""+csymbol+" "+csymbol||s==" "+csymbol+csymbol)
-        {
-            a[i][s.indexOf(' ')]=csymbol;
-            return;
-        }
-    }
-    for(let i=0;i<3;i++)
-    {
-        s=""+a[0][i]+a[1][i]+a[2][i];
-        if(s==""+csymbol+csymbol+" "||s==""+csymbol+" "+csymbol||s==" "+csymbol+csymbol)
-        {
-            a[s.indexOf(' ')][i]=csymbol;
-            return;
-        }
-    }
-    s=""+a[0][0]+a[1][1]+a[2][2];
-    if(s==""+csymbol+csymbol+" "||s==""+csymbol+" "+csymbol||s==" "+csymbol+csymbol)
-    {
-        a[s.indexOf(' ')][s.indexOf(' ')]=csymbol;
-        return;
-    }
-    s=""+a[0][2]+a[1][1]+a[2][0];
-    if(s==""+csymbol+csymbol+" "||s==""+csymbol+" "+csymbol||s==" "+csymbol+csymbol)
-    {
-        a[s.indexOf(' ')][2-s.indexOf(' ')]=csymbol;
-        return;
-    }
-    tryblock();
+    tryplace(1);
+    let max=-1;
+    for(let i=0;i<size;i++)
+    for(let j=0;j<size;j++)
+    if(board[i][j]==' ')
+    max=Math.max(max,point[i][j]);
+    
+    let i,j;
+    for(i=r(0,size-1),j=r(0,size-1);point[i][j]!=max || board[i][j]!=' ';i=r(0,size-1),j=r(0,size-1));
+    board[i][j]=csymbol;
+    document.getElementById(`${i}td${j}`).innerText=""+board[i][j];
 }
-function tryblock()
+function tryplace(space)
 {
-    let s="";
-    for(let i=0;i<3;i++)
+    if(space==target)
+    return;
+    
+    let t="";
+    for(let i=0;i<target-space;i++)
+    t+=csymbol;
+    let checkfor=generate(t,space);
+    
+    let tpoint=new Array();
+    for(let i=0;i<size;i++)
     {
-        s=""+a[i][0]+a[i][1]+a[i][2];
-        if(s==""+usymbol+usymbol+" "||s==""+usymbol+" "+usymbol||s==" "+usymbol+usymbol)
-        {
-            a[i][s.indexOf(' ')]=csymbol;
-            return;
-        }
+        tpoint[i]=new Array();
+        for(let j=0;j<size;j++)
+        tpoint[i][j]=0;
     }
-    for(let i=0;i<3;i++)
+    
+    for(let i=0;i<size;i++)
     {
-        s=""+a[0][i]+a[1][i]+a[2][i];
-        if(s==""+usymbol+usymbol+" "||s==""+usymbol+" "+usymbol||s==" "+usymbol+usymbol)
-        {
-            a[s.indexOf(' ')][i]=csymbol;
-            return;
-        }
+        let check="";
+        for(let j=0;j<size;j++)
+        check+=board[i][j];
+        for(let j=0;j<checkfor.length;j++)
+        if(check.indexOf(checkfor[j])!=-1)
+        for(let k=0;k<checkfor[j].length;k++)
+        if(checkfor[j].charAt(k)==' ')
+        tpoint[i][check.indexOf(checkfor[j])+k]=1/(Math.pow(2,space*2-2));
     }
-    s=""+a[0][0]+a[1][1]+a[2][2];
-    if(s==""+usymbol+usymbol+" "||s==""+usymbol+" "+usymbol||s==" "+usymbol+usymbol)
+    
+    for(let j=0;j<size;j++)
     {
-        a[s.indexOf(' ')][s.indexOf(' ')]=csymbol;
-        return;
+        let check="";
+        for(let i=0;i<size;i++)
+        check+=board[i][j];
+        for(let i=0;i<checkfor.length;i++)
+        if(check.indexOf(checkfor[i])!=-1)
+        for(let k=0;k<checkfor[i].length;k++)
+        if(checkfor[i].charAt(k)==' ')
+        tpoint[check.indexOf(checkfor[i])+k][j]=1/(Math.pow(2,space*2-2));
     }
-    s=""+a[0][2]+a[1][1]+a[2][0];
-    if(s==""+usymbol+usymbol+" "||s==""+usymbol+" "+usymbol||s==" "+usymbol+usymbol)
+    
+    for(let i=target-size;i<size-target+1;i++)
     {
-        a[s.indexOf(' ')][2-s.indexOf(' ')]=csymbol;
-        return;
+        let check="";
+        for(let j=Math.max(0,-i);j<Math.min(size,size-i);j++)
+        check+=board[i+j][j];
+        for(let j=0;j<checkfor.length;j++)
+        if(check.indexOf(checkfor[j])!=-1)
+        for(let k=0;k<checkfor[j].length;k++)
+        if(checkfor[j].charAt(k)==' ')
+        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][Math.max(0,-i)+check.indexOf(checkfor[j])+k]=1/(Math.pow(2,space*2-2));
     }
-    tryplace();
+    
+    for(let i=target-size;i<size-target+1;i++)
+    {
+        let check="";
+        for(let j=Math.max(0,-i);j<Math.min(size,size-i);j++)
+        check+=board[i+j][size-j-1];
+        for(let j=0;j<checkfor.length;j++)
+        if(check.indexOf(checkfor[j])!=-1)
+        for(let k=0;k<checkfor[j].length;k++)
+        if(checkfor[j].charAt(k)==' ')
+        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][size-(Math.max(0,-i)+check.indexOf(checkfor[j])+k)-1]=1/(Math.pow(2,space*2-2));
+    }
+    
+    for(let i=0;i<size;i++)
+    for(let j=0;j<size;j++)
+    point[i][j]+=tpoint[i][j];
+    
+    tryblock(space);
 }
-function tryplace()
+function tryblock(space)
 {
-    let s="";
-    for(let i=0;i<3;i++)
+    let t="";
+    for(let i=0;i<target-space;i++)
+    t+=usymbol;
+    let checkfor=generate(t,space);
+    
+    let tpoint=new Array();
+    for(let i=0;i<size;i++)
     {
-        s=""+a[i][0]+a[i][1]+a[i][2];
-        if(s==""+csymbol+"  "||s==" "+csymbol+" "||s=="  "+csymbol)
-        {
-            if(r()%2==0)
-            a[i][s.indexOf(' ')]=csymbol;
-            else
-            a[i][s.lastIndexOf(' ')]=csymbol;
-            return;
-        }
+        tpoint[i]=new Array();
+        for(let j=0;j<size;j++)
+        tpoint[i][j]=0;
     }
-    for(let i=0;i<3;i++)
+    
+    for(let i=0;i<size;i++)
     {
-        s=""+a[0][i]+a[1][i]+a[2][i];
-        if(s==""+csymbol+"  "||s==" "+csymbol+" "||s=="  "+csymbol)
-        {
-            if(r()%2==0)
-            a[s.indexOf(' ')][i]=csymbol;
-            else
-            a[s.lastIndexOf(' ')][i]=csymbol;
-            return;
-        }
-    }
-    s=""+a[0][0]+a[1][1]+a[2][2];
-    if(s==""+csymbol+"  "||s==" "+csymbol+" "||s=="  "+csymbol)
-    {
-        if(r()%2==0)
-        a[s.indexOf(' ')][s.indexOf(' ')]=csymbol;
+        let check="";
+        for(let j=0;j<size;j++)
+        check+=board[i][j];
+        for(let j=0;j<checkfor.length;j++)
+        if(check.indexOf(checkfor[j])!=-1)
+        for(let k=0;k<checkfor[j].length;k++)
+        if(checkfor[j].charAt(k)==' ')
+        if(space==2 && ((k!=0 && checkfor[j].charAt(k-1)==usymbol) || (k!=checkfor[j].length-1 && checkfor[j].charAt(k+1)==usymbol)))
+        tpoint[i][check.indexOf(checkfor[j])+k]=1/(Math.pow(2,space*2-2));
         else
-        a[s.lastIndexOf(' ')][s.lastIndexOf(' ')]=csymbol;
-        return;
+        tpoint[i][check.indexOf(checkfor[j])+k]=1/(Math.pow(2,space*2-1));
     }
-    s=""+a[0][2]+a[1][1]+a[2][0];
-    if(s==""+csymbol+"  "||s==" "+csymbol+" "||s=="  "+csymbol)
+    
+    for(let j=0;j<size;j++)
     {
-        if(r()%2==0)
-        a[s.indexOf(' ')][2-s.indexOf(' ')]=csymbol;
+        let check="";
+        for(let i=0;i<size;i++)
+        check+=board[i][j];
+        for(let i=0;i<checkfor.length;i++)
+        if(check.indexOf(checkfor[i])!=-1)
+        for(let k=0;k<checkfor[i].length;k++)
+        if(checkfor[i].charAt(k)==' ')
+        if(space==2 && ((k!=0 && checkfor[j].charAt(k-1)==usymbol) || (k!=checkfor[j].length-1 && checkfor[j].charAt(k+1)==usymbol)))
+        tpoint[check.indexOf(checkfor[i])+k][j]=1/(Math.pow(2,space*2-2));
         else
-        a[s.lastIndexOf(' ')][2-s.lastIndexOf(' ')]=csymbol;
-        return;
+        tpoint[check.indexOf(checkfor[i])+k][j]=1/(Math.pow(2,space*2-1));
     }
-    tryrandom();
-}
-function tryrandom()
-{
-    let rm;
-    for(rm=r();a[2-Math.floor((rm-1)/3)][(rm-1)%3]!=' ';rm=r());
-    a[2-Math.floor((rm-1)/3)][(rm-1)%3]=csymbol;
-}
-function r()
-{
-    let rm=Math.floor(Math.random()*10);
-    if(rm!=0)
-    return rm;
-    else
-    return r();
+    
+    for(let i=target-size;i<size-target+1;i++)
+    {
+        let check="";
+        for(let j=Math.max(0,-i);j<Math.min(size,size-i);j++)
+        check+=board[i+j][j];
+        for(let j=0;j<checkfor.length;j++)
+        if(check.indexOf(checkfor[j])!=-1)
+        for(let k=0;k<checkfor[j].length;k++)
+        if(checkfor[j].charAt(k)==' ')
+        if(space==2 && ((k!=0 && checkfor[j].charAt(k-1)==usymbol) || (k!=checkfor[j].length-1 && checkfor[j].charAt(k+1)==usymbol)))
+        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][Math.max(0,-i)+check.indexOf(checkfor[j])+k]=1/(Math.pow(2,space*2-2));
+        else
+        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][Math.max(0,-i)+check.indexOf(checkfor[j])+k]=1/(Math.pow(2,space*2-1));
+    }
+    
+    for(let i=target-size;i<size-target+1;i++)
+    {
+        let check="";
+        for(let j=Math.max(0,-i);j<Math.min(size,size-i);j++)
+        check+=board[i+j][size-j-1];
+        for(let j=0;j<checkfor.length;j++)
+        if(check.indexOf(checkfor[j])!=-1)
+        for(let k=0;k<checkfor[j].length;k++)
+        if(checkfor[j].charAt(k)==' ')
+        if(space==2 && ((k!=0 && checkfor[j].charAt(k-1)==usymbol) || (k!=checkfor[j].length-1 && checkfor[j].charAt(k+1)==usymbol)))
+        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][size-(Math.max(0,-i)+check.indexOf(checkfor[j])+k)-1]=1/(Math.pow(2,space*2-2));
+        else
+        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][size-(Math.max(0,-i)+check.indexOf(checkfor[j])+k)-1]=1/(Math.pow(2,space*2-1));
+    }
+    
+    for(let i=0;i<size;i++)
+    for(let j=0;j<size;j++)
+    point[i][j]+=tpoint[i][j];
+    
+    tryplace(space+1);
 }
 function TictactoeMain()
 {
-    a=[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']];
-    if(r()%2==0)
+    size=r(3,9);
+    target=size-parseInt((size+1)/2)+2;
+    document.getElementById("label").innerText="Size is "+size+". You need to place "+target+" times in a row to win";
+    end=false;
+
+    board=new Array();
+    point=new Array();
+    for(let i=0;i<size;i++)
     {
-        csymbol='o';
+        board[i]=new Array();
+        point[i]=new Array();
+        for(let j=0;j<size;j++)
+        {
+            board[i][j]=' ';
+            point[i][j]=0;
+        }
+    }
+
+    let table=document.createElement("table");
+    document.getElementById("playground").appendChild(table);
+    for(let i=0;i<size;i++)
+    {
+        let tr=document.createElement("tr");
+        table.appendChild(tr);
+        for(let j=0;j<size;j++)
+        {
+            let td=document.createElement("td");
+            td.id=`${i}td${j}`;
+            tr.appendChild(td);
+            td.innerText=board[i][j];
+            td.classList.add("square");
+            td.addEventListener("click",function()
+            {
+                if(!end)
+                {
+                    if(board[i][j]!=' ')
+                    document.getElementById("label").innerText="That space is already occupied. Choose another one";
+                    else
+                    {
+                        board[i][j]=usymbol;
+                        td.innerText=""+board[i][j];
+                        if(checkwin(usymbol))
+                        {
+                            document.getElementById("label").innerText="Wow you won. That was fantastic! Reload the page to play again!";
+                            document.getElementById("reload").style.visibility="visible";
+                            end=true;
+                            return;
+                        }
+                        else if(checktie())
+                        {
+                            document.getElementById("label").innerText="It was a tie. Reload the page to play again!";
+                            document.getElementById("reload").style.visibility="visible";
+                            end=true;
+                            return;
+                        }
+                        for(let ii=0;ii<size;ii++)
+                        for(let jj=0;jj<size;jj++)
+                        point[ii][jj]=0;
+                        trywin();
+                        if(checkwin(csymbol))
+                        {
+                            document.getElementById("label").innerText="Sorry you lose :/  Reload the page to play again!";
+                            document.getElementById("reload").style.visibility="visible";
+                            end=true;
+                            return;
+                        }
+                        else if(checktie())
+                        {
+                            document.getElementById("label").innerText="It was a tie. Reload the page to play again!";
+                            document.getElementById("reload").style.visibility="visible";
+                            end=true;
+                            return;
+                        }
+                    }
+                }
+            }
+            );
+        }
+    }
+
+    let t=r(0,1);
+    if(t==1)
+    {
         usymbol='x';
+        csymbol='o';
     }
     else
     {
-        csymbol='x';
         usymbol='o';
+        csymbol='x';
         trywin();
-        show();
     }
-    for(let i=0;i<3;i++)
-    for(let j=0;j<3;j++)
-    document.getElementById(`td${i}${j}`).addEventListener("click",function()
-    {
-        if(!end)
-        {
-            if(a[i][j]!=' ')
-            document.getElementById("label").innerText="That space is already occupied. Choose another one.";
-            else
-            a[i][j]=usymbol;
-            show();
-            checkwin();
-            if(!end)
-            checktie();
-            if(!end && !checkfullboard())
-            trywin();
-            show();
-            checkwin();
-            if(!end)
-            checktie();
-        }
-    }
-    );
 }
