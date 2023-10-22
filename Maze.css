@@ -81,6 +81,52 @@ table
     justify-content:center;
     align-items:center;
 }
+#buttons
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:150px;
+    position:fixed;
+    bottom:0px;
+    left:50%;
+    transform: translateX(-50%);
+}
+.option
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    height:60px;
+    width:60px;
+    background:rgb(231, 50, 255);
+    color:rgb(255, 255, 255);
+    border-style:solid;
+    border-color:rgb(102,0,51);
+    cursor:pointer;
+    font-size:21px;
+    font-family:monospace;
+    font-weight:bolder;
+    visibility:hidden;
+}
+.option:hover
+{
+    background:rgb(205, 1, 228);
+    transition:all 0.1s;
+}
+#left
+{
+    transform:rotate(180deg);
+}
+#up
+{
+    transform:rotate(270deg);
+}
+#down
+{
+    transform:rotate(90deg);
+}
 body
 {
     align-content:center;

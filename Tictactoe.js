@@ -277,6 +277,7 @@ function TictactoeMain()
             {
                 if(!end)
                 {
+                    document.getElementById("label").innerText="Your turn";
                     if(board[i][j]!=' ')
                     document.getElementById("label").innerText="That space is already occupied. Choose another one";
                     else

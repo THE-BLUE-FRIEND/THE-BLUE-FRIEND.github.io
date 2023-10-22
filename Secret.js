@@ -4,9 +4,10 @@ function r(min,max)
 }
 function SecretMain()
 {
+    document.getElementById("label").remove();
     document.getElementById("setinfo").style.visibility="hidden";
-    document.getElementById("enter").remove();
     let name=document.getElementById("needinfo").value.trim();
+    document.getElementById("enter").remove();
     let size;
     for(size=r(5,7);name.length+6>size*6-5;size++);
     let table=document.createElement("table");

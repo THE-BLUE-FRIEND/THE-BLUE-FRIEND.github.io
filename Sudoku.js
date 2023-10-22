@@ -161,7 +161,7 @@ function initialize()
     shuffle();
     let best=array(size*size,2);
     let min=size*size*size*size;
-    for(let i=0;i<6-size;i++)
+    for(let i=0;i<Math.max(1,5-size);i++)
     {
         question=clone(answer);
         let elements=makequestion();
@@ -177,7 +177,7 @@ function initialize()
 }
 function shuffle()
 {
-    for(let i=0;i<Math.pow(size*2,size);i++)
+    for(let i=0;i<size*size*size*size;i++)
     {
         let r=rm(0,9);
         if(r==0)
