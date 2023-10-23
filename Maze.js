@@ -1,4 +1,4 @@
-let matrix,row,col,maxdistance,showexit,exitrow,exitcol,pathleft;
+let matrix,row,col,maxdistance,showexit,exitrow,exitcol,pathleft,hmmm;
 function rm(min,max)
 {
     return Math.floor(Math.random()*(max-min+1))+min;
@@ -276,6 +276,7 @@ function MazeMain()
     exitrow=-1;
     exitcol=-1;
     pathleft=new Array();
+    hmmm="";
     let h=document.getElementById("needsize").value;
     document.getElementById("needsize").style.visibility="hidden";
     group=document.getElementsByClassName("option");
@@ -295,8 +296,8 @@ function MazeMain()
     }
     if(h<8)
     h=8;
-    else if(h>100)
-    h=100;
+    else if(h>60)
+    h=60;
     document.getElementById("label").innerText="Press W,A,S,D or arrow keys or 8,4,2,6 to move.";
     matrix=new Array();
     let table=document.createElement("table");
@@ -330,6 +331,13 @@ function MazeMain()
             document.getElementById("label").innerText="Up";
             row--;
         }
+        hmmm+="U";
+        hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
+        if((row==0||col==0||row==matrix.length-1||col==matrix[row].length-1) && row==exitrow && col==exitcol)
+        {
+            document.getElementById("label").innerText="Congratulations! You've finally reached the end!";
+            showexit=true;
+        }
         setMaze();
     }
     );
@@ -344,6 +352,13 @@ function MazeMain()
         {
             document.getElementById("label").innerText="Left";
             col--;
+        }
+        hmmm+="L";
+        hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
+        if((row==0||col==0||row==matrix.length-1||col==matrix[row].length-1) && row==exitrow && col==exitcol)
+        {
+            document.getElementById("label").innerText="Congratulations! You've finally reached the end!";
+            showexit=true;
         }
         setMaze();
     }
@@ -360,6 +375,13 @@ function MazeMain()
             document.getElementById("label").innerText="Down";
             row++;
         }
+        hmmm+="D";
+        hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
+        if((row==0||col==0||row==matrix.length-1||col==matrix[row].length-1) && row==exitrow && col==exitcol)
+        {
+            document.getElementById("label").innerText="Congratulations! You've finally reached the end!";
+            showexit=true;
+        }
         setMaze();
     }
     );
@@ -374,6 +396,15 @@ function MazeMain()
         {
             document.getElementById("label").innerText="Down";
             col++;
+        }
+        hmmm+="R";
+        hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
+        if(hmmm=="LUDRLUDR")
+        showexit=!showexit;
+        if((row==0||col==0||row==matrix.length-1||col==matrix[row].length-1) && row==exitrow && col==exitcol)
+        {
+            document.getElementById("label").innerText="Congratulations! You've finally reached the end!";
+            showexit=true;
         }
         setMaze();
     }

@@ -454,5 +454,6 @@ function My2048Main()
     generate();
     //lol();
     previous=current;
+    next=current;
     display();
 }
