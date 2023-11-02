@@ -105,10 +105,6 @@ function initializemap()
     for(let i=0;i<size*size;i++)
     for(let j=0;j<size*size;j++)
     if(question[i][j]!=0)
-    map[question[i][j]-1][i][j]=1;
-    for(let i=0;i<size*size;i++)
-    for(let j=0;j<size*size;j++)
-    if(question[i][j]!=0)
     updatemap(question[i][j]-1,i,j);
 }
 function checkvalid()
@@ -486,7 +482,7 @@ function blockboxcolumn(num,group)
 }
 function updatemap(num,i,j)
 {
-    if(map[num][i][j]!=1 && hint)
+    if(question[i][j]==0 && map[num][i][j]!=1 && hint)
     {
         document.getElementById(`${i}td${j}`).innerText="*";
         document.getElementById("label").innerText="There's your hint";
@@ -645,6 +641,7 @@ function SudokuMain()
         }
         else
         document.getElementById("label").innerText="That space is occupied by default. Sorry lol";
+        boxi=boxj=-1;
         show(user);
         c=0;
     }
@@ -656,6 +653,7 @@ function SudokuMain()
         {
             user=clone(question);
             document.getElementById("label").innerText="All placements cleared.";
+            boxi=boxj=-1;
         }
         show(user);
         c=0;
@@ -664,7 +662,9 @@ function SudokuMain()
 
     document.getElementById("hint").addEventListener("click",function()
     {
+        boxi=boxj=-1;
         show(user);
+        if(!checkequalboard(answer,user))
         if(checkanswer(answer,user))
         {
             let t=clone(question);
@@ -683,6 +683,7 @@ function SudokuMain()
 
     document.getElementById("solution").addEventListener("click",function()
     {
+        boxi=boxj=-1;
         if(c<10)
         document.getElementById("label").innerText="Don't cheat lol do it yourself";
         c++;
@@ -733,18 +734,21 @@ function SudokuMain()
         }
         if(event.shiftKey && s=="KeyH")
         {
-            let t=clone(question);
-            question=clone(user);
-            hint=true;
-            if(checkanswer(answer,question))
+            show(user);
+            if(!checkequalboard(answer,user))
+            if(checkanswer(answer,user))
             {
-                map=new array(size*size,3);
+                let t=clone(question);
+                question=clone(user);
+                hint=true;
+                map=array(size*size,3);
                 initializemap();
                 checksolve();
+                question=clone(t);
             }
             else
             document.getElementById("label").innerText="You did it wrong from the start lol. Click clear all and do it again";
-            question=clone(t);
+            return;
         }
         if(event.shiftKey && s=="KeyC" && confirm("Do you want to clear all placements?"))
         {
