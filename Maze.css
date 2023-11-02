@@ -91,7 +91,7 @@ table
     display:flex;
     justify-content:center;
     align-items:center;
-    position:fixed;
+    position:absolute;
     top:85%;
     left:50%;
     transform:translateX(-50%);
