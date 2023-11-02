@@ -359,8 +359,8 @@ function MazeMain()
         usery=starty-event.clientY;
         startx=event.clientX;
         starty=event.clientY;
-        document.getElementById("buttons").style.top=Math.min(window.innerHeight-75,Math.max(25,document.getElementById("buttons").offsetTop-usery))+"px";
-        document.getElementById("buttons").style.left=Math.min(window.innerWidth-135,Math.max(135,document.getElementById("buttons").offsetLeft-userx))+"px";
+        document.getElementById("buttons").style.top=Math.min(document.documentElement.scrollHeight-75,Math.max(25,document.getElementById("buttons").offsetTop-usery))+"px";
+        document.getElementById("buttons").style.left=Math.min(document.documentElement.scrollWidth-135,Math.max(135,document.getElementById("buttons").offsetLeft-userx))+"px";
     }
     function stopTouchDrag()
     {
