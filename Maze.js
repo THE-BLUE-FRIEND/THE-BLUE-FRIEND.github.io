@@ -296,9 +296,9 @@ function MazeMain()
     }
     if(h<8)
     h=8;
-    else if(h>60)
-    h=60;
-    document.getElementById("label").innerText="Press W,A,S,D or arrow keys or 8,4,2,6 to move.";
+    else if(h>133)
+    h=133;
+    document.getElementById("label").innerText="Press W,A,S,D or arrow keys or 8,4,2,6 to move. Zoom out the page to get a clear view";
     matrix=new Array();
     let table=document.createElement("table");
     document.getElementById("playground").appendChild(table);
@@ -319,6 +319,13 @@ function MazeMain()
     makeExit();
     makeWalls();
     showExit(row,col);
+
+    document.getElementById("buttons").addEventListener("touchmove",function(event)
+    {
+        document.getElementById("buttons").style.left=event.targetTouches[0].pageX+"px";
+        document.getElementById("buttons").style.top=event.targetTouches[0].pageY+"px";
+    }
+    );
 
     document.getElementById("up").addEventListener("click",function()
     {

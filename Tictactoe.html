@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tictactoe</title>
 </head>
-<body onload="TictactoeMain()">
+<body>
     <link href="index.css" rel="stylesheet"></link>
     <link href="Tictactoe.css" rel="stylesheet"></link>
     <ul class="menubar">
@@ -18,25 +18,19 @@
         <li class="menuitem"><a href="Secret.html">Secret</a></li>
     </ul>
     <div id="welcome" class="welcome">T I C - T A C - T O E</div>
-    <div id="label">Click on the box you want to place.</div>
+    <div id="label">Choose size of your tic-tac-toe</div>
     <div id="playground">
-        <!-- <table>
+        <table id="removelol">
             <tr>
-                <td id="td00" class="all"></td>
-                <td id="td01" class="all"></td>
-                <td id="td02" class="right"></td>
+                <td id="3" class="square">3</td>
+                <td id="4" class="square">4</td>
+                <td id="5" class="square">5</td>
+                <td id="6" class="square">6</td>
+                <td id="7" class="square">7</td>
+                <td id="8" class="square">8</td>
+                <td id="9" class="square">9</td>
             </tr>
-            <tr>
-                <td id="td10" class="all"></td>
-                <td id="td11" class="all"></td>
-                <td id="td12" class="right"></td>
-            </tr>
-            <tr>
-                <td id="td20" class="down"></td>
-                <td id="td21" class="down"></td>
-                <td id="td22"></td>
-            </tr>
-        </table> -->
+        </table>
     </div>
     <div id="reloadbutton"><button id="reload" type="button"><a href="Tictactoe.html">Reload</a></button></div>
     <script id="script" src="Tictactoe.js"></script>

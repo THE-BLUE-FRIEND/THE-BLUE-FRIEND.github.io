@@ -92,7 +92,7 @@ table
     justify-content:center;
     align-items:center;
     height:150px;
-    position:fixed;
+    position:absolute;
     bottom:0px;
     left:50%;
     transform: translateX(-50%);
@@ -103,8 +103,8 @@ table
     justify-content:center;
     align-items:center;
     text-align:center;
-    height:60px;
-    width:60px;
+    height:90px;
+    width:90px;
     background:rgb(231, 50, 255);
     color:rgb(255, 255, 255);
     border-style:solid;

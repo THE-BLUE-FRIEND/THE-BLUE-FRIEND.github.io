@@ -242,7 +242,6 @@ function tryblock(space)
 }
 function TictactoeMain()
 {
-    size=r(3,9);
     target=size-parseInt((size+1)/2)+2;
     document.getElementById("label").innerText="Size is "+size+". You need to place "+target+" times in a row to win";
     end=false;
@@ -336,3 +335,11 @@ function TictactoeMain()
         trywin();
     }
 }
+for(let i=3;i<=9;i++)
+document.getElementById(`${i}`).addEventListener("click",function()
+{
+    size=i;
+    document.getElementById("removelol").remove();
+    TictactoeMain();
+}
+);

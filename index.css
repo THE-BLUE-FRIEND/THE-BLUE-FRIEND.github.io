@@ -32,6 +32,15 @@ a
     text-decoration:none;
     color:white;
 }
+#label
+{
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    height:60px;
+    font-size:1.2rem;
+    font-family:monospace;
+}
 #welcome-text
 {
     display:flex;
