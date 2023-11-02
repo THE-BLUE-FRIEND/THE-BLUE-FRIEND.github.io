@@ -347,8 +347,8 @@ function MazeMain()
     {
         event.preventDefault();
         document.getElementById("buttons").style.position="absolute";
-        document.getElementById("buttons").style.top=Math.min(document.documentElement.scrollWidth-135,Math.max(135,event.targetTouches[0].pageY-Math.floor(document.documentElement.scrollTop/2)))+"px";
-        document.getElementById("buttons").style.left=Math.min(document.documentElement.scrollWidth-75,Math.max(25,event.targetTouches[0].pageX-Math.floor(document.documentElement.scrollLeft/2)))+"px";
+        document.getElementById("buttons").style.top=Math.min(document.documentElement.scrollWidth-135,Math.max(135,event.targetTouches[0].pageY))+"px";
+        document.getElementById("buttons").style.left=Math.min(document.documentElement.scrollWidth-75,Math.max(25,event.targetTouches[0].pageX))+"px";
     }
     );
 
