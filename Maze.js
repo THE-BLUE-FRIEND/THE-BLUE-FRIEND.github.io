@@ -346,7 +346,7 @@ function MazeMain()
     document.getElementById("buttons").addEventListener("touchmove",function(event)
     {
         event.preventDefault();
-        // document.getElementById("buttons").style.position="absolute";
+        document.getElementById("buttons").style.position="absolute";
         startx=event.clientX;
         starty=event.clientY;
         document.ontouchmove=touchDrag;
