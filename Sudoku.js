@@ -161,7 +161,7 @@ function initialize()
     shuffle();
     let best=array(size*size,2);
     let min=size*size*size*size;
-    for(let i=0;i<Math.max(1,5-size);i++)
+    for(let i=0;i<4**Math.max(0,4-size);i++)
     {
         question=clone(answer);
         let elements=makequestion();
@@ -397,11 +397,7 @@ function checkbox(num,box)
     for(let squarej=box%size*size;squarej<box%size*size+size;squarej++)
     if(map[num][squarei][squarej]==0)
     if(placei!=-1)
-    {
-        blockrow(num,box,placei);
-        blockcolumn(num,box,placej);
-        return false;
-    }
+    return false;
     else
     {
         placei=squarei;
@@ -411,34 +407,6 @@ function checkbox(num,box)
     return false;
     updatemap(num,placei,placej);
     return valid=true;
-}
-function blockrow(num,box,foundi)
-{
-    for(let squarei=Math.floor(box/size)*size;squarei<Math.floor(box/size)*size+size;squarei++)
-    for(let squarej=box%size*size;squarej<box%size*size+size;squarej++)
-    if(map[num][squarei][squarej]==0 && foundi!=squarei)
-    return;
-    for(let row=0;row<size*size;row++)
-    if(Math.floor(row/size)!=box%size)
-    {
-        if(map[num][foundi][row]==0)
-        valid=true;
-        map[num][foundi][row]=2;
-    }
-}
-function blockcolumn(num,box,foundj)
-{
-    for(let squarei=Math.floor(box/size)*size;squarei<Math.floor(box/size)*size+size;squarei++)
-    for(let squarej=box%size*size;squarej<box%size*size+size;squarej++)
-    if(map[num][squarei][squarej]==0 && foundj!=squarej)
-    return;
-    for(let col=0;col<size*size;col++)
-    if(Math.floor(col/size)!=Math.floor(box/size))
-    {
-        if(map[num][col][foundj]==0)
-        valid=true;
-        map[num][col][foundj]=2;
-    }
 }
 function blockboxrow(num,group)
 {
@@ -453,7 +421,7 @@ function blockboxrow(num,group)
     }
     else if(Math.floor(j/size)!=Math.floor((j+1)/size))
     boxvalue[Math.floor(j/size)]=boxvalue[Math.floor(j/size)]*2;
-    for(let biti=2;biti<size;biti++)
+    for(let biti=1;biti<size;biti++)
     {
         let freq=new Map();
         for(let box=0;box<size;box++)
@@ -491,7 +459,7 @@ function blockboxcolumn(num,group)
     }
     else if(Math.floor(i/size)!=Math.floor((i+1)/size))
     boxvalue[Math.floor(i/size)]=boxvalue[Math.floor(i/size)]*2;
-    for(let biti=2;biti<size;biti++)
+    for(let biti=1;biti<size;biti++)
     {
         let freq=new Map();
         for(let box=0;box<size;box++)
