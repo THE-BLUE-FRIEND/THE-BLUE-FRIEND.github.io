@@ -91,11 +91,10 @@ table
     display:flex;
     justify-content:center;
     align-items:center;
-    height:150px;
     position:absolute;
-    bottom:0px;
+    top:85%;
     left:50%;
-    transform: translateX(-50%);
+    transform:translateX(-50%);
 }
 .option
 {
@@ -103,8 +102,8 @@ table
     justify-content:center;
     align-items:center;
     text-align:center;
-    height:90px;
-    width:90px;
+    height:60px;
+    width:60px;
     background:rgb(231, 50, 255);
     color:rgb(255, 255, 255);
     border-style:solid;

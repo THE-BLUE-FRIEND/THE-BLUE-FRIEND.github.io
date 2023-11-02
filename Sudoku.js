@@ -642,6 +642,7 @@ function SudokuMain()
             {
                 user[boxi][boxj]=i+1;
                 document.getElementById("label").innerText="Number set";
+                boxi=boxj=-1;
             }
             else
             document.getElementById("label").innerText="That space is occupied by default. Sorry lol";

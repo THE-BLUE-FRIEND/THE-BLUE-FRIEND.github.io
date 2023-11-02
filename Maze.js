@@ -298,7 +298,7 @@ function MazeMain()
     h=8;
     else if(h>133)
     h=133;
-    document.getElementById("label").innerText="Press W,A,S,D or arrow keys or 8,4,2,6 to move. Zoom out the page to get a clear view";
+    document.getElementById("label").innerText="Press W,A,S,D or arrow keys or 8,4,2,6 to move. Drag the buttons to your convenience. Zoom out the page to get a clear view";
     matrix=new Array();
     let table=document.createElement("table");
     document.getElementById("playground").appendChild(table);
@@ -320,10 +320,34 @@ function MazeMain()
     makeWalls();
     showExit(row,col);
 
+    let userx=0,usery=0,startx=0,starty=0;
+    document.getElementById("buttons").addEventListener("mousedown",function(event)
+    {
+        startx=event.clientX;
+        starty=event.clientY;
+        document.onmousemove=drag;
+        document.onmouseup=stopDrag;
+    }
+    );
+    function drag(event)
+    {
+        userx=startx-event.clientX;
+        usery=starty-event.clientY;
+        startx=event.clientX;
+        starty=event.clientY;
+        document.getElementById("buttons").style.top=Math.min(document.documentElement.scrollHeight-75,Math.max(75,document.getElementById("buttons").offsetTop-usery))+"px";
+        document.getElementById("buttons").style.left=Math.min(document.documentElement.scrollWidth-135,Math.max(135,document.getElementById("buttons").offsetLeft-userx))+"px";
+    }
+    function stopDrag()
+    {
+        document.onmousemove=null;
+    }
+
     document.getElementById("buttons").addEventListener("touchmove",function(event)
     {
-        document.getElementById("buttons").style.left=event.targetTouches[0].pageX+"px";
-        document.getElementById("buttons").style.top=event.targetTouches[0].pageY+"px";
+        event.preventDefault();
+        document.getElementById("buttons").style.left=Math.min(document.documentElement.scrollHeight-75,Math.max(75,event.targetTouches[0].pageX))+"px";
+        document.getElementById("buttons").style.top=Math.min(document.documentElement.scrollWidth-135,Math.max(135,event.targetTouches[0].pageY))+"px";
     }
     );
 
