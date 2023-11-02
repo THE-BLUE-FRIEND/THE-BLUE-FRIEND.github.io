@@ -346,6 +346,7 @@ function MazeMain()
     document.getElementById("buttons").addEventListener("touchmove",function(event)
     {
         event.preventDefault();
+        document.getElementById("buttons").style.position="absolute";
         document.getElementById("buttons").style.left=Math.min(window.innerHeight-75,Math.max(25,event.targetTouches[0].pageX))+"px";
         document.getElementById("buttons").style.top=Math.min(window.innerWidth-135,Math.max(135,event.targetTouches[0].pageY))+"px";
     }
