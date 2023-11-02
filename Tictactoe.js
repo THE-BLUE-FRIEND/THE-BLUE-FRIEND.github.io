@@ -114,7 +114,7 @@ function tryplace(space)
         if(check.indexOf(checkfor[j])!=-1)
         for(let k=0;k<checkfor[j].length;k++)
         if(checkfor[j].charAt(k)==' ')
-        tpoint[i][check.indexOf(checkfor[j])+k]=1/(Math.pow(2,space*2-2));
+        tpoint[i][check.indexOf(checkfor[j])+k]+=1/(Math.pow(2,space*2-2));
     }
     
     for(let j=0;j<size;j++)
@@ -126,7 +126,7 @@ function tryplace(space)
         if(check.indexOf(checkfor[i])!=-1)
         for(let k=0;k<checkfor[i].length;k++)
         if(checkfor[i].charAt(k)==' ')
-        tpoint[check.indexOf(checkfor[i])+k][j]=1/(Math.pow(2,space*2-2));
+        tpoint[check.indexOf(checkfor[i])+k][j]+=1/(Math.pow(2,space*2-2));
     }
     
     for(let i=target-size;i<size-target+1;i++)
@@ -138,7 +138,7 @@ function tryplace(space)
         if(check.indexOf(checkfor[j])!=-1)
         for(let k=0;k<checkfor[j].length;k++)
         if(checkfor[j].charAt(k)==' ')
-        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][Math.max(0,-i)+check.indexOf(checkfor[j])+k]=1/(Math.pow(2,space*2-2));
+        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][Math.max(0,-i)+check.indexOf(checkfor[j])+k]+=1/(Math.pow(2,space*2-2));
     }
     
     for(let i=target-size;i<size-target+1;i++)
@@ -150,7 +150,7 @@ function tryplace(space)
         if(check.indexOf(checkfor[j])!=-1)
         for(let k=0;k<checkfor[j].length;k++)
         if(checkfor[j].charAt(k)==' ')
-        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][size-(Math.max(0,-i)+check.indexOf(checkfor[j])+k)-1]=1/(Math.pow(2,space*2-2));
+        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][size-(Math.max(0,-i)+check.indexOf(checkfor[j])+k)-1]+=1/(Math.pow(2,space*2-2));
     }
     
     for(let i=0;i<size;i++)
@@ -184,9 +184,9 @@ function tryblock(space)
         for(let k=0;k<checkfor[j].length;k++)
         if(checkfor[j].charAt(k)==' ')
         if(space==2 && ((k!=0 && checkfor[j].charAt(k-1)==usymbol) || (k!=checkfor[j].length-1 && checkfor[j].charAt(k+1)==usymbol)))
-        tpoint[i][check.indexOf(checkfor[j])+k]=1/(Math.pow(2,space*2-2));
+        tpoint[i][check.indexOf(checkfor[j])+k]+=1/(Math.pow(2,space*2-2));
         else
-        tpoint[i][check.indexOf(checkfor[j])+k]=1/(Math.pow(2,space*2-1));
+        tpoint[i][check.indexOf(checkfor[j])+k]+=1/(Math.pow(2,space*2-1));
     }
     
     for(let j=0;j<size;j++)
@@ -199,9 +199,9 @@ function tryblock(space)
         for(let k=0;k<checkfor[i].length;k++)
         if(checkfor[i].charAt(k)==' ')
         if(space==2 && ((k!=0 && checkfor[j].charAt(k-1)==usymbol) || (k!=checkfor[j].length-1 && checkfor[j].charAt(k+1)==usymbol)))
-        tpoint[check.indexOf(checkfor[i])+k][j]=1/(Math.pow(2,space*2-2));
+        tpoint[check.indexOf(checkfor[i])+k][j]+=1/(Math.pow(2,space*2-2));
         else
-        tpoint[check.indexOf(checkfor[i])+k][j]=1/(Math.pow(2,space*2-1));
+        tpoint[check.indexOf(checkfor[i])+k][j]+=1/(Math.pow(2,space*2-1));
     }
     
     for(let i=target-size;i<size-target+1;i++)
@@ -214,9 +214,9 @@ function tryblock(space)
         for(let k=0;k<checkfor[j].length;k++)
         if(checkfor[j].charAt(k)==' ')
         if(space==2 && ((k!=0 && checkfor[j].charAt(k-1)==usymbol) || (k!=checkfor[j].length-1 && checkfor[j].charAt(k+1)==usymbol)))
-        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][Math.max(0,-i)+check.indexOf(checkfor[j])+k]=1/(Math.pow(2,space*2-2));
+        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][Math.max(0,-i)+check.indexOf(checkfor[j])+k]+=1/(Math.pow(2,space*2-2));
         else
-        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][Math.max(0,-i)+check.indexOf(checkfor[j])+k]=1/(Math.pow(2,space*2-1));
+        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][Math.max(0,-i)+check.indexOf(checkfor[j])+k]+=1/(Math.pow(2,space*2-1));
     }
     
     for(let i=target-size;i<size-target+1;i++)
@@ -229,9 +229,9 @@ function tryblock(space)
         for(let k=0;k<checkfor[j].length;k++)
         if(checkfor[j].charAt(k)==' ')
         if(space==2 && ((k!=0 && checkfor[j].charAt(k-1)==usymbol) || (k!=checkfor[j].length-1 && checkfor[j].charAt(k+1)==usymbol)))
-        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][size-(Math.max(0,-i)+check.indexOf(checkfor[j])+k)-1]=1/(Math.pow(2,space*2-2));
+        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][size-(Math.max(0,-i)+check.indexOf(checkfor[j])+k)-1]+=1/(Math.pow(2,space*2-2));
         else
-        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][size-(Math.max(0,-i)+check.indexOf(checkfor[j])+k)-1]=1/(Math.pow(2,space*2-1));
+        tpoint[i+Math.max(0,-i)+check.indexOf(checkfor[j])+k][size-(Math.max(0,-i)+check.indexOf(checkfor[j])+k)-1]+=1/(Math.pow(2,space*2-1));
     }
     
     for(let i=0;i<size;i++)
