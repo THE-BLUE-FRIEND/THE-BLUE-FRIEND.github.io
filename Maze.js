@@ -343,29 +343,14 @@ function MazeMain()
         document.onmousemove=null;
     }
 
-    document.getElementById("buttons").addEventListener("touchstart",function(event)
+    document.getElementById("buttons").addEventListener("touchmove",function(event)
     {
         event.preventDefault();
-        document.getElementById("buttons").style.position="absolute";
-        startx=event.clientX;
-        starty=event.clientY;
-        document.ontouchmove=touchDrag;
-        document.ontouchend=stopTouchDrag;
+        // document.getElementById("buttons").style.position="absolute";
+        document.getElementById("buttons").style.left=Math.min(document.documentElement.scrollWidth-75,Math.max(25,event.targetTouches[0].pageX))+"px";
+        document.getElementById("buttons").style.top=Math.min(document.documentElement.scrollWidth-135,Math.max(135,event.targetTouches[0].pageY))+"px";
     }
     );
-    function touchDrag(event)
-    {
-        userx=startx-event.clientX;
-        usery=starty-event.clientY;
-        startx=event.clientX;
-        starty=event.clientY;
-        document.getElementById("buttons").style.top=Math.min(window.innerHeight-75,Math.max(25,document.getElementById("buttons").offsetTop-usery))+"px";
-        document.getElementById("buttons").style.left=Math.min(window.innerWidth-135,Math.max(135,document.getElementById("buttons").offsetLeft-userx))+"px";
-    }
-    function stopTouchDrag()
-    {
-        document.ontouchmove=null;
-    }
 
     document.getElementById("up").addEventListener("click",function()
     {
