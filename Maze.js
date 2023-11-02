@@ -343,7 +343,7 @@ function MazeMain()
         document.onmousemove=null;
     }
 
-    document.getElementById("buttons").addEventListener("touchmove",function(event)
+    document.getElementById("buttons").addEventListener("touchstart",function(event)
     {
         event.preventDefault();
         document.getElementById("buttons").style.position="absolute";
