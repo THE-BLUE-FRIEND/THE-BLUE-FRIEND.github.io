@@ -1,4 +1,4 @@
-let current=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],previous=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],next=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],currentcheck,win=2048,flag=0,choice=false,fl=false,lose=false;
+let current,previous,next,currentcheck,win,lose,hmmm;
 function r(min,max)
 {
     return Math.floor(Math.random()*(max-min+1)+min);
@@ -8,22 +8,16 @@ function copyboard(a)
     let b=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
     for(let i=0;i<4;i++)
     for(let j=0;j<4;j++)
-    b[i][j]=current[i][j];
+    b[i][j]=a[i][j];
     return b;
 }
-function generate()
+function checkequalboard(a,b)
 {
-    let i=0,j=0;
-    do
-    {
-        i=r(0,3);
-        j=r(0,3);
-    }
-    while(current[i][j]!=0);
-    if(r(0,4)==4)
-    current[i][j]=4;
-    else
-    current[i][j]=2;
+    for(let i=0;i<4;i++)
+    for(let j=0;j<4;j++)
+    if(b[i][j]!=a[i][j])
+    return false;
+    return true;
 }
 function display()
 {
@@ -57,46 +51,57 @@ function display()
         else if(current[i][j]==2048)
         document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,43,0,0.6)";
         else if(current[i][j]==4096)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(204,0,0,0.6)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(204,38,0,0.6)";
         else if(current[i][j]==8192)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(153,0,0,0.6)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(153,26,0,0.6)";
         else if(current[i][j]==8192*2)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(135,0,0,0.6)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(90,24,0,0.6)";
         else if(current[i][j]==8192*4)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(120,0,0,0.6)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(45,20,0,0.6)";
         else if(current[i][j]==8192*8)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(105,0,0,0.6)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(0,16,0,0.6)";
+        else if(current[i][j]==8192*16)
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(0,0,0,0.6)";
         else
         document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,255,255,0.6)";
     }
-    console.log("00");
+}
+function generate()
+{
+    let i=0,j=0;
+    do
+    {
+        i=r(0,3);
+        j=r(0,3);
+    }
+    while(current[i][j]!=0);
+    if(r(0,4)==4)
+    current[i][j]=4;
+    else
+    current[i][j]=2;
+}
+function highest()
+{
+    let value=0;
+    for(let i=0;i<4;i++)
+    for(let j=0;j<4;j++)
+    value=Math.max(value,current[i][j]);
+    return value;
 }
 function checklose()
 {
-    lose=true;
     for(let i=0;i<4;i++)
     for(let j=0;j<4;j++)
     if(current[i][j]==0)
-    lose=false;
-    if(lose==false)
-    return lose;
-    up();
-    if(lose==false)
-    return lose;
-    left();
-    if(lose==false)
-    return lose;
-    down();
-    if(lose==false)
-    return lose;
-    right();
-    return lose;
+    return false;
+    lose=true;
+    return up() && left() && down() && right();
 }
 function checkwin()
 {
     for(let i=0;i<4;i++)
     for(let j=0;j<4;j++)
-    if(current[i][j]%win==0 && current[i][j]!=0)
+    if(current[i][j]==win)
     return true;
     return false;
 }
@@ -109,11 +114,7 @@ function up()
         if(current[i][j]==0 && current[k][j]!=0)
         {
             if(lose)
-            {
-                lose=false;
-                return;
-            }
-            undo();
+            return false;
             current[i--][j]=current[k][j];
             current[k][j]=0;
             break;
@@ -121,11 +122,7 @@ function up()
         else if(current[i][j]==current[k][j] && current[i][j]!=0)
         {
             if(lose)
-            {
-                lose=false;
-                return;
-            }
-            undo();
+            return false;
             current[i][j]+=current[i][j];
             current[k][j]=0;
             break;
@@ -133,6 +130,9 @@ function up()
         else if(current[i][j]!=0 && current[k][j]!=0)
         break;
     }
+    if(!lose)
+    change();
+    return true;
 }
 function left()
 {
@@ -143,11 +143,7 @@ function left()
         if(current[i][j]==0 && current[i][k]!=0)
         {
             if(lose)
-            {
-                lose=false;
-                return;
-            }
-            undo();
+            return false;
             current[i][j--]=current[i][k];
             current[i][k]=0;
             break;
@@ -155,11 +151,7 @@ function left()
         else if(current[i][j]==current[i][k] && current[i][j]!=0)
         {
             if(lose)
-            {
-                lose=false;
-                return;
-            }
-            undo();
+            return false;
             current[i][j]+=current[i][j];
             current[i][k]=0;
             break;
@@ -167,6 +159,9 @@ function left()
         else if(current[i][j]!=0 && current[i][k]!=0)
         break;
     }
+    if(!lose)
+    change();
+    return true;
 }
 function down()
 {
@@ -177,11 +172,7 @@ function down()
         if(current[i][j]==0 && current[k][j]!=0)
         {
             if(lose)
-            {
-                lose=false;
-                return;
-            }
-            undo();
+            return false;
             current[i++][j]=current[k][j];
             current[k][j]=0;
             break;
@@ -189,11 +180,7 @@ function down()
         else if(current[i][j]==current[k][j] && current[i][j]!=0)
         {
             if(lose)
-            {
-                lose=false;
-                return;
-            }
-            undo();
+            return false;
             current[i][j]+=current[i][j];
             current[k][j]=0;
             break;
@@ -201,6 +188,9 @@ function down()
         else if(current[i][j]!=0 && current[k][j]!=0)
         break;
     }
+    if(!lose)
+    change();
+    return true;
 }
 function right()
 {
@@ -211,11 +201,7 @@ function right()
         if(current[i][j]==0 && current[i][k]!=0)
         {
             if(lose)
-            {
-                lose=false;
-                return;
-            }
-            undo();
+            return false;
             current[i][j++]=current[i][k];
             current[i][k]=0;
             break;
@@ -223,11 +209,7 @@ function right()
         else if(current[i][j]==current[i][k] && current[i][j]!=0)
         {
             if(lose)
-            {
-                lose=false;
-                return;
-            }
-            undo();
+            return false;
             current[i][j]+=current[i][j];
             current[i][k]=0;
             break;
@@ -235,39 +217,45 @@ function right()
         else if(current[i][j]!=0 && current[i][k]!=0)
         break;
     }
+    if(!lose)
+    change();
+    return true;
 }
-function undo()
+function change()
 {
-    if(fl)
-    previous=copyboard(current);
-    fl=false;
+    if(checkequalboard(currentcheck,current)==false)
+    {
+        previous=copyboard(currentcheck);
+        generate();
+    }
+    next=copyboard(current);
 }
-/*function lol()
+function lol()
 {
     let c=2;
     for(let i=0;i<4;i++)
+    if(i%2==0)
     for(let j=0;j<4;j++,c*=2)
+    current[i][j]=Math.max(4,c);
+    else
+    for(let j=3;j>=0;j--,c*=2)
     current[i][j]=c;
-}*/
+}
 function operation()
 {
-    if(currentcheck!=previous && !fl)
-    generate();
+    if(hmmm=="LLUUDDRR")
+    lol();
     display();
-    flag=0;
-    if(checkwin() && win==Math.pow(2,16) && flag==0)
-    document.getElementById("label").innerText="Congratulations for fully completing the game! "+win+" is the last tile you can reach in this game. Hope you had great enjoyment while playing my game :D";
-    else if(checkwin() && flag==0)
+    if(checkwin() && win==Math.pow(2,17))
+    document.getElementById("label").innerText="Congratulations for fully completing the game! "+win+" is the last tile you can reach here. Hope you had great enjoyment while playing my game :D";
+    else if(checkwin())
     {
         document.getElementById("label").innerText="Congratulations for reaching tile "+win+"! You can continue playing to reach even higher tiles. "+(win*2)+" anyone?";
-        win+=win;
-        flag=1;
+        win<<=1;
     }
-    else if(checklose() && currentcheck!=previous)
-    {
-        document.getElementById("label").innerText="Sorry, game is over. You can undo though";
-        choice=true;
-    }
+    else if(checklose())
+    document.getElementById("label").innerText="Sorry, game is over. You can undo though";
+    lose=false;
 }
 function My2048Main()
 {
@@ -318,64 +306,75 @@ function My2048Main()
     rightarrow.id="right";
     rightarrow.innerText="➜";
 
+    current=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+    win=2048;
+    lose=false;
+    hmmm="";
+
+    generate();
+    generate();
+    previous=copyboard(current);
+    next=copyboard(current);
+    display();
+
     document.getElementById("up").addEventListener("click",function(event)
     {
-        fl=true;
-        currentcheck=previous;
+        currentcheck=copyboard(current);
         up();
-        if(currentcheck!=previous)
+        if(checkequalboard(currentcheck,current)==false)
         document.getElementById("label").innerText="Moved up";
+        hmmm+="U";
+        hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
         operation();
     }
     );
 
     document.getElementById("left").addEventListener("click",function(event)
     {
-        fl=true;
-        currentcheck=previous;
+        currentcheck=copyboard(current);
         left();
-        if(currentcheck!=previous)
+        if(checkequalboard(currentcheck,current)==false)
         document.getElementById("label").innerText="Moved left";
+        hmmm+="L";
+        hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
         operation();
     }
     );
 
     document.getElementById("down").addEventListener("click",function(event)
     {
-        fl=true;
-        currentcheck=previous;
+        currentcheck=copyboard(current);
         down();
-        if(currentcheck!=previous)
+        if(checkequalboard(currentcheck,current)==false)
         document.getElementById("label").innerText="Moved down";
+        hmmm+="D";
+        hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
         operation();
     }
     );
 
     document.getElementById("right").addEventListener("click",function(event)
     {
-        fl=true;
-        currentcheck=previous;
+        currentcheck=copyboard(current);
         right();
-        if(currentcheck!=previous)
+        if(checkequalboard(currentcheck,current)==false)
         document.getElementById("label").innerText="Moved right";
+        hmmm+="R";
+        hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
         operation();
     }
     );
 
     document.getElementById("undo").addEventListener("click",function(event)
     {
-        fl=true;
-        currentcheck=previous;
-        if(current==previous)
+        if(checkequalboard(current,previous))
         document.getElementById("label").innerText="No more undo available";
         else
         {
+            currentcheck=copyboard(previous);
             document.getElementById("label").innerText="Undo done";
-            if(flag==1)
-            win/=2;
-            next=current;
-            current=previous;
-            choice=false;
+            current=copyboard(previous);
+            win=Math.max(2048,highest()*2);
         }
         operation();
     }
@@ -383,15 +382,14 @@ function My2048Main()
 
     document.getElementById("redo").addEventListener("click",function(event)
     {
-        fl=true;
-        currentcheck=previous;
-        if(current==next)
+        if(checkequalboard(current,next))
         document.getElementById("label").innerText="No more redo available";
         else
         {
+            currentcheck=copyboard(next);
             document.getElementById("label").innerText="Redo done";
-            current=next;
-            choice=true;
+            current=copyboard(next);
+            win=Math.max(2048,highest()*2);
         }
         operation();
     }
@@ -399,61 +397,60 @@ function My2048Main()
 
     window.addEventListener("keyup",function(event)
     {
-        fl=true;
-        currentcheck=previous;
+        currentcheck=copyboard(current);
         if(event.code=="ArrowUp"||event.code=="KeyW"||event.code=="Numpad8")
         {
             up();
-            if(currentcheck!=previous)
+            if(checkequalboard(currentcheck,current)==false)
             document.getElementById("label").innerText="Moved up";
+            hmmm+="U";
+            hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
         }
         else if(event.code=="ArrowLeft"||event.code=="KeyA"||event.code=="Numpad4")
         {
             left();
-            if(currentcheck!=previous)
+            if(checkequalboard(currentcheck,current)==false)
             document.getElementById("label").innerText="Moved left";
+            hmmm+="L";
+            hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
         }
         else if(event.code=="ArrowDown"||event.code=="KeyS"||event.code=="Numpad2")
         {
             down();
-            if(currentcheck!=previous)
+            if(checkequalboard(currentcheck,current)==false)
             document.getElementById("label").innerText="Moved down";
+            hmmm+="D";
+            hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
         }
         else if(event.code=="ArrowRight"||event.code=="KeyD"||event.code=="Numpad6")
         {
             right();
-            if(currentcheck!=previous)
+            if(checkequalboard(currentcheck,current)==false)
             document.getElementById("label").innerText="Moved right";
+            hmmm+="R";
+            hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
         }
-        if(event.code=="KeyU")
-        if(current==previous)
+        else if(event.code=="KeyU")
+        if(checkequalboard(current,previous))
         document.getElementById("label").innerText="No more undo available";
         else
         {
+            currentcheck=copyboard(previous);
             document.getElementById("label").innerText="Undo done";
-            if(flag==1)
-            win/=2;
-            next=current;
-            current=previous;
-            choice=false;
+            current=copyboard(previous);
+            win=Math.max(2048,highest()*2);
         }
-        if(event.code=="KeyR")
-        if(current==next)
+        else if(event.code=="KeyR")
+        if(checkequalboard(current,next))
         document.getElementById("label").innerText="No more redo available";
         else
         {
+            currentcheck=copyboard(next);
             document.getElementById("label").innerText="Redo done";
-            current=next;
-            choice=true;
+            current=copyboard(next);
+            win=Math.max(2048,highest()*2);
         }
         operation();
     }
     );
-
-    generate();
-    generate();
-    //lol();
-    previous=current;
-    next=current;
-    display();
 }
