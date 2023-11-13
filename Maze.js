@@ -49,6 +49,31 @@ function setMaze()
         document.getElementById(`${i}td${j}`).style.backgroundColor="rgb(0,0,0)";
     }
 }
+function updateMaze(i,j)
+{
+    if(i==row && j==col)
+    {
+        if(matrix[i][j]=='¤' && showexit)
+        document.getElementById(`${i}td${j}`).style.backgroundColor="rgb(238,238,110)";
+        else
+        document.getElementById(`${i}td${j}`).style.backgroundColor="rgb(251,198,255)";
+        document.getElementById(`${i}td${j}`).innerText=String.fromCharCode(9675);
+    }
+    else if(matrix[i][j]=='¤' && showexit)
+    {
+        document.getElementById(`${i}td${j}`).style.backgroundColor="rgb(238,238,110)";
+        document.getElementById(`${i}td${j}`).innerText="•";
+    }
+    else if(matrix[i][j]=='•'||matrix[i][j]=='¤')
+    {
+        document.getElementById(`${i}td${j}`).style.backgroundColor="rgb(251,198,255)";
+        document.getElementById(`${i}td${j}`).innerText="•";
+    }
+    else
+    {
+        document.getElementById(`${i}td${j}`).style.backgroundColor="rgb(0,0,0)";
+    }
+}
 function makeBoundary()
 {
     for(let i=0;i<matrix.length;i++)
@@ -362,6 +387,8 @@ function MazeMain()
         {
             document.getElementById("label").innerText="Up";
             row--;
+            updateMaze(row+1,col);
+            updateMaze(row,col);
         }
         hmmm+="U";
         hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
@@ -369,8 +396,8 @@ function MazeMain()
         {
             document.getElementById("label").innerText="Congratulations! You've finally reached the end!";
             showexit=true;
+            setMaze();
         }
-        setMaze();
     }
     );
 
@@ -384,6 +411,8 @@ function MazeMain()
         {
             document.getElementById("label").innerText="Left";
             col--;
+            updateMaze(row,col+1);
+            updateMaze(row,col);
         }
         hmmm+="L";
         hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
@@ -391,8 +420,8 @@ function MazeMain()
         {
             document.getElementById("label").innerText="Congratulations! You've finally reached the end!";
             showexit=true;
+            setMaze();
         }
-        setMaze();
     }
     );
 
@@ -406,6 +435,8 @@ function MazeMain()
         {
             document.getElementById("label").innerText="Down";
             row++;
+            updateMaze(row-1,col);
+            updateMaze(row,col);
         }
         hmmm+="D";
         hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
@@ -413,8 +444,8 @@ function MazeMain()
         {
             document.getElementById("label").innerText="Congratulations! You've finally reached the end!";
             showexit=true;
+            setMaze();
         }
-        setMaze();
     }
     );
 
@@ -428,17 +459,22 @@ function MazeMain()
         {
             document.getElementById("label").innerText="Down";
             col++;
+            updateMaze(row,col-1);
+            updateMaze(row,col);
         }
         hmmm+="R";
         hmmm=hmmm.substring(Math.max(0,hmmm.length-8));
         if(hmmm=="LUDRLUDR")
-        showexit=!showexit;
+        {
+            showexit=!showexit;
+            setMaze();
+        }
         if((row==0||col==0||row==matrix.length-1||col==matrix[row].length-1) && row==exitrow && col==exitcol)
         {
             document.getElementById("label").innerText="Congratulations! You've finally reached the end!";
             showexit=true;
+            setMaze();
         }
-        setMaze();
     }
     );
 
@@ -454,6 +490,8 @@ function MazeMain()
             {
                 document.getElementById("label").innerText="Up";
                 row--;
+                updateMaze(row+1,col);
+                updateMaze(row,col);
             }
         }
         else if(event.code=="ArrowLeft"||event.code=="KeyA"||event.code=="Numpad4")
@@ -466,6 +504,8 @@ function MazeMain()
             {
                 document.getElementById("label").innerText="Left";
                 col--;
+                updateMaze(row,col+1);
+                updateMaze(row,col);
             }
         }
         else if(event.code=="ArrowDown"||event.code=="KeyS"||event.code=="Numpad2")
@@ -478,6 +518,8 @@ function MazeMain()
             {
                 document.getElementById("label").innerText="Down";
                 row++;
+                updateMaze(row-1,col);
+                updateMaze(row,col);
             }
         }
         else if(event.code=="ArrowRight"||event.code=="KeyD"||event.code=="Numpad6")
@@ -490,16 +532,21 @@ function MazeMain()
             {
                 document.getElementById("label").innerText="Down";
                 col++;
+                updateMaze(row,col-1);
+                updateMaze(row,col);
             }
         }
         else if(event.code=="KeyG")
-        showexit=!showexit;
+        {
+            showexit=!showexit;
+            setMaze();
+        }
         if(event.code!="KeyG" && (row==0||col==0||row==matrix.length-1||col==matrix[row].length-1) && row==exitrow && col==exitcol)
         {
             document.getElementById("label").innerText="Congratulations! You've finally reached the end!";
             showexit=true;
+            setMaze();
         }
-        setMaze();
     }
     );
 }

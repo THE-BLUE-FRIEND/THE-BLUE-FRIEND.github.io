@@ -1,4 +1,4 @@
-let size,boxi,boxj,option,answer,question,user,hashrow,hashcol,hashbox,valid,hint,hexa;
+let size,boxi,boxj,option,answer,question,user,map,hash,valid,hint,hexa;
 function array(n,d)
 {
     let a;
@@ -91,23 +91,26 @@ function checkanswer(a,b)
     return false;
     return true;
 }
-function checkcompletehash()
+function checkcompletemap()
 {
-    for(let n=0;n<size*size;n++)
     for(let i=0;i<size*size;i++)
-    if(hashrow[n][i]!=(1<<(size*size))-1)
+    for(let j=0;j<size*size;j++)
+    if(map[i][j]==0)
     return false;
     return true;
 }
-function initializehash()
+function initializemap()
 {
-    hashrow=array(size*size,2);
-    hashcol=array(size*size,2);
-    hashbox=array(size*size,2);
+    for(let i=0;i<size*size;i++)
+    for(let j=0;j<size*size;j++)
+    {
+        map[i][j]=0;
+        hash[i][j]=(1<<(size*size))-1;
+    }
     for(let i=0;i<size*size;i++)
     for(let j=0;j<size*size;j++)
     if(question[i][j]!=0)
-    updatehash(question[i][j]-1,i,j);
+    updatemap(question[i][j]-1,i,j);
 }
 function checkvalid()
 {
@@ -157,6 +160,7 @@ function initialize()
     for(let j=0;j<size*size;j++)
     answer[i][j]=set[((Math.floor(i/size)+i%size*size+Math.floor(j/size)*size+j%size)%size+i%size*size+Math.floor(j/size)*size)%(size*size)];
     shuffle();
+
     let best=array(size*size,2);
     let min=size*size*size*size;
     for(let i=0;i<4**Math.max(0,4-size);i++)
@@ -308,9 +312,9 @@ function makequestion()
         }
         question[i][j]=0;
         picked++;
-        initializehash();
+        initializemap();
         checksolve();
-        if(checkcompletehash())
+        if(checkcompletemap())
         {
             i=rm(0,size*size-1);
             j=rm(0,size*size-1);
@@ -339,168 +343,40 @@ function checksolve()
     for(;;)
     {
         valid=false;
-        for(let num=0;num<size*size;num++)
-        {
-            for(let i=0;i<size*size;i++)
-            checkrow(num,i);
-            for(let j=0;j<size*size;j++)
-            checkcolumn(num,j);
-            for(let box=0;box<size*size;box++)
-            checkbox(num,box);
-            for(let boxi=0;boxi<size;boxi++)
-            if(valid==false)
-            blockboxrow(num,boxi);
-            for(let boxj=0;boxj<size;boxj++)
-            if(valid==false)
-            blockboxcolumn(num,boxj);
-        }
+        for(let i=0;i<size*size;i++)
+        for(let j=0;j<size*size;j++)
+        if(map[i][j]==0 && (hash[i][j] & (hash[i][j]-1))==0)
+        updatemap(Math.log2(hash[i][j]),i,j);
         if(valid==false)
         return;
     }
 }
-function checkrow(num,i)
+function updatemap(num,i,j)
 {
-    let place=((1<<(size*size))-1)^hashrow[num][i];
-    if(place==0 || (place & (place-1))!=0)
-    return;
-    place=Math.log2(place);
-    updatehash(num,i,place);
-    valid=true;
-}
-function checkcolumn(num,j)
-{
-    let place=((1<<(size*size))-1)^hashcol[num][j];
-    if(place==0 || (place & (place-1))!=0)
-    return;
-    place=Math.log2(place);
-    updatehash(num,place,j);
-    valid=true;
-}
-function checkbox(num,box)
-{
-    let place=((1<<(size*size))-1)^hashbox[num][box];
-    if(place==0 || (place & (place-1))!=0)
-    return;
-    place=Math.log2(place);
-    updatehash(num,Math.floor(box/size)*size+Math.floor(place/size),Math.floor(box%size)*size+Math.floor(place%size));
-    valid=true;
-}
-function blockboxrow(num,group)
-{
-    let boxvalue=array(size,1),boxbit=array(size,1);
-    for(let i=group*size;i<group*size+size;i++)
-    for(let j=0;j<size;j++)
-    if((hashrow[num][i]>>(size*j))%((1<<size)-1)!=0)
-    {
-        boxvalue[j]=boxvalue[j]*2+1;
-        boxbit[j]++;
-    }
-    else
-    boxvalue[j]=boxvalue[j]*2;
-    for(let biti=1;biti<size;biti++)
-    {
-        let freq=new Map();
-        for(let box=0;box<size;box++)
-        if(biti==boxbit[box])
-        if(!freq.has(boxvalue[box]))
-        freq.set(boxvalue[box],1);
-        else
-        freq.set(boxvalue[box],freq.get(boxvalue[box])+1);
-        for(let unique in freq)
-        if(freq[unique]>=biti)
-        {
-            let t=unique;
-            for(let i=group*size+size-1;i>=group*size;i--,t=Math.floor(t/2))
-            if(t%2==1)
-            for(let j=0;j<size*size;j++)
-            if(boxvalue[Math.floor(j/size)]!=unique)
-            {
-                if((hashrow[num][i] & (1<<j))==0)
-                valid=true;
-                hashrow[num][i]|=1<<j;
-                hashcol[num][j]|=1<<i;
-                hashbox[num][Math.floor(i/size)*size+Math.floor(j/size)]|=1<<(i%size*size+j%size);
-            }
-        }
-    }
-}
-function blockboxcolumn(num,group)
-{
-    let boxvalue=array(size,1),boxbit=array(size,1);
-    for(let j=group*size;j<group*size+size;j++)
-    for(let i=0;i<size;i++)
-    if((hashcol[num][j]>>(size*i))%((1<<size)-1)!=0)
-    {
-        boxvalue[i]=boxvalue[i]*2+1;
-        boxbit[i]++;
-    }
-    else
-    boxvalue[i]=boxvalue[i]*2;
-    for(let biti=1;biti<size;biti++)
-    {
-        let freq=new Map();
-        for(let box=0;box<size;box++)
-        if(biti==boxbit[box])
-        if(!freq.has(boxvalue[box]))
-        freq.set(boxvalue[box],1);
-        else
-        freq.set(boxvalue[box],freq.get(boxvalue[box])+1);
-        for(let unique in freq)
-        if(freq[unique]>=biti)
-        {
-            let t=unique;
-            for(let j=group*size+size-1;j>=group*size;j--,t=Math.floor(t/2))
-            if(t%2==1)
-            for(let i=0;i<size*size;i++)
-            if(boxvalue[Math.floor(i/size)]!=unique)
-            {
-                if((hashrow[num][i] & (1<<j))==0)
-                valid=true;
-                hashrow[num][i]|=1<<j;
-                hashcol[num][j]|=1<<i;
-                hashbox[num][Math.floor(i/size)*size+Math.floor(j/size)]|=1<<(i%size*size+j%size);
-            }
-        }
-    }
-}
-function updatehash(num,i,j)
-{
-    if(question[i][j]==0 && (hashrow[num][i] & (1<<j))==0 && hint)
+    if(question[i][j]==0 && map[i][j]==0 && hint)
     {
         document.getElementById(`${i}td${j}`).innerText="*";
         document.getElementById("label").innerText="There's your hint";
         hint=false;
     }
-    hashrow[num][i]=hashcol[num][j]=hashbox[num][Math.floor(i/size)*size+Math.floor(j/size)]=(1<<(size*size))-1;
+    if(map[i][j]!=0)
+    return;
+    map[i][j]=num+1;
+    hash[i][j]=1<<num;
+    valid=true;
+
     for(let row=0;row<size*size;row++)
     if(row!=j)
-    {
-        hashrow[num][i]|=1<<row;
-        hashcol[num][row]|=1<<i;
-        hashbox[num][Math.floor(i/size)*size+Math.floor(row/size)]|=1<<(i%size*size+row%size);
-    }
+    hash[i][row] &=((1<<(size*size))-1) ^ (1<<num);
+
     for(let col=0;col<size*size;col++)
     if(col!=i)
-    {
-        hashrow[num][col]|=1<<j;
-        hashcol[num][j]|=1<<col;
-        hashbox[num][Math.floor(col/size)*size+Math.floor(j/size)]|=1<<(col%size*size+j%size);
-    }
-    for(let block=0;block<size*size;block++)
-    if(block!=num)
-    {
-        hashrow[block][i]|=1<<j;
-        hashcol[block][j]|=1<<i;
-        hashbox[block][Math.floor(i/size)*size+Math.floor(j/size)]|=1<<(i%size*size+j%size);
-    }
+    hash[col][j] &=((1<<(size*size))-1) ^ (1<<num);
+
     for(let squarei=Math.floor(i/size)*size;squarei<Math.floor(i/size)*size+size;squarei++)
     for(let squarej=Math.floor(j/size)*size;squarej<Math.floor(j/size)*size+size;squarej++)
     if(squarei!=i && squarej!=j)
-    {
-        hashrow[num][squarei]|=1<<squarej;
-        hashcol[num][squarej]|=1<<squarei;
-        hashbox[num][Math.floor(squarei/size)*size+Math.floor(squarej/size)]|=1<<(squarei%size*size+squarej%size);
-    }
+    hash[squarei][squarej] &=((1<<(size*size))-1) ^ (1<<num);
 }
 function SudokuMain()
 {
@@ -536,9 +412,8 @@ function SudokuMain()
     answer=array(size*size,2);
     question=array(size*size,2);
     user=array(size*size,2);
-    hashrow=array(size*size,2);
-    hashcol=array(size*size,2);
-    hashbox=array(size*size,2);
+    map=array(size*size,2);
+    hash=array(size*size,2);
 
     let table=document.createElement("table");
     table.classList.add("board");
@@ -671,7 +546,7 @@ function SudokuMain()
             let t=clone(question);
             question=clone(user);
             hint=true;
-            initializehash();
+            initializemap();
             checksolve();
             question=clone(t);
         }
@@ -741,7 +616,7 @@ function SudokuMain()
                 let t=clone(question);
                 question=clone(user);
                 hint=true;
-                initializehash();
+                initializemap();
                 checksolve();
                 question=clone(t);
             }
