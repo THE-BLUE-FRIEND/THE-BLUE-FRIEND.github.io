@@ -1082,12 +1082,9 @@ function r(min,max)
 {
     return Math.floor(Math.random()*(max-min+1)+min);
 }
-function ChessMain()
+function start(side)
 {
-    let ohboard=document.getElementById("board");
-    ohboard.remove();
-    let side=r(0,1);
-    document.body.insertBefore(ohboard,document.getElementById("optiongroup"));
+    document.getElementById("optiongroup").style.visibility="visible";
     let currentmove=new Chess(side),previousmove=currentmove.copyclass(),nextmove=currentmove.copyclass(),piecei=-1,piecej=-1,level=2,b=true,dopromo=false,end=false;
     for(let i=0;i<8;i++)
     document.getElementById(`number${i}`).innerText=""+side==0?(8-i):(i+1);
@@ -1243,6 +1240,33 @@ function ChessMain()
             if(currentmove.copyclass().checkmate(1-currentmove.side) || currentmove.copyclass().checkmate(1-currentmove.side))
             end=true;
         }
+    }
+    );
+}
+function ChessMain()
+{
+    let board=document.getElementById("board");
+    let options=document.getElementById("optiongroup");
+    let promos=document.getElementById("promo");
+    board.remove();
+    options.remove();
+    promos.remove();
+    document.getElementById("white").addEventListener("click",function(event)
+    {
+        document.getElementById("done").remove();
+        document.body.appendChild(board);
+        document.body.appendChild(options);
+        document.body.appendChild(promos);
+        start(0);
+    }
+    );
+    document.getElementById("black").addEventListener("click",function(event)
+    {
+        document.getElementById("done").remove();
+        document.body.appendChild(board);
+        document.body.appendChild(options);
+        document.body.appendChild(promos);
+        start(1);
     }
     );
 }
