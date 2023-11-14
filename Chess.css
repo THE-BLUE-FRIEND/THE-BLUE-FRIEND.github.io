@@ -50,9 +50,15 @@
 }
 .matrix:hover
 {
-    opacity:1;
+    opacity:0.9;
+    transition:all 0.1s;
 }
-.board
+.matrix:active
+{
+    opacity:1;
+    transition:all 0.1s;
+}
+#board
 {
     display:flex;
     border-collapse:collapse;
@@ -60,6 +66,89 @@
     align-items:center;
     /* height:100vh; */
     width:96%;
+}
+.whitebox
+{
+    background-color:rgb(255,255,255);
+}
+.blackbox
+{
+    background-color:rgb(90,90,90);
+}
+.minispace
+{
+    width:90px;
+    display:block;
+}
+.option
+{
+    display:flex;
+    text-align:center;
+    justify-content:center;
+    align-items:center;
+    height:60px;
+    width:120px;
+    background:rgb(231, 50, 255);
+    color:rgb(255, 255, 255);
+    border-style:solid;
+    border-color:rgb(102,0,51);
+    cursor:pointer;
+    font-size:21px;
+    font-family:monospace;
+    font-weight:bolder;
+}
+.option:hover
+{
+    background:rgb(205, 1, 228);
+    transition:all 0.1s;
+}
+.option:active
+{
+    background:rgb(171, 29, 190);
+    transition:all 0.1s;
+}
+#optiongroup
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:90px;
+}
+#promo
+{
+    display:flex;
+    border-collapse:collapse;
+    justify-content:center;
+    align-items:center;
+    height:150px;
+    visibility:hidden;
+}
+.promochoose
+{
+    text-align:center;
+    justify-content:center;
+    align-items:center;
+    height:72px;
+    width:69px;
+    border-width:5px;
+    border-style:solid;
+    border-color:rgb(102,0,51);
+    cursor:pointer;
+    font-size:2.7rem;
+    font-family:monospace;
+    font-weight:bolder;
+    opacity:0.8;
+    background-color:rgba(233, 233, 233, 1);
+}
+.promochoose:hover
+{
+    background-color:rgb(250, 180, 255);
+    transition:all 0.1s;
+}
+.promochoose:active
+{
+    background-color:rgb(236, 137, 249);
+    transition:all 0.1s;
 }
 body
 {

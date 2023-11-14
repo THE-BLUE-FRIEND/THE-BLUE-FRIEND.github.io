@@ -313,7 +313,7 @@ function makequestion()
         question[i][j]=0;
         picked++;
         initializemap();
-        checksolve();
+        solve();
         if(checkcompletemap())
         {
             i=rm(0,size*size-1);
@@ -338,7 +338,7 @@ function makequestion()
         }
     }
 }
-function checksolve()
+function solve()
 {
     for(;;)
     {
@@ -547,7 +547,7 @@ function SudokuMain()
             question=clone(user);
             hint=true;
             initializemap();
-            checksolve();
+            solve();
             question=clone(t);
         }
         else
@@ -617,7 +617,7 @@ function SudokuMain()
                 question=clone(user);
                 hint=true;
                 initializemap();
-                checksolve();
+                solve();
                 question=clone(t);
             }
             else

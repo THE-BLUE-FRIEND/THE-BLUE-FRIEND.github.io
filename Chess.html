@@ -19,7 +19,7 @@
     </div>
     <div id="welcome">C H E S S</div>
     <div id="label">Click on the corresponding piece to move. Press U to undo and R to redo.</div>
-    <table class="board">
+    <table id="board">
         <tr>
             <td id="number0" class="label"></td>
             <td id="td00" class="matrix"><img id="img00"></td>
@@ -118,6 +118,19 @@
             <td id="letter5" class="label"></td>
             <td id="letter6" class="label"></td>
             <td id="letter7" class="label"></td>
+        </tr>
+    </table>
+    <div id="optiongroup">
+        <button id="undo" class="option" type="button">Undo</button>
+        <div class="minispace"></div>
+        <button id="redo" class="option" type="button">Redo</button>
+    </div>
+    <table id="promo">
+        <tr>
+            <td id="bishop" class="promochoose"><img id="bishopi"></td>
+            <td id="knight" class="promochoose"><img id="knighti"></td>
+            <td id="rook" class="promochoose"><img id="rooki"></td>
+            <td id="queen" class="promochoose"><img id="queeni"></td>
         </tr>
     </table>
     <script src="Chess.js"></script>
