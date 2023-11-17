@@ -181,7 +181,6 @@ class Chess
         this.kingi[0]=7;
         this.kingi[1]=0;
         this.kingj[0]=this.kingj[1]=4;
-        this.show();
     }
     setPawn(i,j,side)
     {
@@ -594,6 +593,10 @@ function start()
 
     currentmove=new Chess(side,3);
     currentmove.setBoard();
+    if(side==1)
+    currentmove.computeBest(currentmove.level,true);
+    currentmove.show();
+
     tempmove=currentmove.clone(),previousmove=undefined,nextmove=undefined,clicki=-1,clickj=-1,askPromo=false,end=false;
 
     document.getElementById("bishop").addEventListener("click",function(event)
