@@ -41,11 +41,94 @@
     justify-content:center;
     align-items:center;
     /* height:100vh; */
-<<<<<<< HEAD
-=======
+}
+.space
+{
+    width:29px;
+    display:block;
+}
+.move
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    height:510px;
+    width:72px;
+    background:rgb(231, 50, 255);
+    color:rgb(255, 255, 255);
+    border-style:solid;
+    border-color:rgb(102,0,51);
+    cursor:pointer;
+    font-size:50px;
+    font-family:monospace;
+    font-weight:bolder;
+}
+.move:hover
+{
+    background:rgb(205, 1, 228);
+    transition:all 0.1s;
+}
+.move:active
+{
+    background:rgb(171, 29, 190);
+    transition:all 0.1s;
+}
+.centerbutton
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:150px;
+    bottom:0px;
+}
+.minispace
+{
+    width:90px;
+    display:block;
+}
+.option
+{
+    display:flex;
+    text-align:center;
+    justify-content:center;
+    align-items:center;
+    height:72px;
+    width:150px;
+    background:rgb(231, 50, 255);
+    color:rgb(255, 255, 255);
+    border-style:solid;
+    border-color:rgb(102,0,51);
+    cursor:pointer;
+    font-size:21px;
+    font-family:monospace;
+    font-weight:bolder;
+}
+.option:hover
+{
+    background:rgb(205, 1, 228);
+    transition:all 0.1s;
+}
+#optiongroup
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:150px;
+}
+#up
+{
+    transform:rotate(270deg);
+}
+#down
+{
+    transform:rotate(90deg);
+}
+#left
+{
+    transform:rotate(180deg);
 }
 body
 {
     align-content:center;
->>>>>>> f874664 (Hey!)
 }

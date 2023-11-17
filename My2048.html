@@ -19,32 +19,18 @@
     </ul>
     <div id="welcome">2 0 4 8</div>
     <div id="label">Press W,A,S,D or 8,4,2,6 or arrow keys to play. Press U to undo.</div>
-    <table class="board">
-        <tr>
-            <td id="00" class="matrix"></td>
-            <td id="01" class="matrix"></td>
-            <td id="02" class="matrix"></td>
-            <td id="03" class="matrix"></td>
-        </tr>
-        <tr>
-            <td id="10" class="matrix"></td>
-            <td id="11" class="matrix"></td>
-            <td id="12" class="matrix"></td>
-            <td id="13" class="matrix"></td>
-        </tr>
-        <tr>
-            <td id="20" class="matrix"></td>
-            <td id="21" class="matrix"></td>
-            <td id="22" class="matrix"></td>
-            <td id="23" class="matrix"></td>
-        </tr>
-        <tr>
-            <td id="30" class="matrix"></td>
-            <td id="31" class="matrix"></td>
-            <td id="32" class="matrix"></td>
-            <td id="33" class="matrix"></td>
-        </tr>
-    </table>
+    <div class="centerbutton">
+        <button id="up" class="move">➜</button>
+    </div>
+    <div id="playground"></div>
+    <div class="centerbutton">
+        <button id="down" class="move">➜</button>
+    </div>
+    <div id="optiongroup">
+        <button id="undo" class="option" type="button">Undo</button>
+        <div class="minispace"></div>
+        <button id="redo" class="option" type="button">Redo</button>
+    </div>
     <script src="My2048.js"></script>
 </body>
 </html>

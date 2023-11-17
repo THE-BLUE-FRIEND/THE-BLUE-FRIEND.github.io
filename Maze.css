@@ -58,6 +58,11 @@
 {
     background:rgb(205, 1, 228);
 }
+#enterbutton:active
+{
+    background:rgb(171, 29, 190);
+    transition:all 0.1s;
+}
 td
 {
     text-align:center;
@@ -113,6 +118,11 @@ table
 .option:hover
 {
     background:rgb(205, 1, 228);
+    transition:all 0.1s;
+}
+.option:active
+{
+    background:rgb(171, 29, 190);
     transition:all 0.1s;
 }
 #left

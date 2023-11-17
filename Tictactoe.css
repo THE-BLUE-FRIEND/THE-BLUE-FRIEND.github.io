@@ -45,6 +45,11 @@ td:hover
     background-color:rgb(250, 180, 255);
     transition:all 0.1s;
 }
+td:active
+{
+    background-color:rgb(236, 137, 249);
+    transition:all 0.1s;
+}
 .square
 {
     background-color:rgba(233, 233, 233, 0.5);
@@ -87,6 +92,11 @@ table
 #reload:hover
 {
     background:rgb(205, 1, 228);
+}
+#reload:active
+{
+    background:rgb(171, 29, 190);
+    transition:all 0.1s;
 }
 body
 {
