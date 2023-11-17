@@ -1,8 +1,9 @@
-#menubar
+ul
 {
+    display:flex;
     justify-content:center;
 }
-ul li
+li
 {
     text-transform:uppercase;
     display:inline;
@@ -11,16 +12,21 @@ ul li
     font-family:monospace;
     font-weight:bolder;
     padding:30px;
-    background:rgb(50, 163, 255);
+    background:rgb(231, 50, 255);
     color:rgb(255, 255, 255);
     cursor:pointer;
     transition:all 0.3s;
 }
-ul li:hover
+li:hover
 {
-    background:rgb(0, 131, 237);
+    background:rgb(205, 1, 228);
+}
+a
+{
+    text-decoration:none;
+    color:white;
 }
 body
 {
-    background:rgb(198, 229, 255);
+    background:rgb(251, 198, 255);
 }

@@ -93,39 +93,39 @@ function display()
         else
         document.getElementById(`${i}${j}`).innerText=`${a[i][j]}`;
         if(a[i][j]==2)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(255,255,204)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,255,204,0.6)";
         else if(a[i][j]==4)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(255,255,153)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,255,153,0.6)";
         else if(a[i][j]==8)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(255,255,102)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,255,102,0.6)";
         else if(a[i][j]==16)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(255,255,51)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,255,51,0.6)";
         else if(a[i][j]==32)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(255,230,0)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,230,0,0.6)";
         else if(a[i][j]==64)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(255,205,0)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,205,0,0.6)";
         else if(a[i][j]==128)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(255,162,0)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,162,0,0.6)";
         else if(a[i][j]==256)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(255,128,0)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,128,0,0.6)";
         else if(a[i][j]==512)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(255,94,0)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,94,0,0.6)";
         else if(a[i][j]==1024)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(255,77,0)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,77,0,0.6)";
         else if(a[i][j]==2048)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(255,43,0)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,43,0,0.6)";
         else if(a[i][j]==4096)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(204,0,0)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(204,0,0,0.6)";
         else if(a[i][j]==8192)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(153,0,0)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(153,0,0,0.6)";
         else if(a[i][j]==8192*2)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(135,0,0)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(135,0,0,0.6)";
         else if(a[i][j]==8192*4)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(120,0,0)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(120,0,0,0.6)";
         else if(a[i][j]==8192*8)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(105,0,0)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(105,0,0,0.6)";
         else
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgb(255,255,255)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,255,255,0.6)";
     }
     console.log("00");
 }
