@@ -1,1244 +1,733 @@
 class Pawn
 {
-    constructor(side,piece)
+    constructor()
     {
-        if(side==0)
-        this.i=6;
-        else
-        this.i=1;
-        this.j=piece;
-        this.enp=false;
-    }
-    clone()
-    {
-        let p=new Pawn(0,0);
-        p.i=this.i;
-        p.j=this.j;
-        p.enp=this.enp;
-        return p;
-    }
-}
-class Bishop
-{
-    constructor(side,piece)
-    {
-        if(side==0)
-        this.i=7;
-        else
-        this.i=0;
-        if(piece==0)
-        this.j=2;
-        else
-        this.j=5;
-    }
-    clone()
-    {
-        let b=new Bishop(0,0);
-        b.i=this.i;
-        b.j=this.j;
-        return b;
+        this.src=new Array();
+        this.src[0]="Chess Images/Pawn Light.png";
+        this.src[1]="Chess Images/Pawn Dark.png";
     }
 }
 class Knight
 {
-    constructor(side,piece)
+    constructor()
     {
-        if(side==0)
-        this.i=7;
-        else
-        this.i=0;
-        if(piece==0)
-        this.j=1;
-        else
-        this.j=6;
+        this.src=new Array();
+        this.src[0]="Chess Images/Knight Light.png";
+        this.src[1]="Chess Images/Knight Dark.png";
     }
-    clone()
+}
+class Bishop
+{
+    constructor()
     {
-        let n=new Knight(0,0);
-        n.i=this.i;
-        n.j=this.j;
-        return n;
+        this.src=new Array();
+        this.src[0]="Chess Images/Bishop Light.png";
+        this.src[1]="Chess Images/Bishop Dark.png";
     }
 }
 class Rook
 {
-    constructor(side,piece)
+    constructor()
     {
-        if(side==0)
-        this.i=7;
-        else
-        this.i=0;
-        if(piece==0)
-        this.j=0;
-        else
-        this.j=7;
-        this.cast=true;
-    }
-    clone()
-    {
-        let r=new Rook(0,0);
-        r.i=this.i;
-        r.j=this.j;
-        r.cast=this.cast;
-        return r;
+        this.src=new Array();
+        this.src[0]="Chess Images/Rook Light.png";
+        this.src[1]="Chess Images/Rook Dark.png";
     }
 }
 class Queen
 {
-    constructor(side)
+    constructor()
     {
-        if(side==0)
-        this.i=7;
-        else
-        this.i=0;
-        this.j=3;
-    }
-    clone()
-    {
-        let q=new Queen(0,0);
-        q.i=this.i;
-        q.j=this.j;
-        return q;
+        this.src=new Array();
+        this.src[0]="Chess Images/Queen Light.png";
+        this.src[1]="Chess Images/Queen Dark.png";
     }
 }
 class King
 {
-    constructor(side)
+    constructor()
     {
-        if(side==0)
-        this.i=7;
-        else
-        this.i=0;
-        this.j=4;
-    }
-    clone()
-    {
-        let k=new King(0);
-        k.i=this.i;
-        k.j=this.j;
-        return k;
+        this.src=new Array();
+        this.src[0]="Chess Images/King Light.png";
+        this.src[1]="Chess Images/King Dark.png";
     }
 }
-class Player
+class Square
 {
-    constructor(side)
+    constructor()
     {
-        this.p=new Array();
-        for(let piece=0;piece<8;piece++)
-        this.p[piece]=new Pawn(side,piece);
-        this.b=new Array();
-        for(let piece=0;piece<2;piece++)
-        this.b[piece]=new Bishop(side,piece);
-        this.n=new Array();
-        for(let piece=0;piece<2;piece++)
-        this.n[piece]=new Knight(side,piece);
-        this.r=new Array();
-        for(let piece=0;piece<2;piece++)
-        this.r[piece]=new Rook(side,piece);
-        this.q=new Array();
-        this.q[0]=new Queen(side);
-        this.k=new King(side);
+        this.src="";
+        this.piece="";
+        this.side=new Array();
+        this.side[0]=false;
+        this.side[1]=false;
+        this.cast=false;
     }
     clone()
     {
-        let pl=new Player(0);
-        pl.p=new Array();
-        for(let piece=0;piece<this.p.length;piece++)
-        pl.p[piece]=this.p[piece].clone();
-        pl.b=new Array();
-        for(let piece=0;piece<this.b.length;piece++)
-        pl.b[piece]=this.b[piece].clone();
-        pl.n=new Array();
-        for(let piece=0;piece<this.n.length;piece++)
-        pl.n[piece]=this.n[piece].clone();
-        pl.r=new Array();
-        for(let piece=0;piece<this.r.length;piece++)
-        pl.r[piece]=this.r[piece].clone();
-        pl.q=new Array();
-        for(let piece=0;piece<this.q.length;piece++)
-        pl.q[piece]=this.q[piece].clone();
-        pl.k=this.k.clone();
-        return pl;
+        let sq=new Square();
+        sq.src=this.src;
+        sq.piece=this.piece;
+        sq.side[0]=this.side[0];
+        sq.side[1]=this.side[1];
+        sq.cast=this.cast;
+        return sq;
+    }
+    setSquare(piece,side)
+    {
+        this.piece=piece;
+        switch(piece)
+        {
+            case "p":this.src=new Pawn().src[side];
+                break;
+            case "n":this.src=new Knight().src[side];
+                break;
+            case "b":this.src=new Bishop().src[side];
+                break;
+            case "r":this.src=new Rook().src[side];
+                this.cast=true;
+                break;
+            case "q":this.src=new Queen().src[side];
+                break;
+            case "k":this.src=new King().src[side];
+                this.cast=true;
+                break;
+            default:this.src="";
+        }
+        this.side[0]=side==0?true:false;
+        this.side[1]=side==1?true:false;
     }
 }
 class Chess
 {
-    constructor(ch)
+    constructor(side,level)
     {
-        this.pl=new Array();
-        this.pl[0]=new Player(0);
-        this.pl[1]=new Player(1);
-        this.side=ch;
         this.board=new Array();
+        this.path=new Array();
         for(let i=0;i<8;i++)
         {
             this.board[i]=new Array();
+            this.path[i]=new Array();
             for(let j=0;j<8;j++)
-            this.board[i][j]=' ';
+            {
+                this.board[i][j]=new Square();
+                this.path[i][j]=false;
+            }
         }
+        this.side=side;
         this.point=0;
-        this.flag=0;
+        this.level=level;
+        this.kingi=new Array();
+        this.kingj=new Array();
+        this.kingi[0]=-1;
+        this.kingj[0]=-1;
+        this.kingi[1]=-1;
+        this.kingj[1]=-1;
+        this.enpi=-1;
+        this.enpj=-1;
     }
-    copyclass()
+    clone()
     {
-        let ch=new Chess(0);
-        ch.pl=new Array();
-        ch.pl[0]=this.pl[0].clone();
-        ch.pl[1]=this.pl[1].clone();
-        ch.side=this.side;
+        let ch=new Chess(0,0);
         for(let i=0;i<8;i++)
         for(let j=0;j<8;j++)
-        ch.board[i][j]=this.board[i][j];
+        ch.board[i][j]=this.board[i][j].clone();
+        ch.path=this.clonePath(this.path);
+        ch.side=this.side;
         ch.point=this.point;
-        ch.flag=this.flag;
+        ch.level=this.level;
+        ch.kingi[0]=this.kingi[0];
+        ch.kingj[0]=this.kingj[0];
+        ch.kingi[1]=this.kingi[1];
+        ch.kingj[1]=this.kingj[1];
+        ch.enpi=this.enpi;
+        ch.enpj=this.enpj;
         return ch;
     }
-    clearboard()
+    clonePath(path)
+    {
+        let p=new Array();
+        for(let i=0;i<8;i++)
+        {
+            p[i]=new Array();
+            for(let j=0;j<8;j++)
+            p[i][j]=path[i][j];
+        }
+        return p;
+    }
+    setBoard()
+    {
+        for(let j=0;j<8;j++)
+        {
+            this.setPawn(6,j,0);
+            this.setPawn(1,j,1);
+        }
+        this.setKnight(7,1,0);
+        this.setKnight(7,6,0);
+        this.setKnight(0,1,1);
+        this.setKnight(0,6,1);
+        this.setBishop(7,2,0);
+        this.setBishop(7,5,0);
+        this.setBishop(0,2,1);
+        this.setBishop(0,5,1);
+        this.setRook(7,0,0);
+        this.setRook(7,7,0);
+        this.setRook(0,0,1);
+        this.setRook(0,7,1);
+        this.setQueen(7,3,0);
+        this.setQueen(0,3,1);
+        this.setKing(7,4,0);
+        this.setKing(0,4,1);
+        this.kingi[0]=7;
+        this.kingi[1]=0;
+        this.kingj[0]=this.kingj[1]=4;
+        this.show();
+    }
+    setPawn(i,j,side)
+    {
+        this.board[i][j].setSquare("p",side);
+    }
+    setKnight(i,j,side)
+    {
+        this.board[i][j].setSquare("n",side);
+    }
+    setBishop(i,j,side)
+    {
+        this.board[i][j].setSquare("b",side);
+    }
+    setRook(i,j,side)
+    {
+        this.board[i][j].setSquare("r",side);
+    }
+    setQueen(i,j,side)
+    {
+        this.board[i][j].setSquare("q",side);
+    }
+    setKing(i,j,side)
+    {
+        this.board[i][j].setSquare("k",side);
+    }
+    show()
     {
         for(let i=0;i<8;i++)
         for(let j=0;j<8;j++)
-        this.board[i][j]=' ';
-    }
-    p(ch)
-    {
-        switch(ch)
         {
-            case 0:return 'p';
-            case 1:return 'b';
-            case 2:return 'n';
-            case 3:return 'r';
-            case 4:return 'q';
-            case 5:return 'k';
-            default:return 'x';
+            document.getElementById(`img${this.side==0?i:7-i}${this.side==0?j:7-j}`).src=this.board[i][j].src;
+            if(this.path[i][j])
+            document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgb(238,238,110)";
+            else
+            document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="";
         }
     }
-    findpieceletter(i,j,b)
+    r(min,max)
     {
-        for(let piece=0;piece<10;piece++)
-        if(piece<this.pl[this.side].p.length && this.pl[this.side].p[piece].i==i && this.pl[this.side].p[piece].j==j)
-        return b?'p':piece;
-        else if(piece<this.pl[this.side].b.length && this.pl[this.side].b[piece].i==i && this.pl[this.side].b[piece].j==j)
-        return b?'b':piece;
-        else if(piece<this.pl[this.side].n.length && this.pl[this.side].n[piece].i==i && this.pl[this.side].n[piece].j==j)
-        return b?'n':piece;
-        else if(piece<this.pl[this.side].r.length && this.pl[this.side].r[piece].i==i && this.pl[this.side].r[piece].j==j)
-        return b?'r':piece;
-        else if(piece<this.pl[this.side].q.length && this.pl[this.side].q[piece].i==i && this.pl[this.side].q[piece].j==j)
-        return b?'q':piece;
-        if(this.pl[this.side].k.i==i && this.pl[this.side].k.j==j)
-        return b?'k':0;
-        return 'x';
+        return Math.floor(Math.random()*(max-min+1)+min);
     }
-    show(b)
+    getPoint(piece)
     {
-        let check=this.copyclass().checksquare(1-this.side,this.pl[this.side].k.i,this.pl[this.side].k.j,1)>=1;
-        for(let i=0;i<8;i++)
+        switch(piece)
         {
-            for(let j=0;j<8;j++)
-            {
-                if(b && this.board[i][j]=='o')
-                document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgb(238,238,110)";
-                else if(check && this.pl[this.side].k.i==i && this.pl[this.side].k.j==j)
-                document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgb(216,96,116)";
-                else
-                document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor=null;
-                if(this.checkpiece(this.side,i,j,0)!=0||this.checkpiece(1-this.side,i,j,0)!=0)
-                ;
-                else
-                document.getElementById(`img${this.side==0?i:7-i}${this.side==0?j:7-j}`).src="";
-            }
-            
+            case "p":return 1;
+            case "n":
+            case "b":return 3;
+            case "r":return 5;
+            case "q":return 9;
+            case "k":return 100;
+            default:return 0;
         }
     }
-    checkpiece(x,i,j,t)
+    clearPath()
     {
-        if(t==1 && this.checkpiecepawn(x,i,j,2)!=0)
-        return this.checkpiecepawn(x,i,j,1);
-        else if(this.checkpiecepawn(x,i,j,t)!=0)
-        return this.checkpiecepawn(x,i,j,2);
-        if(t==1 && this.checkpiecebishop(x,i,j,2)!=0)
-        return this.checkpiecebishop(x,i,j,1);
-        else if(this.checkpiecebishop(x,i,j,t)!=0)
-        return this.checkpiecebishop(x,i,j,2);
-        if(t==1 && this.checkpieceknight(x,i,j,2)!=0)
-        return this.checkpieceknight(x,i,j,1);
-        else if(this.checkpieceknight(x,i,j,t)!=0)
-        return this.checkpieceknight(x,i,j,2);
-        if(t==1 && this.checkpiecerook(x,i,j,2)!=0)
-        return this.checkpiecerook(x,i,j,1);
-        else if(this.checkpiecerook(x,i,j,t)!=0)
-        return this.checkpiecerook(x,i,j,2);
-        if(t==1 && this.checkpiecequeen(x,i,j,2)!=0)
-        return this.checkpiecequeen(x,i,j,1);
-        else if(this.checkpiecequeen(x,i,j,t)!=0)
-        return this.checkpiecequeen(x,i,j,2);
-        if(t==1 && this.checkpieceking(x,i,j,2)!=0)
-        return this.checkpieceking(x,i,j,1);
-        else if(this.checkpieceking(x,i,j,t)!=0)
-        return this.checkpieceking(x,i,j,2);
-        return 0;
-    }
-    checkpiecepawn(x,i,j,t)
-    {
-        for(let piece=0;piece<this.pl[x].p.length;piece++)
-        if(this.pl[x].p[piece].i==i && this.pl[x].p[piece].j==j)
-        {
-            if(t==0)
-            document.getElementById(`img${this.side==0?i:7-i}${this.side==0?j:7-j}`).src=x==0?"Chess Images/Pawn Light.png":"Chess Images/Pawn Dark.png";
-            else if(t==1)
-            {
-                this.pl[x].p.splice(piece,1);
-                return 1;
-            }
-            return x+1;
-        }
-        return 0;
-    }
-    checkpiecebishop(x,i,j,t)
-    {
-        for(let piece=0;piece<this.pl[x].b.length;piece++)
-        if(this.pl[x].b[piece].i==i && this.pl[x].b[piece].j==j)
-        {
-            if(t==0)
-            document.getElementById(`img${this.side==0?i:7-i}${this.side==0?j:7-j}`).src=x==0?"Chess Images/Bishop Light.png":"Chess Images/Bishop Dark.png";
-            else if(t==1)
-            {
-                this.pl[x].b.splice(piece,1);
-                return 3;
-            }
-            return x+1;
-        }
-        return 0;
-    }
-    checkpieceknight(x,i,j,t)
-    {
-        for(let piece=0;piece<this.pl[x].n.length;piece++)
-        if(this.pl[x].n[piece].i==i && this.pl[x].n[piece].j==j)
-        {
-            if(t==0)
-            document.getElementById(`img${this.side==0?i:7-i}${this.side==0?j:7-j}`).src=x==0?"Chess Images/Knight Light.png":"Chess Images/Knight Dark.png";
-            else if(t==1)
-            {
-                this.pl[x].n.splice(piece,1);
-                return 3;
-            }
-            return x+1;
-        }
-        return 0;
-    }
-    checkpiecerook(x,i,j,t)
-    {
-        for(let piece=0;piece<this.pl[x].r.length;piece++)
-        if(this.pl[x].r[piece].i==i && this.pl[x].r[piece].j==j)
-        {
-            if(t==0)
-            document.getElementById(`img${this.side==0?i:7-i}${this.side==0?j:7-j}`).src=x==0?"Chess Images/Rook Light.png":"Chess Images/Rook Dark.png";
-            else if(t==1)
-            {
-                this.pl[x].r.splice(piece,1);
-                return 5;
-            }
-            return x+1;
-        }
-        return 0;
-    }
-    checkpiecequeen(x,i,j,t)
-    {
-        for(let piece=0;piece<this.pl[x].q.length;piece++)
-        if(this.pl[x].q[piece].i==i && this.pl[x].q[piece].j==j)
-        {
-            if(t==0)
-            document.getElementById(`img${this.side==0?i:7-i}${this.side==0?j:7-j}`).src=x==0?"Chess Images/Queen Light.png":"Chess Images/Queen Dark.png";
-            else if(t==1)
-            {
-                this.pl[x].q.splice(piece,1);
-                return 9;
-            }
-            return x+1;
-        }
-        return 0;
-    }
-    checkpieceking(x,i,j,t)
-    {
-        if(this.pl[x].k.i==i && this.pl[x].k.j==j)
-        {
-            if(t==0)
-            document.getElementById(`img${this.side==0?i:7-i}${this.side==0?j:7-j}`).src=x==0?"Chess Images/King Light.png":"Chess Images/King Dark.png";
-            else if(t==1)
-            {
-                this.pl[x].k.i=-100;
-                this.pl[x].k.j=-90;
-            }
-            return x+1;
-        }
-        return 0;
-    }
-    checkmate(x)
-    {
-        for(let piece=0;piece<this.pl[x].p.length;piece++)
-        {
-            this.checkmovement(x,'p',piece);
-            for(let i=0;i<8;i++)
-            for(let j=0;j<8;j++)
-            if(this.board[i][j]=='o')
-            return false;
-        }
-        for(let piece=0;piece<this.pl[x].b.length;piece++)
-        {
-            this.checkmovement(x,'b',piece);
-            for(let i=0;i<8;i++)
-            for(let j=0;j<8;j++)
-            if(this.board[i][j]=='o')
-            return false;
-        }
-        for(let piece=0;piece<this.pl[x].n.length;piece++)
-        {
-            this.checkmovement(x,'n',piece);
-            for(let i=0;i<8;i++)
-            for(let j=0;j<8;j++)
-            if(this.board[i][j]=='o')
-            return false;
-        }
-        for(let piece=0;piece<this.pl[x].r.length;piece++)
-        {
-            this.checkmovement(x,'r',piece);
-            for(let i=0;i<8;i++)
-            for(let j=0;j<8;j++)
-            if(this.board[i][j]=='o')
-            return false;
-        }
-        for(let piece=0;piece<this.pl[x].q.length;piece++)
-        {
-            this.checkmovement(x,'q',piece);
-            for(let i=0;i<8;i++)
-            for(let j=0;j<8;j++)
-            if(this.board[i][j]=='o')
-            return false;
-        }
-        this.checkmovement(x,'k',0);
         for(let i=0;i<8;i++)
         for(let j=0;j<8;j++)
-        if(this.board[i][j]=='o')
+        this.path[i][j]=false;
+    }
+    onSameLine(i1,j1,i2,j2,i3,j3)
+    {
+        if((i1==i2 && i2==i3) || (j1==j2 && j2==j3))
+        return true;
+        if(i1-i2==j1-j2 && i2-i3==j2-j3 && i1-j1==i2-j2)
+        return true;
+        if(i1-i2==j2-j1 && i2-i3==j3-j2 && i1+j1==i2+j2)
+        return true;
         return false;
+    }
+    pieceInBetween(starti,startj,endi,endj)
+    {
+        let m=(starti-endi)/(startj-endj),c=starti-m*startj;
+        for(let place=1;!(starti+(endi==starti?0:endi>starti?1:-1)*place==endi && startj+(endj==startj?0:endj>startj?1:-1)*place==endj);place++)
+        if(this.board[starti+(endi==starti?0:endi>starti?1:-1)*place][startj+(endj==startj?0:endj>startj?1:-1)*place].piece!="")
+        return true;
+        return false;
+    }
+    checkmate(parity)
+    {
+        for(let i=0;i<8;i++)
+        for(let j=0;j<8;j++)
+        if(this.board[i][j].side[parity])
+        {
+            this.checkMovement(i,j);
+            for(let squarei=0;squarei<8;squarei++)
+            for(let squarej=0;squarej<8;squarej++)
+            if(this.path[squarei][squarej])
+            {
+                this.clearPath();
+                return false;
+            }
+            this.clearPath();
+        }
         return true;
     }
-    checkmovement(x,ch,piece)
+    checkMovement(i,j)
     {
-        this.clearboard();
-        switch(ch)
+        let parity=this.board[i][j].side[0]?0:1,check=0;
+        for(let squarei=0;squarei<8;squarei++)
+        for(let squarej=0;squarej<8;squarej++)
+        if(this.board[squarei][squarej].side[1-parity])
         {
-            case 'p':if(x==0)
-                this.pawnforward(x,piece);
-                else if(x==1)
-                this.pawnbackward(x,piece);
-                this.checkallbox(x,'p',piece);
-                break;
-            case 'b':this.bishop(x,piece);
-                this.checkallbox(x,'b',piece);
-                break;
-            case 'n':this.knight(x,piece);
-                this.checkallbox(x,'n',piece);
-                break;
-            case 'r':this.rook(x,piece);
-                this.checkallbox(x,'r',piece);
-                break;
-            case 'q':this.queen(x,piece);
-                this.checkallbox(x,'q',piece);
-                break;
-            case 'k':this.king(x,2);
-                this.checkallbox(x,'k',0);
+            this.checkPath(squarei,squarej,true);
+            if(this.path[this.kingi[parity]][this.kingj[parity]])
+            check++;
+            this.path[this.kingi[parity]][this.kingj[parity]]=false;
         }
-    }
-    checkallbox(x,ch,piece)
-    {
-        for(let i=0;i<8;i++)
-        for(let j=0;j<8;j++)
-        if(this.checkallsquare(x,i,j,ch,piece))
-        this.board[i][j]=' ';
-    }
-    checkallsquare(x,i,j,ch,piece)
-    {
-        let c=this.copyclass();
-        if(c.board[i][j]=='o')
+        if(check>0)
+        this.path[this.kingi[parity]][this.kingj[parity]]=true;
+        let opponentPath=this.clonePath(this.path);
+        this.clearPath();
+        if(this.board[i][j].piece=="k")
         {
-            switch(ch)
-            {
-                case 'p':c.pl[x].p[piece].i=i;
-                    c.pl[x].p[piece].j=j;
-                    break;
-                case 'b':c.pl[x].b[piece].i=i;
-                    c.pl[x].b[piece].j=j;
-                    break;
-                case 'n':c.pl[x].n[piece].i=i;
-                    c.pl[x].n[piece].j=j;
-                    break;
-                case 'r':c.pl[x].r[piece].i=i;
-                    c.pl[x].r[piece].j=j;
-                    break;
-                case 'q':c.pl[x].q[piece].i=i;
-                    c.pl[x].q[piece].j=j;
-                    break;
-                case 'k':c.pl[x].k.i=i;
-                    c.pl[x].k.j=j;
-                    break;
-            }
-            c.checkpiece(1-x,i,j,1);
-            c.clearboard();
-            if(c.checksquare(1-x,c.pl[x].k.i,c.pl[x].k.j,1)>=1)
-            return true;
-        }
-        return false;
-    }
-    checksquare(x,i,j,move)
-    {
-        if(i<0)
-        return 0;
-        let c=0;
-        for(let piece=0;piece<10;piece++)
-        {
-            if(piece<this.pl[x].p.length)
-            {
-                if(x==0)
-                this.pawnforward(x,piece);
-                else
-                this.pawnbackward(x,piece);
-                if(this.board[i][j]=='o')
-                c++;
-                this.clearboard();
-            }
-            if(piece<this.pl[x].b.length)
-            {
-                this.bishop(x,piece);
-                if(this.board[i][j]=='o')
-                c++;
-                this.clearboard();
-            }
-            if(piece<this.pl[x].n.length)
-            {
-                this.knight(x,piece);
-                if(this.board[i][j]=='o')
-                c++;
-                this.clearboard();
-            }
-            if(piece<this.pl[x].r.length)
-            {
-                this.rook(x,piece);
-                if(this.board[i][j]=='o')
-                c++;
-                this.clearboard();
-            }
-            if(piece<this.pl[x].q.length)
-            {
-                this.queen(x,piece);
-                if(this.board[i][j]=='o')
-                c++;
-                this.clearboard();
-            }
-        }
-        this.king(x,move);
-        if(this.board[i][j]=='o')
-        c++;
-        this.clearboard();
-        return c;
-    }
-    pawnforward(x,piece)
-    {
-        if(this.pl[x].p[piece].i<0)
-        return;
-        if(this.pl[x].p[piece].i-1>=0 && this.checkpiece(x,this.pl[x].p[piece].i-1,this.pl[x].p[piece].j,2)==0 && this.checkpiece(1-x,this.pl[x].p[piece].i-1,this.pl[x].p[piece].j,2)==0)
-        this.board[this.pl[x].p[piece].i-1][this.pl[x].p[piece].j]='o';
-        if(this.pl[x].p[piece].i-2>=0 && this.pl[x].p[piece].i==6 && this.checkpiece(x,this.pl[x].p[piece].i-1,this.pl[x].p[piece].j,2)==0 && this.checkpiece(1-x,this.pl[x].p[piece].i-1,this.pl[x].p[piece].j,2)==0 && this.checkpiece(x,this.pl[x].p[piece].i-2,this.pl[x].p[piece].j,2)==0 && this.checkpiece(1-x,this.pl[x].p[piece].i-2,this.pl[x].p[piece].j,2)==0)
-        this.board[this.pl[x].p[piece].i-2][this.pl[x].p[piece].j]='o';
-        if(this.pl[x].p[piece].i-1>=0 && this.pl[x].p[piece].j-1>=0 && (this.checkpiece(1-x,this.pl[x].p[piece].i-1,this.pl[x].p[piece].j-1,2)==2-x || this.enpassant(x,this.pl[x].p[piece].i,this.pl[x].p[piece].j,false)))
-        this.board[this.pl[x].p[piece].i-1][this.pl[x].p[piece].j-1]='o';
-        if(this.pl[x].p[piece].i-1>=0 && this.pl[x].p[piece].j+1<8 && (this.checkpiece(1-x,this.pl[x].p[piece].i-1,this.pl[x].p[piece].j+1,2)==2-x || this.enpassant(x,this.pl[x].p[piece].i,this.pl[x].p[piece].j,false)))
-        this.board[this.pl[x].p[piece].i-1][this.pl[x].p[piece].j+1]='o';
-    }
-    pawnbackward(x,piece)
-    {
-        if(this.pl[x].p[piece].i<0)
-        return;
-        if(this.pl[x].p[piece].i+1<8 && this.checkpiece(x,this.pl[x].p[piece].i+1,this.pl[x].p[piece].j,2)==0 && this.checkpiece(1-x,this.pl[x].p[piece].i+1,this.pl[x].p[piece].j,2)==0)
-        this.board[this.pl[x].p[piece].i+1][this.pl[x].p[piece].j]='o';
-        if(this.pl[x].p[piece].i+2<8 && this.pl[x].p[piece].i==1 && this.checkpiece(x,this.pl[x].p[piece].i+1,this.pl[x].p[piece].j,2)==0 && this.checkpiece(1-x,this.pl[x].p[piece].i+1,this.pl[x].p[piece].j,2)==0 && this.checkpiece(x,this.pl[x].p[piece].i+2,this.pl[x].p[piece].j,2)==0 && this.checkpiece(1-x,this.pl[x].p[piece].i+2,this.pl[x].p[piece].j,2)==0)
-        this.board[this.pl[x].p[piece].i+2][this.pl[x].p[piece].j]='o';
-        if(this.pl[x].p[piece].i+1<8 && this.pl[x].p[piece].j-1>=0 && (this.checkpiece(1-x,this.pl[x].p[piece].i+1,this.pl[x].p[piece].j-1,2)==2-x || this.enpassant(x,this.pl[x].p[piece].i,this.pl[x].p[piece].j,false)))
-        this.board[this.pl[x].p[piece].i+1][this.pl[x].p[piece].j-1]='o';
-        if(this.pl[x].p[piece].i+1<8 && this.pl[x].p[piece].j+1<8 && (this.checkpiece(1-x,this.pl[x].p[piece].i+1,this.pl[x].p[piece].j+1,2)==2-x || this.enpassant(x,this.pl[x].p[piece].i,this.pl[x].p[piece].j,false)))
-        this.board[this.pl[x].p[piece].i+1][this.pl[x].p[piece].j+1]='o';
-    }
-    enpassant(x,i,j,t)
-    {
-        for(let piece=0;piece<8;piece++)
-        if(x==0 && piece<this.pl[1-x].p.length)
-        {
-            if(this.pl[1-x].p[piece].i==i+1 && this.pl[1-x].p[piece].j==j && this.pl[1-x].p[piece].enp && t)
-            {
-                this.pl[1-x].p.splice(piece,1);
-            }
-            else if(this.pl[1-x].p[piece].i==i && Math.abs(this.pl[1-x].p[piece].j-j)==1 && this.pl[1-x].p[piece].enp && !t)
-            return true;
-        }
-        else if(x==1 && piece<this.pl[1-x].p.length)
-        {
-            if(this.pl[1-x].p[piece].i==i-1 && this.pl[1-x].p[piece].j==j && this.pl[1-x].p[piece].enp && t)
-            {
-                this.pl[1-x].p.splice(piece,1);
-            }
-            else if(this.pl[1-x].p[piece].i==i && Math.abs(this.pl[1-x].p[piece].j-j)==1 && this.pl[1-x].p[piece].enp && !t)
-            return true;
-        }
-        return false;
-    }
-    cancelenpassent(x)
-    {
-        for(let piece=0;piece<this.pl[x].p.length;piece++)
-        this.pl[x].p[piece].enp=false;
-    }
-    bishop(x,piece)
-    {
-        this.diagonal(x,this.pl[x].b[piece].i-1,this.pl[x].b[piece].j-1,7,1);
-        this.diagonal(x,this.pl[x].b[piece].i+1,this.pl[x].b[piece].j-1,7,2);
-        this.diagonal(x,this.pl[x].b[piece].i+1,this.pl[x].b[piece].j+1,7,3);
-        this.diagonal(x,this.pl[x].b[piece].i-1,this.pl[x].b[piece].j+1,7,4);
-    }
-    knight(x,piece)
-    {
-        if(this.pl[x].n[piece].i-2>=0 && this.pl[x].n[piece].j-1>=0 && this.checkpiece(x,this.pl[x].n[piece].i-2,this.pl[x].n[piece].j-1,2)==0)
-        this.board[this.pl[x].n[piece].i-2][this.pl[x].n[piece].j-1]='o';
-        if(this.pl[x].n[piece].i-2>=0 && this.pl[x].n[piece].j+1<8 && this.checkpiece(x,this.pl[x].n[piece].i-2,this.pl[x].n[piece].j+1,2)==0)
-        this.board[this.pl[x].n[piece].i-2][this.pl[x].n[piece].j+1]='o';
-        if(this.pl[x].n[piece].i-1>=0 && this.pl[x].n[piece].j-2>=0 && this.checkpiece(x,this.pl[x].n[piece].i-1,this.pl[x].n[piece].j-2,2)==0)
-        this.board[this.pl[x].n[piece].i-1][this.pl[x].n[piece].j-2]='o';
-        if(this.pl[x].n[piece].i-1>=0 && this.pl[x].n[piece].j+2<8 && this.checkpiece(x,this.pl[x].n[piece].i-1,this.pl[x].n[piece].j+2,2)==0)
-        this.board[this.pl[x].n[piece].i-1][this.pl[x].n[piece].j+2]='o';
-        if(this.pl[x].n[piece].i+1<8 && this.pl[x].n[piece].j-2>=0 && this.checkpiece(x,this.pl[x].n[piece].i+1,this.pl[x].n[piece].j-2,2)==0)
-        this.board[this.pl[x].n[piece].i+1][this.pl[x].n[piece].j-2]='o';
-        if(this.pl[x].n[piece].i+1<8 && this.pl[x].n[piece].j+2<8 && this.checkpiece(x,this.pl[x].n[piece].i+1,this.pl[x].n[piece].j+2,2)==0)
-        this.board[this.pl[x].n[piece].i+1][this.pl[x].n[piece].j+2]='o';
-        if(this.pl[x].n[piece].i+2<8 && this.pl[x].n[piece].j-1>=0 && this.checkpiece(x,this.pl[x].n[piece].i+2,this.pl[x].n[piece].j-1,2)==0)
-        this.board[this.pl[x].n[piece].i+2][this.pl[x].n[piece].j-1]='o';
-        if(this.pl[x].n[piece].i+2<8 && this.pl[x].n[piece].j+1<8 && this.checkpiece(x,this.pl[x].n[piece].i+2,this.pl[x].n[piece].j+1,2)==0)
-        this.board[this.pl[x].n[piece].i+2][this.pl[x].n[piece].j+1]='o';
-    }
-    rook(x,piece)
-    {
-        this.straight(x,this.pl[x].r[piece].i-1,this.pl[x].r[piece].j,7,1);
-        this.straight(x,this.pl[x].r[piece].i,this.pl[x].r[piece].j-1,7,2);
-        this.straight(x,this.pl[x].r[piece].i+1,this.pl[x].r[piece].j,7,3);
-        this.straight(x,this.pl[x].r[piece].i,this.pl[x].r[piece].j+1,7,4);
-    }
-    queen(x,piece)
-    {
-        this.straight(x,this.pl[x].q[piece].i-1,this.pl[x].q[piece].j,7,1);
-        this.diagonal(x,this.pl[x].q[piece].i-1,this.pl[x].q[piece].j-1,7,1);
-        this.straight(x,this.pl[x].q[piece].i,this.pl[x].q[piece].j-1,7,2);
-        this.diagonal(x,this.pl[x].q[piece].i+1,this.pl[x].q[piece].j-1,7,2);
-        this.straight(x,this.pl[x].q[piece].i+1,this.pl[x].q[piece].j,7,3);
-        this.diagonal(x,this.pl[x].q[piece].i+1,this.pl[x].q[piece].j+1,7,3);
-        this.straight(x,this.pl[x].q[piece].i,this.pl[x].q[piece].j+1,7,4);
-        this.diagonal(x,this.pl[x].q[piece].i-1,this.pl[x].q[piece].j+1,7,4);
-    }
-    king(x,move)
-    {
-        if(move==0)
-        return;
-        let c=this.copyclass();
-        if(this.pl[x].r.length>0 && this.pl[x].r[0].cast && c.checksquare(1-x,this.pl[x].k.i,this.pl[x].k.j,move-1)==0 && this.checkpiece(x,this.pl[x].k.i,this.pl[x].k.j-1,2)==0 && this.checkpiece(x,this.pl[x].k.i,this.pl[x].k.j-2,2)==0 && this.checkpiece(x,this.pl[x].k.i,this.pl[x].k.j-3,2)==0 && this.checkpiece(1-x,this.pl[x].k.i,this.pl[x].k.j-1,2)==0 && this.checkpiece(1-x,this.pl[x].k.i,this.pl[x].k.j-2,2)==0 && this.checkpiece(1-x,this.pl[x].k.i,this.pl[x].k.j-3,2)==0 && c.checksquare(1-x,this.pl[x].k.i,this.pl[x].k.j-1,move-1)==0 && c.checksquare(1-x,this.pl[x].k.i,this.pl[x].k.j-2,move-1)==0)
-        this.board[(1-x)*7][2]='o';
-        if(this.pl[x].r.length>1 && this.pl[x].r[1].cast && c.checksquare(1-x,this.pl[x].k.i,this.pl[x].k.j,move-1)==0 && this.checkpiece(x,this.pl[x].k.i,this.pl[x].k.j+1,2)==0 && this.checkpiece(x,this.pl[x].k.i,this.pl[x].k.j+2,2)==0 && this.checkpiece(1-x,this.pl[x].k.i,this.pl[x].k.j+1,2)==0 && this.checkpiece(1-x,this.pl[x].k.i,this.pl[x].k.j+2,2)==0 && c.checksquare(1-x,this.pl[x].k.i,this.pl[x].k.j+1,move-1)==0 && c.checksquare(1-x,this.pl[x].k.i,this.pl[x].k.j+2,move-1)==0)
-        this.board[(1-x)*7][6]='o';
-        this.straight(x,this.pl[x].k.i-1,this.pl[x].k.j,1,1);
-        this.diagonal(x,this.pl[x].k.i-1,this.pl[x].k.j-1,1,1);
-        this.straight(x,this.pl[x].k.i,this.pl[x].k.j-1,1,2);
-        this.diagonal(x,this.pl[x].k.i+1,this.pl[x].k.j-1,1,2);
-        this.straight(x,this.pl[x].k.i+1,this.pl[x].k.j,1,3);
-        this.diagonal(x,this.pl[x].k.i+1,this.pl[x].k.j+1,1,3);
-        this.straight(x,this.pl[x].k.i,this.pl[x].k.j+1,1,4);
-        this.diagonal(x,this.pl[x].k.i-1,this.pl[x].k.j+1,1,4);
-    }
-    diagonal(x,i,j,step,d)
-    {
-        if(i<0||i>7||j<0||j>7||step==0)
-        return;
-        if(this.checkpiece(1-x,i,j,2)==2-x)
-        {
-            this.board[i][j]='o';
+            this.king(i,j,false,opponentPath[i][j]);
+            for(let squarei=0;squarei<8;squarei++)
+            for(let squarej=0;squarej<8;squarej++)
+            this.path[squarei][squarej]=this.path[squarei][squarej] && !opponentPath[squarei][squarej] && (Math.abs(squarej-j)>1?!opponentPath[squarei][(squarej+j)/2]:true);
             return;
         }
-        switch(d)
+        this.checkPath(i,j,false);
+        if(check>1)
         {
-            case 1:if(this.checkpiece(this.side,i,j,2)==0 && this.checkpiece(1-this.side,i,j,2)==0)
-                {
-                    this.board[i][j]='o';
-                    this.diagonal(x,i-1,j-1,step-1,d);
-                }
+            this.clearPath();
+            return;
+        }
+        let selfPath=this.clonePath(this.path);
+        for(let squarei=0;squarei<8;squarei++)
+        for(let squarej=0;squarej<8;squarej++)
+        if(this.board[squarei][squarej].side[1-parity])
+        {
+            this.clearPath();
+            this.checkPath(squarei,squarej,false);
+            if((this.path[this.kingi[parity]][this.kingj[parity]]) || (this.path[i][j] && this.board[squarei][squarej].piece!="k" && this.onSameLine(i,j,squarei,squarej,this.kingi[parity],this.kingj[parity]) && !this.pieceInBetween(i,j,this.kingi[parity],this.kingj[parity]) && !this.pieceInBetween(i,j,squarei,squarej)))
+            {
+                for(let toi=0;toi<8;toi++)
+                for(let toj=0;toj<8;toj++)
+                this.path[toi][toj]=selfPath[toi][toj] && ((toi==squarei && toj==squarej) || (this.path[toi][toj] && this.onSameLine(toi,toj,squarei,squarej,this.kingi[parity],this.kingj[parity]) && ((this.kingi[parity]<=toi && toi<=squarei) || (this.kingi[parity]>=toi && toi>=squarei)) && ((this.kingj[parity]<=toj && toj<=squarej) || (this.kingj[parity]>=toj && toj>=squarej))));
                 return;
-            case 2:if(this.checkpiece(this.side,i,j,2)==0 && this.checkpiece(1-this.side,i,j,2)==0)
-                {
-                    this.board[i][j]='o';
-                    this.diagonal(x,i+1,j-1,step-1,d);
-                }
-                return;
-            case 3:if(this.checkpiece(this.side,i,j,2)==0 && this.checkpiece(1-this.side,i,j,2)==0)
-                {
-                    this.board[i][j]='o';
-                    this.diagonal(x,i+1,j+1,step-1,d);
-                }
-                return;
-            case 4:if(this.checkpiece(this.side,i,j,2)==0 && this.checkpiece(1-this.side,i,j,2)==0)
-                {
-                    this.board[i][j]='o';
-                    this.diagonal(x,i-1,j+1,step-1,d);
-                }
-                return;
+            }
+        }
+        this.path=this.clonePath(selfPath);
+    }
+    checkPath(i,j,enemy)
+    {
+        switch(this.board[i][j].piece)
+        {
+            case "p":this.pawn(i,j,enemy);
+                break;
+            case "n":this.knight(i,j,enemy);
+                break;
+            case "b":this.bishop(i,j,enemy);
+                break;
+            case "r":this.rook(i,j,enemy);
+                break;
+            case "q":this.queen(i,j,enemy);
+                break;
+            case "k":this.king(i,j,enemy,false);
         }
     }
-    straight(x,i,j,step,d)
+    pawn(i,j,enemy)
     {
-        if(i<0||i>7||j<0||j>7||step==0)
+        let move=this.board[i][j].side[0]?-1:1;
+        if(!enemy && this.board[i+move][j].side[0]==this.board[i+move][j].side[1])
+        this.path[i+move][j]=true;
+        if(((move==1 && i==1) || (move==-1 && i==6)) && !enemy && this.board[i+move][j].side[0]==this.board[i+move][j].side[1] && this.board[i+move*2][j].side[0]==this.board[i+move*2][j].side[1])
+        this.path[i+move*2][j]=true;
+        if(j>0 && ((move==-1 && (this.board[i+move][j-1].side[1] || enemy)) || (move==1 && (this.board[i+move][j-1].side[0] || enemy)) || (this.enpi==i+move && this.enpj==j-1 && this.board[this.enpi-move][this.enpj].side[move==-1?1:0])))
+        this.path[i+move][j-1]=true;
+        if(j<7 && ((move==-1 && (this.board[i+move][j+1].side[1] || enemy)) || (move==1 && (this.board[i+move][j+1].side[0] || enemy)) || (this.enpi==i+move && this.enpj==j+1 && this.board[this.enpi-move][this.enpj].side[move==-1?1:0])))
+        this.path[i+move][j+1]=true;
+    }
+    knight(i,j,enemy)
+    {
+        this.direction(i,j,-2,-1,true,enemy);
+        this.direction(i,j,-2,+1,true,enemy);
+        this.direction(i,j,-1,-2,true,enemy);
+        this.direction(i,j,-1,+2,true,enemy);
+        this.direction(i,j,+1,-2,true,enemy);
+        this.direction(i,j,+1,+2,true,enemy);
+        this.direction(i,j,+2,-1,true,enemy);
+        this.direction(i,j,+2,+1,true,enemy);
+    }
+    bishop(i,j,enemy)
+    {
+        this.direction(i,j,-1,-1,false,enemy);
+        this.direction(i,j,-1,+1,false,enemy);
+        this.direction(i,j,+1,-1,false,enemy);
+        this.direction(i,j,+1,+1,false,enemy);
+    }
+    rook(i,j,enemy)
+    {
+        this.direction(i,j,-1,0,false,enemy);
+        this.direction(i,j,0,-1,false,enemy);
+        this.direction(i,j,0,+1,false,enemy);
+        this.direction(i,j,+1,0,false,enemy);
+    }
+    queen(i,j,enemy)
+    {
+        this.direction(i,j,-1,-1,false,enemy);
+        this.direction(i,j,-1,+1,false,enemy);
+        this.direction(i,j,+1,-1,false,enemy);
+        this.direction(i,j,+1,+1,false,enemy);
+        this.direction(i,j,-1,0,false,enemy);
+        this.direction(i,j,0,-1,false,enemy);
+        this.direction(i,j,0,+1,false,enemy);
+        this.direction(i,j,+1,0,false,enemy);
+    }
+    king(i,j,enemy,check)
+    {
+        this.direction(i,j,-1,-1,true,enemy);
+        this.direction(i,j,-1,+1,true,enemy);
+        this.direction(i,j,+1,-1,true,enemy);
+        this.direction(i,j,+1,+1,true,enemy);
+        this.direction(i,j,-1,0,true,enemy);
+        this.direction(i,j,0,-1,true,enemy);
+        this.direction(i,j,0,+1,true,enemy);
+        this.direction(i,j,+1,0,true,enemy);
+        if(check)
         return;
-        if(this.checkpiece(1-x,i,j,2)==2-x)
+        let parity=this.board[i][j].side[0]?0:1;
+        if(this.board[i][j].cast)
         {
-            this.board[i][j]='o';
-            return;
-        }
-        switch(d)
-        {
-            case 1:if(this.checkpiece(this.side,i,j,2)==0 && this.checkpiece(1-this.side,i,j,2)==0)
-            {
-                this.board[i][j]='o';
-                this.straight(x,i-1,j,step-1,d);
-            }
-            return;
-            case 2:if(this.checkpiece(this.side,i,j,2)==0 && this.checkpiece(1-this.side,i,j,2)==0)
-            {
-                this.board[i][j]='o';
-                this.straight(x,i,j-1,step-1,d);
-            }
-            return;
-            case 3:if(this.checkpiece(this.side,i,j,2)==0 && this.checkpiece(1-this.side,i,j,2)==0)
-            {
-                this.board[i][j]='o';
-                this.straight(x,i+1,j,step-1,d);
-            }
-            return;
-            case 4:if(this.checkpiece(this.side,i,j,2)==0 && this.checkpiece(1-this.side,i,j,2)==0)
-            {
-                this.board[i][j]='o';
-                this.straight(x,i,j+1,step-1,d);
-            }
-            return;
+            if(this.board[i][0].cast && this.board[i][1].side[parity]==false && this.board[i][2].side[parity]==false && this.board[i][3].side[parity]==false)
+            this.path[i][j-2]=true;
+            if(this.board[i][7].cast && this.board[i][6].side[parity]==false && this.board[i][5].side[parity]==false)
+            this.path[i][j+2]=true;
         }
     }
-    movepiece(x,ch,piece,i,j,t,b)
+    direction(i,j,iteri,iterj,once,enemy)
     {
-        if(this.flag==2)
+        let parity=this.board[i][j].side[0]?0:1;
+        for(let move=1;i+iteri*move>=0 && i+iteri*move<8 && j+iterj*move>=0 && j+iterj*move<8;move++)
         {
-            this.point+=10;
-            this.flag=0;
-        }
-        else if(this.flag==3)
-        {
-            this.point-=1;
-            this.flag=0;
-        }
-        switch(ch)
-        {
-            case 'p':this.cancelenpassent(x);
-                if(Math.abs(this.pl[x].p[piece].i-i)==2)
-                this.pl[x].p[piece].enp=true;
-                this.pl[x].p[piece].i=i;
-                this.pl[x].p[piece].j=j;
-                if(this.enpassant(x,i,j,true))
-                ;
-                if(t>0)
-                {
-                    this.promotion(x,piece,this.p(t));
-                }
-                break;
-            case 'b':this.pl[x].b[piece].i=i;
-                this.pl[x].b[piece].j=j;
-                this.cancelenpassent(x);
-                break;
-            case 'n':this.pl[x].n[piece].i=i;
-                this.pl[x].n[piece].j=j;
-                this.cancelenpassent(x);
-                break;
-            case 'r':this.pl[x].r[piece].i=i;
-                this.pl[x].r[piece].j=j;
-                this.pl[x].r[piece].cast=false;
-                this.cancelenpassent(x);
-                break;
-            case 'q':this.pl[x].q[piece].i=i;
-                this.pl[x].q[piece].j=j;
-                this.cancelenpassent(x);
-                break;
-            case 'k':if(this.pl[x].k.j==4 && j==2)
-                {
-                    this.pl[x].r[0].j=3;
-                    this.pl[x].r[0].cast=false;
-                    if(x==1-this.side)
-                    this.point+=1;
-                }
-                else if(this.pl[x].k.j==4 && j==6)
-                {
-                    this.pl[x].r[1].j=5;
-                    this.pl[x].r[1].cast=false;
-                    if(x==1-this.side)
-                    this.point+=1;
-                }
-                this.pl[x].k.i=i;
-                this.pl[x].k.j=j;
-                if(this.pl[x].r.length>0)
-                this.pl[x].r[0].cast=false;
-                if(this.pl[x].r.length>1)
-                this.pl[x].r[1].cast=false;
-                this.cancelenpassent(x);
-        }
-        if(x==this.side && this.checkpiece(1-this.side,i,j,2)==2-this.side)
-        this.point-=this.checkpiece(1-this.side,i,j,1);
-        else if(x==1-this.side && this.checkpiece(this.side,i,j,2)==this.side+1)
-        this.point+=this.checkpiece(this.side,i,j,1);
-        this.clearboard();
-        if(Math.abs(this.point)!=100 && this.checksquare(1-x,this.pl[x].k.i,this.pl[x].k.j,1)>=1)
-        if(x==this.side)
-        {
-            this.point=-1;
-            this.flag=2;
-        }
-        else if(x==1-this.side && this.checksquare(this.side,i,j,2)==0)
-        {
-            this.point=1;
-            this.flag=3;
-        }
-        if(this.checkmate(1-x))
-        this.point+=x==1-this.side?100:-100;
-        this.clearboard();
-        return false;
-    }
-    promotion(x,piece,pro)
-    {
-        switch(pro)
-        {
-            case 'b':this.pl[x].b[this.pl[x].b.length]=new Bishop(x,0);
-                this.pl[x].b[this.pl[x].b.length-1].i=this.pl[x].p[piece].i;
-                this.pl[x].b[this.pl[x].b.length-1].j=this.pl[x].p[piece].j;
-                break;
-            case 'n':this.pl[x].n[this.pl[x].n.length]=new Knight(x,0);
-            this.pl[x].n[this.pl[x].n.length-1].i=this.pl[x].p[piece].i;
-            this.pl[x].n[this.pl[x].n.length-1].j=this.pl[x].p[piece].j;
-                break;
-            case 'r':this.pl[x].r[this.pl[x].r.length]=new Rook(x,0);
-            this.pl[x].r[this.pl[x].r.length-1].i=this.pl[x].p[piece].i;
-            this.pl[x].r[this.pl[x].r.length-1].j=this.pl[x].p[piece].j;
-            this.pl[x].r[this.pl[x].r.length-1].cast=false;
-                break;
-            case 'q':this.pl[x].q[this.pl[x].q.length]=new Queen(x,0);
-            this.pl[x].q[this.pl[x].q.length-1].i=this.pl[x].p[piece].i;
-            this.pl[x].q[this.pl[x].q.length-1].j=this.pl[x].p[piece].j;
-                break;
-        }
-        this.pl[x].p.splice(piece,1);
-    }
-    calculateallmove(level)
-    {
-        let max=new Array(),min=new Array();
-        for(let ch=0;ch<6;ch++)
-        {
-            max[ch]=new Array();
-            min[ch]=new Array();
-            for(let piece=0;piece<10;piece++)
-            {
-                max[ch][piece]=new Array();
-                min[ch][piece]=new Array();
-                for(let i=0;i<8;i++)
-                {
-                    max[ch][piece][i]=new Array();
-                    min[ch][piece][i]=new Array();
-                    for(let j=0;j<8;j++)
-                    {
-                        max[ch][piece][i][j]=this.copyclass();
-                        max[ch][piece][i][j].point=-200;
-                        min[ch][piece][i][j]=this.copyclass();
-                        min[ch][piece][i][j].point=-200;
-                    }
-                }
-            }
-        }
-        let mch=5,mn=9,mi=7,mj=7;
-        for(let ch=0;ch<6;ch++)
-        for(let piece=0;piece<10;piece++)
-        {
-            let cm=this.copyclass();
-            if((ch==0 && piece>=this.pl[1-this.side].p.length)||(ch==1 && piece>=this.pl[1-this.side].b.length)||(ch==2 && piece>=this.pl[1-this.side].n.length)||(ch==3 && piece>=this.pl[1-this.side].r.length)||(ch==4 && piece>=this.pl[1-this.side].q.length))
-            continue;
-            cm.checkmovement(1-this.side,this.p(ch),piece);
-            for(let i=0;i<8;i++)
-            for(let j=0;j<8;j++)
-            {
-                if(cm.board[i][j]!='o')
-                continue;
-                max[ch][piece][i][j]=cm.moveallpromo(1-this.side,ch,piece,i,j,level,level,false);
-                min[ch][piece][i][j]=cm.moveallpromo(1-this.side,ch,piece,i,j,level,level,true);
-                if(min[ch][piece][i][j].point>min[mch][mn][mi][mj].point)
-                {
-                    mch=ch;
-                    mn=piece;
-                    mi=i;
-                    mj=j;
-                }
-            }
-        }
-        for(let ch=0;ch<6;ch++)
-        for(let piece=0;piece<10;piece++)
-        for(let i=0;i<8;i++)
-        for(let j=0;j<8;j++)
-        if(min[ch][piece][i][j].point==min[mch][mn][mi][mj].point && max[ch][piece][i][j].point>max[mch][mn][mi][mj].point)
-        {
-            mch=ch;
-            mn=piece;
-            mi=i;
-            mj=j;
-        }
-        let ch=0,piece=0,i=0,j=0,fl=0;
-        do
-        for(;;)
-        {
-            ch=r(0,5);
-            piece=r(0,9);
-            i=r(0,7);
-            j=r(0,7);
-            // if((ch==0 && piece>=this.pl[1-this.side].p.length)||(ch==1 && piece>=this.pl[1-this.side].b.length)||(ch==2 && piece>=this.pl[1-this.side].n.length)||(ch==3 && piece>=this.pl[1-this.side].r.length)||(ch==4 && piece>=this.pl[1-this.side].q.length))
-            // continue;
-            // this.checkmovement(1-this.side,this.p(ch),piece);
-            // if(this.board[i][j]!='o')
-            // continue;
-            if(min[ch][piece][i][j].point==min[mch][mn][mi][mj].point && max[ch][piece][i][j].point==max[mch][mn][mi][mj].point)
+            if(!this.board[i+iteri*move][j+iterj*move].side[parity] || enemy)
+            this.path[i+iteri*move][j+iterj*move]=true;
+            if(!(this.board[i+iteri*move][j+iterj*move].piece=="k" && this.board[i+iteri*move][j+iterj*move].side[1-parity]) && (this.board[i+iteri*move][j+iterj*move].side[parity]!=this.board[i+iteri*move][j+iterj*move].side[1-parity] || once))
             break;
         }
-        while((ch==5?fl++:fl+3)<3);
-        this.checkmovement(1-this.side,this.p(ch),piece);
-        if(ch==0 && (i==0 || i==7))
+    }
+    movePiece(fromi,fromj,toi,toj)
+    {
+        this.point+=this.board[toi][toj].side[0]?this.getPoint(this.board[toi][toj].piece):-this.getPoint(this.board[toi][toj].piece);
+        this.board[toi][toj]=this.board[fromi][fromj].clone();
+        this.board[fromi][fromj]=new Square();
+        if(this.enpi==toi && this.enpj==toj && this.board[toi][toj].piece=="p")
+        this.board[fromi][toj]=new Square();
+        this.enpi=this.enpj=-1;
+        if(this.board[toi][toj].piece=="p")
+        if(Math.abs(toi-fromi)==2)
         {
-            let t=0;
-            for(let tt=0;tt<4;tt++)
+            this.enpi=(toi+fromi)/2;
+            this.enpj=toj;
+        }
+        if(this.board[toi][toj].piece=="k")
+        {
+            let parity=this.board[toi][toj].side[0]?0:1;
+            this.kingi[parity]=toi;
+            this.kingj[parity]=toj;
+            if(Math.abs(toj-fromj)==2)
+            if(toj==2)
             {
-                let tempmove=this.copyclass();
-                tempmove.movepiece(1-this.side,'p',piece,i,j,tt+1,true);
-                tempmove.moveallpromo(1-this.side,ch,piece,i,j,level-1,level-1,true);
-                if(tempmove.point>=this.point)
-                t=tt+1;
+                this.board[toi][toj+1]=this.board[toi][0].clone();
+                this.board[toi][0]=new Square();
             }
-            this.movepiece(1-this.side,'p',piece,i,j,t,true);
-            document.getElementById("label").innerText=""+String.fromCharCode(j+97)+(8-i)+" = "+this.p(t).toUpperCase()+" was played";
+            else
+            {
+                this.board[toi][toj-1]=this.board[toi][7].clone();
+                this.board[toi][7]=new Square();
+            }
+            else if(parity==1)
+            this.point-=1;
+        }
+        this.board[toi][toj].cast=false;
+    }
+    promote(i,j,to)
+    {
+        if(typeof to==="number")
+        switch(to)
+        {
+            case 1:this.board[i][j].setSquare("b",this.board[i][j].side[0]?0:1);
+                break;
+            case 2:this.board[i][j].setSquare("n",this.board[i][j].side[0]?0:1);
+                break;
+            case 3:this.board[i][j].setSquare("r",this.board[i][j].side[0]?0:1);
+                break;
+            case 4:this.board[i][j].setSquare("q",this.board[i][j].side[0]?0:1);
         }
         else
-        {
-            this.movepiece(1-this.side,this.p(ch),piece,i,j,0,true);
-            document.getElementById("label").innerText=""+(ch==0?"":this.p(ch).toUpperCase())+String.fromCharCode(j+97)+(8-i)+" was played";
-        }
+        this.board[i][j].setSquare(to,this.board[i][j].side[0]?0:1);
+        this.point+=this.board[i][j].side[0]?-this.getPoint(this.board[i][j].piece):this.getPoint(this.board[i][j].piece);
     }
-    moveallpiece(x,i,j,move,level,b)
+    computeBest(times,computer)
     {
-        if(move==0)
-        return this;
-        let c=new Array(),mch=0,mn=0;
-        for(let ch=0;ch<6;ch++)
-        {
-            c[ch]=new Array();
-            for(let piece=0;piece<10;piece++)
-            {
-                c[ch][piece]=this.copyclass();
-                if((ch==0 && piece>7)||(ch==4 && piece>8))
-                {
-                    if(!b||x==1-this.side)
-                    c[ch][piece].point=-200;
-                    else
-                    c[ch][piece].point=200;
-                    continue;
-                }
-                switch(ch)
-                {
-                    case 0:if(piece>=this.pl[x].p.length)
-                        {
-                            if(!b||x==1-this.side)
-                            c[ch][piece].point=-200;
-                            else
-                            c[ch][piece].point=200;
-                            continue;
-                        }
-                        break;
-                    case 1:if(piece>=this.pl[x].b.length)
-                        {
-                            if(!b||x==1-this.side)
-                            c[ch][piece].point=-200;
-                            else
-                            c[ch][piece].point=200;
-                            continue;
-                        }
-                        break;
-                    case 2:if(piece>=this.pl[x].n.length)
-                        {
-                            if(!b||x==1-this.side)
-                            c[ch][piece].point=-200;
-                            else
-                            c[ch][piece].point=200;
-                            continue;
-                        }
-                        break;
-                    case 3:if(piece>=this.pl[x].r.length)
-                        {
-                            if(!b||x==1-this.side)
-                            c[ch][piece].point=-200;
-                            else
-                            c[ch][piece].point=200;
-                            continue;
-                        }
-                        break;
-                    case 4:if(piece>=this.pl[x].q.length)
-                        {
-                            if(!b||x==1-this.side)
-                            c[ch][piece].point=-200;
-                            else
-                            c[ch][piece].point=200;
-                            continue;
-                        }
-                        break;
-                }
-                c[ch][piece].checkmovement(x,this.p(ch),piece);
-                c[ch][piece]=c[ch][piece].moveallbox(x,ch,piece,move,level,b);
-                if((!b||x==1-this.side) && c[ch][piece].point>c[mch][mn].point)
-                {
-                    mch=ch;
-                    mn=piece;
-                }
-                else if(b && x==this.side && c[ch][piece].point<c[mch][mn].point)
-                {
-                    mch=ch;
-                    mn=piece;
-                }
-            }
-        }
-        return c[mch][mn];
-    }
-    moveallbox(x,ch,piece,move,level,b)
-    {
-        let c=new Array(),mi=0,mj=0;
+        if(times==0)
+        return this.point;
+        let pointList=new Array(),bestPoint=undefined,whiteTurn=false,blackTurn=false;
+        if((this.side==0 && computer) || (this.side==1 && !computer))
+        blackTurn=true;
+        else
+        whiteTurn=true;
         for(let i=0;i<8;i++)
+        for(let j=0;j<8;j++)
+        if((this.board[i][j].side[0] && whiteTurn) || (this.board[i][j].side[1] && blackTurn))
         {
-            c[i]=new Array();
-            for(let j=0;j<8;j++)
+            this.checkMovement(i,j);
+            for(let squarei=0;squarei<8;squarei++)
+            for(let squarej=0;squarej<8;squarej++)
+            if(this.path[squarei][squarej])
+            for(let promo=0;promo<4;promo++)
             {
-                c[i][j]=this.copyclass();
-                if(this.board[i][j]!='o')
+                let newMove=this.clone();
+                newMove.clearPath();
+                newMove.movePiece(i,j,squarei,squarej);
+                if(newMove.board[squarei][squarej].piece=="p" && (squarei==0 || squarei==7))
                 {
-                    if(!b||x==1-this.side)
-                    c[i][j].point=-200;
-                    else
-                    c[i][j].point=200;
-                    continue;
+                    newMove.promote(squarei,squarej,promo+1);
+                    let newPoint=newMove.computeBest(times-1,!computer);
+                    if(bestPoint==undefined || (computer && newPoint>bestPoint) || (!computer && newPoint<bestPoint))
+                    bestPoint=newPoint;
+                    pointList.push([i,j,squarei,squarej,promo+1,newPoint]);
                 }
-                c[i][j]=this.moveallpromo(x,ch,piece,i,j,move,level,b);
-                if((!b||x==1-this.side) && c[i][j].point>c[mi][mj].point)
-                {
-                    mi=i;
-                    mj=j;
-                }
-                else if(b && x==this.side && c[i][j].point<c[mi][mj].point)
-                {
-                    mi=i;
-                    mj=j;
-                }
-            }
-        }
-        return c[mi][mj];
-    }
-    moveallpromo(x,ch,piece,i,j,move,level,b)
-    {
-        let c=new Array(),mt=0;
-        for(let t=0;t<=4;t++)
-        {
-            c[t]=this.copyclass();
-            if(t==0 && ch==0 && i==7)
-            {
-                if(!b||x==1-this.side)
-                c[t].point=-200;
                 else
-                c[t].point=200;
-                continue;
+                {
+                    let newPoint=newMove.computeBest(times-1,!computer);
+                    if(bestPoint==undefined || ((this.side==0?computer:!computer) && newPoint>bestPoint) || ((this.side==0?!computer:computer) && newPoint<bestPoint))
+                    bestPoint=newPoint;
+                    pointList.push([i,j,squarei,squarej,0,newPoint]);
+                    break;
+                }
             }
-            else if(t!=0 && (ch!=0 || i!=7))
-            continue;
-            c[t].movepiece(x,this.p(ch),piece,i,j,t==0?0:5-t,false);
-            c[t]=c[t].moveallpiece(1-x,i,j,move-1,level,b);
-            if(((!b||x==1-this.side) && c[t].point>c[mt].point) || (b && x==this.side && c[t].point<c[mt].point))
-            mt=t;
+            this.clearPath();
         }
-        return c[mt];
+        if(bestPoint==undefined)
+        if(times==this.level)
+        return;
+        else
+        return computer?this.point-100:this.point+100;
+        if(times!=this.level)
+        return bestPoint;
+        for(let i=this.r(0,pointList.length-1);;i=(i+1)%pointList.length)
+        if(pointList[i][5]==bestPoint)
+        {
+            let cut="";
+            if(this.board[pointList[i][2]][pointList[i][3]].piece!="")
+            cut="x";
+            this.movePiece(pointList[i][0],pointList[i][1],pointList[i][2],pointList[i][3]);
+            if(pointList[i][4]>0)
+            {
+                this.promote(pointList[i][2],pointList[i][3],pointList[i][4]);
+                document.getElementById("label").innerText=cut+String.fromCharCode(pointList[i][3]+97)+(8-pointList[i][2])+" = "+this.board[pointList[i][2]][pointList[i][3]].piece.toUpperCase()+" was played";
+            }
+            else
+            document.getElementById("label").innerText=""+(this.board[pointList[i][2]][pointList[i][3]].piece=="p"?"":this.board[pointList[i][2]][pointList[i][3]].piece.toUpperCase())+cut+String.fromCharCode(pointList[i][3]+97)+(8-pointList[i][2])+" was played";
+            return;
+        }
     }
 }
-function r(min,max)
+let side,currentmove,tempmove,previousmove,nextmove,clicki,clickj,askPromo,end;
+function doTask()
 {
-    return Math.floor(Math.random()*(max-min+1)+min);
+    if(currentmove.checkmate(1-side))
+    {
+        document.getElementById("label").innerText="Good heavens! You win :D";
+        end=true;
+    }
+    else
+    {
+        currentmove.computeBest(currentmove.level,true);
+        if(currentmove.checkmate(side))
+        {
+            document.getElementById("label").innerText="Sorry amigo! You lose D:";
+            end=true;
+        }
+    }
+    currentmove.show();
+    previousmove=tempmove.clone();
+    tempmove=currentmove.clone();
+    nextmove=undefined;
+    clicki=clickj=-1;
 }
-function start(side)
+function start()
 {
+    document.getElementById("label").innerText="Click on the corresponding piece to move. Press U to undo and R to redo.";
     document.getElementById("optiongroup").style.visibility="visible";
-    let currentmove=new Chess(side),previousmove=currentmove.copyclass(),nextmove=currentmove.copyclass(),piecei=-1,piecej=-1,level=2,b=true,dopromo=false,end=false;
     for(let i=0;i<8;i++)
     document.getElementById(`number${i}`).innerText=""+side==0?(8-i):(i+1);
     for(let i=0;i<8;i++)
     document.getElementById(`letter${i}`).innerText=""+side==0?String.fromCharCode(i+97):String.fromCharCode((7-i)+97);
-    if(side==1)
-    {
-        currentmove.calculateallmove(level);
-        previousmove=currentmove.copyclass();
-        nextmove=currentmove.copyclass();
-    }
-    document.getElementById("bishopi").src=side==0?"Chess Images/Bishop Light.png":"Chess Images/Bishop Dark.png";
-    document.getElementById("knighti").src=side==0?"Chess Images/Knight Light.png":"Chess Images/Knight Dark.png";
-    document.getElementById("rooki").src=side==0?"Chess Images/Rook Light.png":"Chess Images/Rook Dark.png";
-    document.getElementById("queeni").src=side==0?"Chess Images/Queen Light.png":"Chess Images/Queen Dark.png";
+    document.getElementById("bishopi").src=new Bishop().src[side];
+    document.getElementById("knighti").src=new Knight().src[side];
+    document.getElementById("rooki").src=new Rook().src[side];
+    document.getElementById("queeni").src=new Queen().src[side];
+
+    currentmove=new Chess(side,3);
+    currentmove.setBoard();
+    tempmove=currentmove.clone(),previousmove=undefined,nextmove=undefined,clicki=-1,clickj=-1,askPromo=false,end=false;
+
     document.getElementById("bishop").addEventListener("click",function(event)
     {
-        currentmove.movepiece(currentmove.side,'p',currentmove.findpieceletter(piecei,piecej,false),piecei,piecej,1,false);
-        currentmove.calculateallmove(level);
-        currentmove.show(b);
-        dopromo=false;
+        currentmove.promote(clicki,clickj,"b");
+        doTask();
+        askPromo=false;
         document.getElementById("promo").style.visibility="hidden";
     }
     );
     document.getElementById("knight").addEventListener("click",function(event)
     {
-        currentmove.movepiece(currentmove.side,'p',currentmove.findpieceletter(piecei,piecej,false),piecei,piecej,2,false);
-        currentmove.calculateallmove(level);
-        currentmove.show(b);
-        dopromo=false;
+        currentmove.promote(clicki,clickj,"n");
+        doTask();
+        askPromo=false;
         document.getElementById("promo").style.visibility="hidden";
     }
     );
     document.getElementById("rook").addEventListener("click",function(event)
     {
-        currentmove.movepiece(currentmove.side,'p',currentmove.findpieceletter(piecei,piecej,false),piecei,piecej,3,false);
-        currentmove.calculateallmove(level);
-        currentmove.show(b);
-        dopromo=false;
+        currentmove.promote(clicki,clickj,"r");
+        doTask();
+        askPromo=false;
         document.getElementById("promo").style.visibility="hidden";
     }
     );
     document.getElementById("queen").addEventListener("click",function(event)
     {
-        currentmove.movepiece(currentmove.side,'p',currentmove.findpieceletter(piecei,piecej,false),piecei,piecej,4,false);
-        currentmove.calculateallmove(level);
-        currentmove.show(b);
-        dopromo=false;
+        currentmove.promote(clicki,clickj,"q");
+        doTask();
+        askPromo=false;
         document.getElementById("promo").style.visibility="hidden";
     }
     );
-    currentmove.show(b);
     for(let i=0;i<8;i++)
     for(let j=0;j<8;j++)
     {
         if((i+j)%2==0)
-        document.getElementById(`td${currentmove.side==0?i:7-i}${currentmove.side==0?j:7-j}`).classList.add("whitebox");
+        document.getElementById(`td${i}${j}`).classList.add("whitebox");
         else
-        document.getElementById(`td${currentmove.side==0?i:7-i}${currentmove.side==0?j:7-j}`).classList.add("blackbox");
-        document.getElementById(`td${currentmove.side==0?i:7-i}${currentmove.side==0?j:7-j}`).addEventListener("click",function(event)
+        document.getElementById(`td${i}${j}`).classList.add("blackbox");
+        document.getElementById(`td${side==0?i:7-i}${side==0?j:7-j}`).addEventListener("click",function(event)
         {
-            if(!end && !dopromo)
-            if(b && currentmove.board[i][j]=='o')
+            if(!askPromo && !end)
+            if(currentmove.path[i][j])
             {
-                previousmove=currentmove.copyclass();
-                currentmove.movepiece(currentmove.side,currentmove.findpieceletter(piecei,piecej,true),currentmove.findpieceletter(piecei,piecej,false),i,j,0,false);
-                currentmove.clearboard();
-                if(currentmove.findpieceletter(i,j,true)=='p' && (currentmove.pl[currentmove.side].p[currentmove.findpieceletter(i,j,false)].i==0 || currentmove.pl[currentmove.side].p[currentmove.findpieceletter(i,j,false)].i==7))
+                currentmove.movePiece(clicki,clickj,i,j);
+                currentmove.clearPath();
+                if(currentmove.board[i][j].piece=="p" && (i==0 || i==7))
                 {
-                    dopromo=true;
+                    askPromo=true;
                     document.getElementById("promo").style.visibility="visible";
-                    piecei=i;
-                    piecej=j;
+                    clicki=i;
+                    clickj=j;
                 }
-                if(currentmove.copyclass().checkmate(1-currentmove.side))
-                {
-                    document.getElementById("label").innerText="Good heavens! You win :D";
-                    b=false;
-                    end=true;
-                    currentmove.show(b);
-                    return;
-                }
-                if(!dopromo)
-                currentmove.calculateallmove(level);
-                nextmove=currentmove.copyclass();
-                b=true;
-                if(currentmove.copyclass().checkmate(currentmove.side))
-                {
-                    document.getElementById("label").innerText="Sorry amigo! You lose D:";
-                    b=false;
-                    end=true;
-                }
-                if(dopromo)
-                b=false;
+                else
+                doTask();
+            }
+            else if(clicki==i && clickj==j)
+            {
+                currentmove.clearPath();
+                clicki=clickj=-1;
             }
             else
             {
-                currentmove.checkmovement(currentmove.side,currentmove.findpieceletter(i,j,true),currentmove.findpieceletter(i,j,false));
-                if(piecei==i && piecej==j)
-                b=!b;
-                else
-                b=true;
-                piecei=i;
-                piecej=j;
+                currentmove.clearPath();
+                currentmove.checkMovement(i,j);
+                clicki=i;
+                clickj=j;
             }
-            currentmove.show(b);
+            currentmove.show();
         }
         );
     }
     document.getElementById("undo").addEventListener("click",function(event)
     {
-        if(dopromo)
+        if(askPromo)
         return;
-        currentmove=previousmove.copyclass();
-        document.getElementById("label").innerText="Undo done";
-        currentmove.clearboard();
-        currentmove.show(b);
-        b=false;
+        if(previousmove==undefined)
+        {
+            document.getElementById("label").innerText="No more undo available";
+            return;
+        }
+        document.getElementById("label").innerText="Undo";
+        currentmove.clearPath();
+        nextmove=currentmove.clone();
+        currentmove=previousmove.clone();
+        tempmove=previousmove.clone();
+        previousmove=undefined;
+        currentmove.show();
+        clicki=clickj=-1;
         end=false;
     }
     );
     document.getElementById("redo").addEventListener("click",function(event)
     {
-        if(dopromo)
+        if(askPromo)
         return;
-        currentmove=nextmove.copyclass();
-        document.getElementById("label").innerText="Redo done";
-        currentmove.clearboard();
-        currentmove.show(b);
-        b=false;
-        if(currentmove.copyclass().checkmate(1-currentmove.side) || currentmove.copyclass().checkmate(1-currentmove.side))
+        if(nextmove==undefined || askPromo)
+        {
+            document.getElementById("label").innerText="No more redo available";
+            return;
+        }
+        document.getElementById("label").innerText="Redo";
+        currentmove.clearPath();
+        previousmove=currentmove.clone();
+        currentmove=nextmove.clone();
+        tempmove=nextmove.clone();
+        nextmove=undefined;
+        currentmove.show();
+        clicki=clickj=-1;
+        if(currentmove.checkmate(side) || currentmove.checkmate(1-side))
         end=true;
     }
     );
     window.addEventListener("keyup",function(event)
     {
-        if(event.code=="KeyU" && !dopromo)
+        if(askPromo)
+        return;
+        if(event.code=="KeyU")
         {
-            currentmove=previousmove.copyclass();
-            document.getElementById("label").innerText="Undo done";
-            currentmove.clearboard();
-            currentmove.show(b);
-            b=false;
-            end=false;
+            if(previousmove==undefined)
+            {
+                document.getElementById("label").innerText="No more undo available";
+                return;
+            }
+            document.getElementById("label").innerText="Undo";
+            currentmove.clearPath();
+            nextmove=currentmove.clone();
+            currentmove=previousmove.clone();
+            tempmove=previousmove.clone();
+            previousmove=undefined;
+            currentmove.show();
+            clicki=clickj=-1;
         }
-        if(event.code=="KeyR" && !dopromo)
+        if(event.code=="KeyR")
         {
-            currentmove=nextmove.copyclass();
-            document.getElementById("label").innerText="Redo done";
-            currentmove.clearboard();
-            currentmove.show(b);
-            b=false;
-            if(currentmove.copyclass().checkmate(1-currentmove.side) || currentmove.copyclass().checkmate(1-currentmove.side))
-            end=true;
+            if(nextmove==undefined)
+            {
+                document.getElementById("label").innerText="No more redo available";
+                return;
+            }
+            document.getElementById("label").innerText="Redo";
+            currentmove.clearPath();
+            previousmove=currentmove.clone();
+            currentmove=nextmove.clone();
+            tempmove=nextmove.clone();
+            nextmove=undefined;
+            currentmove.show();
+            clicki=clickj=-1;
         }
     }
     );
@@ -1257,7 +746,8 @@ function ChessMain()
         document.body.appendChild(board);
         document.body.appendChild(options);
         document.body.appendChild(promos);
-        start(0);
+        side=0;
+        start();
     }
     );
     document.getElementById("black").addEventListener("click",function(event)
@@ -1266,7 +756,8 @@ function ChessMain()
         document.body.appendChild(board);
         document.body.appendChild(options);
         document.body.appendChild(promos);
-        start(1);
+        side=1;
+        start();
     }
     );
 }
