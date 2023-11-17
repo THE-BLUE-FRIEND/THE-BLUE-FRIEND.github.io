@@ -209,12 +209,25 @@ class Chess
     }
     show()
     {
+        let tempPath=this.clonePath(this.path);
+        let check=-1;
+        for(let i=0;i<8;i++)
+        for(let j=0;j<8;j++)
+        this.checkPath(i,j,false);
+        if(this.path[this.kingi[0]][this.kingj[0]])
+        check=0;
+        else if(this.path[this.kingi[1]][this.kingj[1]])
+        check=1;
+        this.path=this.clonePath(tempPath);
+
         for(let i=0;i<8;i++)
         for(let j=0;j<8;j++)
         {
             document.getElementById(`img${this.side==0?i:7-i}${this.side==0?j:7-j}`).src=this.board[i][j].src;
             if(this.path[i][j])
             document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgb(238,238,110)";
+            else if((check==0 && i==this.kingi[0] && j==this.kingj[0]) || (check==1 && i==this.kingi[1] && j==this.kingj[1]))
+            document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgb(216,96,116)";
             else
             document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="";
         }
@@ -292,6 +305,7 @@ class Chess
         }
         if(check>0)
         this.path[this.kingi[parity]][this.kingj[parity]]=true;
+
         let opponentPath=this.clonePath(this.path);
         this.clearPath();
         if(this.board[i][j].piece=="k")
@@ -302,12 +316,11 @@ class Chess
             this.path[squarei][squarej]=this.path[squarei][squarej] && !opponentPath[squarei][squarej] && (Math.abs(squarej-j)>1?!opponentPath[squarei][(squarej+j)/2]:true);
             return;
         }
-        this.checkPath(i,j,false);
+
         if(check>1)
-        {
-            this.clearPath();
-            return;
-        }
+        return;
+
+        this.checkPath(i,j,false);
         let selfPath=this.clonePath(this.path);
         for(let squarei=0;squarei<8;squarei++)
         for(let squarej=0;squarej<8;squarej++)
@@ -315,7 +328,7 @@ class Chess
         {
             this.clearPath();
             this.checkPath(squarei,squarej,false);
-            if((this.path[this.kingi[parity]][this.kingj[parity]]) || (this.path[i][j] && this.board[squarei][squarej].piece!="k" && this.onSameLine(i,j,squarei,squarej,this.kingi[parity],this.kingj[parity]) && !this.pieceInBetween(i,j,this.kingi[parity],this.kingj[parity]) && !this.pieceInBetween(i,j,squarei,squarej)))
+            if((this.path[this.kingi[parity]][this.kingj[parity]]) || (this.path[i][j] && this.board[squarei][squarej].piece!="k" && this.board[squarei][squarej].piece!="p" && this.onSameLine(i,j,squarei,squarej,this.kingi[parity],this.kingj[parity]) && !this.pieceInBetween(i,j,this.kingi[parity],this.kingj[parity]) && !this.pieceInBetween(i,j,squarei,squarej)))
             {
                 for(let toi=0;toi<8;toi++)
                 for(let toj=0;toj<8;toj++)
@@ -424,7 +437,7 @@ class Chess
     }
     movePiece(fromi,fromj,toi,toj)
     {
-        this.point+=this.board[toi][toj].side[0]?this.getPoint(this.board[toi][toj].piece):-this.getPoint(this.board[toi][toj].piece);
+        this.point+=(this.board[toi][toj].side[0] && this.side==0) || (this.board[toi][toj].side[1] && this.side==1)?this.getPoint(this.board[toi][toj].piece):-this.getPoint(this.board[toi][toj].piece);
         this.board[toi][toj]=this.board[fromi][fromj].clone();
         this.board[fromi][fromj]=new Square();
         if(this.enpi==toi && this.enpj==toj && this.board[toi][toj].piece=="p")
@@ -452,7 +465,7 @@ class Chess
                 this.board[toi][toj-1]=this.board[toi][7].clone();
                 this.board[toi][7]=new Square();
             }
-            else if(parity==1)
+            else if(parity==1-this.side)
             this.point-=1;
         }
         this.board[toi][toj].cast=false;
@@ -472,12 +485,13 @@ class Chess
         }
         else
         this.board[i][j].setSquare(to,this.board[i][j].side[0]?0:1);
-        this.point+=this.board[i][j].side[0]?-this.getPoint(this.board[i][j].piece):this.getPoint(this.board[i][j].piece);
+        this.point+=(this.board[i][j].side[0] && this.side==0) || (this.board[i][j].side[1] && this.side==1)?-this.getPoint(this.board[i][j].piece):this.getPoint(this.board[i][j].piece);
     }
     computeBest(times,computer)
     {
         if(times==0)
         return this.point;
+
         let pointList=new Array(),bestPoint=undefined,whiteTurn=false,blackTurn=false;
         if((this.side==0 && computer) || (this.side==1 && !computer))
         blackTurn=true;
@@ -507,7 +521,7 @@ class Chess
                 else
                 {
                     let newPoint=newMove.computeBest(times-1,!computer);
-                    if(bestPoint==undefined || ((this.side==0?computer:!computer) && newPoint>bestPoint) || ((this.side==0?!computer:computer) && newPoint<bestPoint))
+                    if(bestPoint==undefined || (computer && newPoint>bestPoint) || (!computer && newPoint<bestPoint))
                     bestPoint=newPoint;
                     pointList.push([i,j,squarei,squarej,0,newPoint]);
                     break;
@@ -520,8 +534,10 @@ class Chess
         return;
         else
         return computer?this.point-100:this.point+100;
+
         if(times!=this.level)
         return bestPoint;
+
         for(let i=this.r(0,pointList.length-1);;i=(i+1)%pointList.length)
         if(pointList[i][5]==bestPoint)
         {
@@ -644,6 +660,7 @@ function start()
             else
             {
                 currentmove.clearPath();
+                if(currentmove.board[i][j].side[side])
                 currentmove.checkMovement(i,j);
                 clicki=i;
                 clickj=j;
@@ -689,8 +706,6 @@ function start()
         nextmove=undefined;
         currentmove.show();
         clicki=clickj=-1;
-        if(currentmove.checkmate(side) || currentmove.checkmate(1-side))
-        end=true;
     }
     );
     window.addEventListener("keyup",function(event)
@@ -712,6 +727,7 @@ function start()
             previousmove=undefined;
             currentmove.show();
             clicki=clickj=-1;
+            end=false;
         }
         if(event.code=="KeyR")
         {
