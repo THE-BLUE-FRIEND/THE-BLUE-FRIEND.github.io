@@ -18,6 +18,47 @@
     font-size:1.2rem;
     font-family:monospace;
 }
+.type
+{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:200px;
+}
+.playtype
+{
+    text-transform:uppercase;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:0px;
+    font-size:2.1rem;
+    font-family:monospace;
+    font-weight:bolder;
+    padding:30px;
+    background:rgb(231, 50, 255);
+    color:rgb(255, 255, 255);
+    cursor:pointer;
+    transition:all 0.1s;
+    height:120px;
+    width:350px;
+}
+.playtype:hover
+{
+    background:rgb(205, 1, 228);
+    transition:all 0.1s;
+}
+.playtype:active
+{
+    background:rgb(171, 29, 190);
+    transition:all 0.1s;
+}
+#showlater
+{
+    visibility:hidden;
+    display:none;
+}
 .matrix
 {
     text-align:center;

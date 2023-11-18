@@ -50,6 +50,8 @@ class King
         this.src=new Array();
         this.src[0]="Chess Images/King Light.png";
         this.src[1]="Chess Images/King Dark.png";
+        this.i=-1;
+        this.j=-1;
     }
 }
 class Square
@@ -59,8 +61,7 @@ class Square
         this.src="";
         this.piece="";
         this.side=new Array();
-        this.side[0]=false;
-        this.side[1]=false;
+        this.side=-1;
         this.cast=false;
     }
     clone()
@@ -68,8 +69,7 @@ class Square
         let sq=new Square();
         sq.src=this.src;
         sq.piece=this.piece;
-        sq.side[0]=this.side[0];
-        sq.side[1]=this.side[1];
+        sq.side=this.side;
         sq.cast=this.cast;
         return sq;
     }
@@ -94,21 +94,21 @@ class Square
                 break;
             default:this.src="";
         }
-        this.side[0]=side==0?true:false;
-        this.side[1]=side==1?true:false;
+        this.side=side;
     }
 }
 class Chess
 {
-    constructor(side,level)
+    constructor(size,side,level)
     {
+        this.size=size;
         this.board=new Array();
         this.path=new Array();
-        for(let i=0;i<8;i++)
+        for(let i=0;i<4+size*4;i++)
         {
             this.board[i]=new Array();
             this.path[i]=new Array();
-            for(let j=0;j<8;j++)
+            for(let j=0;j<size*8;j++)
             {
                 this.board[i][j]=new Square();
                 this.path[i][j]=false;
@@ -117,70 +117,85 @@ class Chess
         this.side=side;
         this.point=0;
         this.level=level;
-        this.kingi=new Array();
-        this.kingj=new Array();
-        this.kingi[0]=-1;
-        this.kingj[0]=-1;
-        this.kingi[1]=-1;
-        this.kingj[1]=-1;
-        this.enpi=-1;
+        this.kings=new Array();
+        this.kings[0]=new Array();
+        this.kings[1]=new Array();
+        for(let i=0;i<size;i++)
+        {
+            this.kings[0][i]=new King()
+            this.kings[1][i]=new King()
+        }
+        this.enpPiecei=-1;
+        this.enpPiecej=-1;
+        this.enpFromi=-1;
+        this.enpToi=-1;
         this.enpj=-1;
     }
     clone()
     {
-        let ch=new Chess(0,0);
-        for(let i=0;i<8;i++)
-        for(let j=0;j<8;j++)
+        let ch=new Chess(this.size,0,0);
+        ch.size=this.size;
+        for(let i=0;i<4+size*4;i++)
+        for(let j=0;j<size*8;j++)
         ch.board[i][j]=this.board[i][j].clone();
         ch.path=this.clonePath(this.path);
         ch.side=this.side;
         ch.point=this.point;
         ch.level=this.level;
-        ch.kingi[0]=this.kingi[0];
-        ch.kingj[0]=this.kingj[0];
-        ch.kingi[1]=this.kingi[1];
-        ch.kingj[1]=this.kingj[1];
-        ch.enpi=this.enpi;
+        for(let i=0;i<2;i++)
+        for(let j=0;j<size;j++)
+        {
+            ch.kings[i][j].i=this.kings[i][j].i;
+            ch.kings[i][j].j=this.kings[i][j].j;
+        }
+        ch.enpPiecei=this.enpPiecei;
+        ch.enpPiecej=this.enpPiecej;
+        ch.enpFromi=this.enpFromi;
+        ch.enpToi=this.enpToi;
         ch.enpj=this.enpj;
         return ch;
     }
     clonePath(path)
     {
         let p=new Array();
-        for(let i=0;i<8;i++)
+        for(let i=0;i<4+this.size*4;i++)
         {
             p[i]=new Array();
-            for(let j=0;j<8;j++)
+            for(let j=0;j<this.size*8;j++)
             p[i][j]=path[i][j];
         }
         return p;
     }
     setBoard()
     {
-        for(let j=0;j<8;j++)
+        for(let i=0;i<this.size;i++)
         {
-            this.setPawn(6,j,0);
-            this.setPawn(1,j,1);
+            for(let j=0;j<8;j++)
+            {
+                this.setPawn(4+this.size*4-2,j+i*8,0);
+                this.setPawn(1,j+i*8,1);
+            }
+            this.setKnight(4+size*4-1,1+i*8,0);
+            this.setKnight(4+size*4-1,6+i*8,0);
+            this.setKnight(0,1+i*8,1);
+            this.setKnight(0,6+i*8,1);
+            this.setBishop(4+size*4-1,2+i*8,0);
+            this.setBishop(4+size*4-1,5+i*8,0);
+            this.setBishop(0,2+i*8,1);
+            this.setBishop(0,5+i*8,1);
+            this.setRook(4+size*4-1,0+i*8,0);
+            this.setRook(4+size*4-1,7+i*8,0);
+            this.setRook(0,0+i*8,1);
+            this.setRook(0,7+i*8,1);
+            this.setQueen(4+size*4-1,3+i*8,0);
+            this.setQueen(0,3+i*8,1);
+            this.setKing(4+size*4-1,4+i*8,0);
+            this.setKing(0,4+i*8,1);
+            this.kings[0][i].i=4+size*4-1;
+            this.kings[0][i].j=4+i*8;
+            this.kings[1][i].i=0;
+            this.kings[1][i].j=4+i*8;
         }
-        this.setKnight(7,1,0);
-        this.setKnight(7,6,0);
-        this.setKnight(0,1,1);
-        this.setKnight(0,6,1);
-        this.setBishop(7,2,0);
-        this.setBishop(7,5,0);
-        this.setBishop(0,2,1);
-        this.setBishop(0,5,1);
-        this.setRook(7,0,0);
-        this.setRook(7,7,0);
-        this.setRook(0,0,1);
-        this.setRook(0,7,1);
-        this.setQueen(7,3,0);
-        this.setQueen(0,3,1);
-        this.setKing(7,4,0);
-        this.setKing(0,4,1);
-        this.kingi[0]=7;
-        this.kingi[1]=0;
-        this.kingj[0]=this.kingj[1]=4;
     }
     setPawn(i,j,side)
     {
@@ -206,29 +221,36 @@ class Chess
     {
         this.board[i][j].setSquare("k",side);
     }
+    checksquare(i,j,check)
+    {
+        for(let ii=0;ii<check.length;ii++)
+        if(check[ii][0]==i && check[ii][1]==j)
+        return true;
+        return false;
+    }
     show()
     {
         let tempPath=this.clonePath(this.path);
-        let check=-1;
-        for(let i=0;i<8;i++)
-        for(let j=0;j<8;j++)
+        let check=new Array();
+        for(let i=0;i<4+size*4;i++)
+        for(let j=0;j<size*8;j++)
         this.checkPath(i,j,false);
-        if(this.path[this.kingi[0]][this.kingj[0]])
-        check=0;
-        else if(this.path[this.kingi[1]][this.kingj[1]])
-        check=1;
+        for(let sides=0;sides<2;sides++)
+        for(let ii=0;ii<size;ii++)
+        if(this.path[this.kings[sides][ii].i][this.kings[sides][ii].j])
+        check.push([this.kings[sides][ii].i,this.kings[sides][ii].j]);
         this.path=this.clonePath(tempPath);
 
-        for(let i=0;i<8;i++)
-        for(let j=0;j<8;j++)
+        for(let i=0;i<4+size*4;i++)
+        for(let j=0;j<size*8;j++)
         {
-            document.getElementById(`img${this.side==0?i:7-i}${this.side==0?j:7-j}`).src=this.board[i][j].src;
+            document.getElementById(`${this.side==0?i:4+size*4-1-i}img${this.side==0?j:size*8-1-j}`).src=this.board[i][j].src;
             if(this.path[i][j])
-            document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgb(238,238,110)";
-            else if((check==0 && i==this.kingi[0] && j==this.kingj[0]) || (check==1 && i==this.kingi[1] && j==this.kingj[1]))
-            document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="rgb(216,96,116)";
+            document.getElementById(`${this.side==0?i:4+size*4-1-i}td${this.side==0?j:size*8-1-j}`).style.backgroundColor="rgb(238,238,110)";
+            else if(this.checksquare(i,j,check))
+            document.getElementById(`${this.side==0?i:4+size*4-1-i}td${this.side==0?j:size*8-1-j}`).style.backgroundColor="rgb(216,96,116)";
             else
-            document.getElementById(`td${this.side==0?i:7-i}${this.side==0?j:7-j}`).style.backgroundColor="";
+            document.getElementById(`${this.side==0?i:4+size*4-1-i}td${this.side==0?j:size*8-1-j}`).style.backgroundColor="";
         }
     }
     r(min,max)
@@ -250,9 +272,38 @@ class Chess
     }
     clearPath()
     {
-        for(let i=0;i<8;i++)
-        for(let j=0;j<8;j++)
+        for(let i=0;i<4+size*4;i++)
+        for(let j=0;j<size*8;j++)
         this.path[i][j]=false;
+    }
+    checkmate(parity)
+    {
+        let check=0;
+        for(let i=0;i<4+size*4;i++)
+        for(let j=0;j<size*8;j++)
+        if(this.board[i][j].side==parity)
+        {
+            this.checkMovement(i,j);
+            for(let squarei=0;squarei<4+size*4;squarei++)
+            for(let squarej=0;squarej<size*8;squarej++)
+            if(this.path[squarei][squarej])
+            {
+                this.clearPath();
+                return -1;
+            }
+        }
+        else if(check==0 && this.board[i][j].side==1-parity)
+        {
+            this.checkMovement(i,j);
+            for(let ii=0;ii<size;ii++)
+            if(this.path[this.kings[parity][ii].i][this.kings[parity][ii].j])
+            {
+                this.clearPath();
+                check=1;
+            }
+            this.clearPath();
+        }
+        return check;
     }
     onSameLine(i1,j1,i2,j2,i3,j3)
     {
@@ -272,66 +323,118 @@ class Chess
         return true;
         return false;
     }
-    checkmate(parity)
+    restricted(saveri,saverj,badi,badj,parity)
     {
-        for(let i=0;i<8;i++)
-        for(let j=0;j<8;j++)
-        if(this.board[i][j].side[parity])
+        let who=new Array();
+        who[0]=0;
+        for(let i=0;i<this.size;i++)
+        if(this.onSameLine(saveri,saverj,badi,badj,this.kings[parity][i].i,this.kings[parity][i].j) && !this.pieceInBetween(saveri,saverj,this.kings[parity][i].i,this.kings[parity][i].j) && !this.pieceInBetween(saveri,saverj,badi,badj))
         {
-            this.checkMovement(i,j);
-            for(let squarei=0;squarei<8;squarei++)
-            for(let squarej=0;squarej<8;squarej++)
-            if(this.path[squarei][squarej])
-            {
-                this.clearPath();
-                return false;
-            }
-            this.clearPath();
+            who[0]++;
+            who.push(i);
         }
-        return true;
+        return who;
     }
     checkMovement(i,j)
     {
-        let parity=this.board[i][j].side[0]?0:1,check=0;
-        for(let squarei=0;squarei<8;squarei++)
-        for(let squarej=0;squarej<8;squarej++)
-        if(this.board[squarei][squarej].side[1-parity])
+        let parity=this.board[i][j].side,check=new Array(),checkedPiece=new Array(),badPiece=new Array();
+        checkedPiece[0]=0;
+        for(let ii=0;ii<size;ii++)
+        check[ii]=0;
+        for(let squarei=0;squarei<4+size*4;squarei++)
+        for(let squarej=0;squarej<size*8;squarej++)
+        if(this.board[squarei][squarej].side==1-parity)
         {
             this.checkPath(squarei,squarej,true);
-            if(this.path[this.kingi[parity]][this.kingj[parity]])
-            check++;
-            this.path[this.kingi[parity]][this.kingj[parity]]=false;
+            let done=false;
+            for(let ii=0;ii<size;ii++)
+            if(this.path[this.kings[parity][ii].i][this.kings[parity][ii].j])
+            {
+                if(!done)
+                badPiece.push([squarei,squarej]);
+                done=true;
+                check[ii]++;
+                this.path[this.kings[parity][ii].i][this.kings[parity][ii].j]=false;
+            }
         }
-        if(check>0)
-        this.path[this.kingi[parity]][this.kingj[parity]]=true;
-
-        let opponentPath=this.clonePath(this.path);
-        this.clearPath();
-        if(this.board[i][j].piece=="k")
+        for(let ii=0;ii<size;ii++)
+        if(check[ii]>0)
         {
-            this.king(i,j,false,opponentPath[i][j]);
-            for(let squarei=0;squarei<8;squarei++)
-            for(let squarej=0;squarej<8;squarej++)
-            this.path[squarei][squarej]=this.path[squarei][squarej] && !opponentPath[squarei][squarej] && (Math.abs(squarej-j)>1?!opponentPath[squarei][(squarej+j)/2]:true);
+            checkedPiece.push(ii);
+            if(checkedPiece[0]!=0)
+            checkedPiece[0]=-1;
+            else
+            checkedPiece[0]++;
+            this.path[this.kings[parity][ii].i][this.kings[parity][ii].j]=true;
+        }
+
+        if(checkedPiece[0]==-1 && badPiece.length>1)
+        {
+            this.clearPath();
             return;
         }
 
-        if(check>1)
+        let opponentPath=this.clonePath(this.path);
+        if(this.board[i][j].piece=="k" && (checkedPiece[0]<=0 || (this.kings[parity][checkedPiece[1]].i==i && this.kings[parity][checkedPiece[1]].j==j)))
+        {
+            this.king(i,j,false);
+            for(let squarei=0;squarei<4+size*4;squarei++)
+            for(let squarej=0;squarej<size*8;squarej++)
+            this.path[squarei][squarej]=this.path[squarei][squarej] && !opponentPath[squarei][squarej] && (checkedPiece[0]!=-1 || (badPiece[0][0]==squarei && badPiece[0][1]==squarej)) && (Math.abs(squarej-j)>1?!opponentPath[squarei][(squarej+j)/2]:true);
+            return;
+        }
+        this.clearPath();
+
+        if(this.board[i][j].piece=="k" || badPiece.length>1)
         return;
 
         this.checkPath(i,j,false);
+        if(checkedPiece[0]==-1)
+        {
+            let canEat=this.path[badPiece[0][0]][badPiece[0][1]];
+            this.clearPath();
+            this.path[badPiece[0][0]][badPiece[0][1]]=canEat;
+        }
+
         let selfPath=this.clonePath(this.path);
-        for(let squarei=0;squarei<8;squarei++)
-        for(let squarej=0;squarej<8;squarej++)
-        if(this.board[squarei][squarej].side[1-parity])
+        this.clearPath();
+        for(let squarei=0;squarei<4+size*4;squarei++)
+        for(let squarej=0;squarej<size*8;squarej++)
+        if(this.board[squarei][squarej].side==1-parity)
         {
             this.clearPath();
+            let who=this.restricted(i,j,squarei,squarej,parity);
+            if(who[0]>=2)
+            return;
+
+            let restrictedPath=this.clonePath(this.path);
             this.checkPath(squarei,squarej,false);
-            if((this.path[this.kingi[parity]][this.kingj[parity]]) || (this.path[i][j] && this.board[squarei][squarej].piece!="k" && this.board[squarei][squarej].piece!="p" && this.onSameLine(i,j,squarei,squarej,this.kingi[parity],this.kingj[parity]) && !this.pieceInBetween(i,j,this.kingi[parity],this.kingj[parity]) && !this.pieceInBetween(i,j,squarei,squarej)))
+
+            if(who[0]==1 && this.path[i][j] && this.board[squarei][squarej].piece!="k" && this.board[squarei][squarej].piece!="p")
             {
-                for(let toi=0;toi<8;toi++)
-                for(let toj=0;toj<8;toj++)
-                this.path[toi][toj]=selfPath[toi][toj] && ((toi==squarei && toj==squarej) || (this.path[toi][toj] && this.onSameLine(toi,toj,squarei,squarej,this.kingi[parity],this.kingj[parity]) && ((this.kingi[parity]<=toi && toi<=squarei) || (this.kingi[parity]>=toi && toi>=squarei)) && ((this.kingj[parity]<=toj && toj<=squarej) || (this.kingj[parity]>=toj && toj>=squarej))));
+                for(let toi=0;toi<4+size*4;toi++)
+                for(let toj=0;toj<size*8;toj++)
+                for(let ii=0;ii<size;ii++)
+                if(this.onSameLine(toi,toj,squarei,squarej,this.kings[parity][ii].i,this.kings[parity][ii].j) && selfPath[toi][toj] && ((squarei<=toi && toi<=this.kings[parity][ii].i) || (squarei>=toi && toi>=this.kings[parity][ii].i)) && ((squarej<=toj && toj<=this.kings[parity][ii].j) || (squarej>=toj && toj>=this.kings[parity][ii].j)))
+                restrictedPath[toi][toj]=true;
+                this.path=this.clonePath(restrictedPath);
+                return;
+            }
+            if(checkedPiece[0]==-1 && this.path[this.kings[parity][checkedPiece[1]].i][this.kings[parity][checkedPiece[1]].j])
+            {
+                for(let toi=0;toi<4+size*4;toi++)
+                for(let toj=0;toj<size*8;toj++)
+                restrictedPath[squarei][squarej]=selfPath[squarei][squarej];
+                this.path=this.clonePath(restrictedPath);
+                return;
+            }
+            if(checkedPiece[0]!=0 && this.path[this.kings[parity][checkedPiece[1]].i][this.kings[parity][checkedPiece[1]].j])
+            {
+                for(let toi=0;toi<4+size*4;toi++)
+                for(let toj=0;toj<size*8;toj++)
+                if(this.onSameLine(toi,toj,squarei,squarej,this.kings[parity][checkedPiece[1]].i,this.kings[parity][checkedPiece[1]].j) && selfPath[toi][toj] && ((squarei<=toi && toi<=this.kings[parity][checkedPiece[1]].i) || (squarei>=toi && toi>=this.kings[parity][checkedPiece[1]].i)) && ((squarej<=toj && toj<=this.kings[parity][checkedPiece[1]].j) || (squarej>=toj && toj>=this.kings[parity][checkedPiece[1]].j)))
+                restrictedPath[toi][toj]=true;
+                this.path=this.clonePath(restrictedPath);
                 return;
             }
         }
@@ -351,19 +454,22 @@ class Chess
                 break;
             case "q":this.queen(i,j,enemy);
                 break;
-            case "k":this.king(i,j,enemy,false);
+            case "k":this.king(i,j,enemy);
         }
     }
     pawn(i,j,enemy)
     {
-        let move=this.board[i][j].side[0]?-1:1;
-        if(!enemy && this.board[i+move][j].side[0]==this.board[i+move][j].side[1])
-        this.path[i+move][j]=true;
-        if(((move==1 && i==1) || (move==-1 && i==6)) && !enemy && this.board[i+move][j].side[0]==this.board[i+move][j].side[1] && this.board[i+move*2][j].side[0]==this.board[i+move*2][j].side[1])
-        this.path[i+move*2][j]=true;
-        if(j>0 && ((move==-1 && (this.board[i+move][j-1].side[1] || enemy)) || (move==1 && (this.board[i+move][j-1].side[0] || enemy)) || (this.enpi==i+move && this.enpj==j-1 && this.board[this.enpi-move][this.enpj].side[move==-1?1:0])))
+        let move=this.board[i][j].side==0?-1:1;
+        for(let till=1;till<=this.size*2;till++)
+        {
+            if(!enemy && this.board[i+move*till][j].side==-1)
+            this.path[i+move*till][j]=true;
+            if(!((move==1 && i==1) || (move==-1 && i==4+size*4-2)) || this.board[i+move*till][j].side!=-1)
+            break;
+        }
+        if(j>0 && ((move==-1 && (this.board[i+move][j-1].side==1 || enemy)) || (move==1 && (this.board[i+move][j-1].side==0 || enemy)) || (((this.enpFromi<=i+move && i+move<=this.enpToi) || (this.enpFromi>=i+move && i+move>=this.enpToi)) && this.enpj==j-1 && this.board[this.enpPiecei][this.enpPiecej].side==1-this.board[i][j].side)))
         this.path[i+move][j-1]=true;
-        if(j<7 && ((move==-1 && (this.board[i+move][j+1].side[1] || enemy)) || (move==1 && (this.board[i+move][j+1].side[0] || enemy)) || (this.enpi==i+move && this.enpj==j+1 && this.board[this.enpi-move][this.enpj].side[move==-1?1:0])))
+        if(j<7 && ((move==-1 && (this.board[i+move][j+1].side==1 || enemy)) || (move==1 && (this.board[i+move][j+1].side==0 || enemy)) || (((this.enpFromi<=i+move && i+move<=this.enpToi) || (this.enpFromi>=i+move && i+move>=this.enpToi)) && this.enpj==j+1 && this.board[this.enpPiecei][this.enpPiecej].side==1-this.board[i][j].side)))
         this.path[i+move][j+1]=true;
     }
     knight(i,j,enemy)
@@ -402,8 +508,10 @@ class Chess
         this.direction(i,j,0,+1,false,enemy);
         this.direction(i,j,+1,0,false,enemy);
     }
-    king(i,j,enemy,check)
+    king(i,j,enemy)
     {
+        let opponentPath=this.clonePath(this.path);
+        this.clearPath();
         this.direction(i,j,-1,-1,true,enemy);
         this.direction(i,j,-1,+1,true,enemy);
         this.direction(i,j,+1,-1,true,enemy);
@@ -412,47 +520,55 @@ class Chess
         this.direction(i,j,0,-1,true,enemy);
         this.direction(i,j,0,+1,true,enemy);
         this.direction(i,j,+1,0,true,enemy);
-        if(check)
-        return;
-        let parity=this.board[i][j].side[0]?0:1;
-        if(this.board[i][j].cast)
+        if(!opponentPath[i][j] && this.board[i][j].cast)
         {
-            if(this.board[i][0].cast && this.board[i][1].side[parity]==false && this.board[i][2].side[parity]==false && this.board[i][3].side[parity]==false)
-            this.path[i][j-2]=true;
-            if(this.board[i][7].cast && this.board[i][6].side[parity]==false && this.board[i][5].side[parity]==false)
-            this.path[i][j+2]=true;
+            if(this.board[i][j-4].cast && this.board[i][j-1].side==-1 && this.board[i][j-2].side==-1 && this.board[i][j-3].side==-1)
+            this.path[i][j-2]=opponentPath[i][j-1] && opponentPath[i][j-2];
+            if(this.board[i][j+3].cast && this.board[i][j+1].side==-1 && this.board[i][j+2].side==-1)
+            this.path[i][j+2]=opponentPath[i][j+1] && opponentPath[i][j+2];
         }
+        for(let squarei=0;squarei<4+size*4;squarei++)
+        for(let squarej=0;squarej<size*8;squarej++)
+        this.path[squarei][squarej]=this.path[squarei][squarej] || opponentPath[squarei][squarej];
     }
     direction(i,j,iteri,iterj,once,enemy)
     {
-        let parity=this.board[i][j].side[0]?0:1;
-        for(let move=1;i+iteri*move>=0 && i+iteri*move<8 && j+iterj*move>=0 && j+iterj*move<8;move++)
+        let parity=this.board[i][j].side;
+        for(let move=1;i+iteri*move>=0 && i+iteri*move<4+size*4 && j+iterj*move>=0 && j+iterj*move<size*8;move++)
         {
-            if(!this.board[i+iteri*move][j+iterj*move].side[parity] || enemy)
+            if(this.board[i+iteri*move][j+iterj*move].side!=parity || enemy)
             this.path[i+iteri*move][j+iterj*move]=true;
-            if(!(this.board[i+iteri*move][j+iterj*move].piece=="k" && this.board[i+iteri*move][j+iterj*move].side[1-parity]) && (this.board[i+iteri*move][j+iterj*move].side[parity]!=this.board[i+iteri*move][j+iterj*move].side[1-parity] || once))
+            if(!(this.board[i+iteri*move][j+iterj*move].piece=="k" && this.board[i+iteri*move][j+iterj*move].side==1-parity) && (this.board[i+iteri*move][j+iterj*move].side!=-1 || once))
             break;
         }
     }
     movePiece(fromi,fromj,toi,toj)
     {
-        this.point+=(this.board[toi][toj].side[0] && this.side==0) || (this.board[toi][toj].side[1] && this.side==1)?this.getPoint(this.board[toi][toj].piece):-this.getPoint(this.board[toi][toj].piece);
+        this.point+=this.board[toi][toj].side==this.side?this.getPoint(this.board[toi][toj].piece):-this.getPoint(this.board[toi][toj].piece);
         this.board[toi][toj]=this.board[fromi][fromj].clone();
         this.board[fromi][fromj]=new Square();
-        if(this.enpi==toi && this.enpj==toj && this.board[toi][toj].piece=="p")
-        this.board[fromi][toj]=new Square();
-        this.enpi=this.enpj=-1;
-        if(this.board[toi][toj].piece=="p")
-        if(Math.abs(toi-fromi)==2)
+
+        if(((this.enpFromi<=toi && toi<=this.enpToi) || (this.enpFromi<=toi && toi<=this.enpToi)) && this.enpj==toj && this.board[toi][toj].piece=="p")
+        this.board[this.enpPiecei][this.enpPiecej]=new Square();
+        this.enpPiecei=this.enpPiecej=this.enpFromi=this.enpToi=this.enpj=-1;
+        
+        if(this.board[toi][toj].piece=="p" && Math.abs(toi-fromi)>=2)
         {
-            this.enpi=(toi+fromi)/2;
+            this.enpPiecei=toi;
+            this.enpPiecej=toj;
+            this.enpFromi=toi>fromi?fromi+1:fromi-1;
+            this.enpToi=toi>fromi?toi-1:toi+1;
             this.enpj=toj;
         }
         if(this.board[toi][toj].piece=="k")
         {
-            let parity=this.board[toi][toj].side[0]?0:1;
-            this.kingi[parity]=toi;
-            this.kingj[parity]=toj;
+            let parity=this.board[toi][toj].side;
+            for(let ii=0;ii<this.size;ii++)
+            if(this.kings[parity][ii].i==fromi && this.kings[parity][ii].j==fromj)
+            {
+                this.kings[parity][ii].i=toi;
+                this.kings[parity][ii].j=toj;
+            }
             if(Math.abs(toj-fromj)==2)
             if(toj==2)
             {
@@ -474,42 +590,42 @@ class Chess
         if(typeof to==="number")
         switch(to)
         {
-            case 1:this.board[i][j].setSquare("b",this.board[i][j].side[0]?0:1);
+            case 1:this.board[i][j].setSquare("b",this.board[i][j].side);
                 break;
-            case 2:this.board[i][j].setSquare("n",this.board[i][j].side[0]?0:1);
+            case 2:this.board[i][j].setSquare("n",this.board[i][j].side);
                 break;
-            case 3:this.board[i][j].setSquare("r",this.board[i][j].side[0]?0:1);
+            case 3:this.board[i][j].setSquare("r",this.board[i][j].side);
                 break;
-            case 4:this.board[i][j].setSquare("q",this.board[i][j].side[0]?0:1);
+            case 4:this.board[i][j].setSquare("q",this.board[i][j].side);
         }
         else
-        this.board[i][j].setSquare(to,this.board[i][j].side[0]?0:1);
-        this.point+=(this.board[i][j].side[0] && this.side==0) || (this.board[i][j].side[1] && this.side==1)?-this.getPoint(this.board[i][j].piece):this.getPoint(this.board[i][j].piece);
+        this.board[i][j].setSquare(to,this.board[i][j].side);
+        this.point+=this.board[i][j].side==this.side?-this.getPoint(this.board[i][j].piece):this.getPoint(this.board[i][j].piece);
     }
     computeBest(times,computer)
     {
         if(times==0)
         return this.point;
 
-        let pointList=new Array(),bestPoint=undefined,whiteTurn=false,blackTurn=false;
+        let pointList=new Array(),bestPoint=undefined,turn=0;
         if((this.side==0 && computer) || (this.side==1 && !computer))
-        blackTurn=true;
+        turn=1;
         else
-        whiteTurn=true;
-        for(let i=0;i<8;i++)
-        for(let j=0;j<8;j++)
-        if((this.board[i][j].side[0] && whiteTurn) || (this.board[i][j].side[1] && blackTurn))
+        turn=0;
+        for(let i=0;i<4+size*4;i++)
+        for(let j=0;j<size*8;j++)
+        if(this.board[i][j].side==turn)
         {
             this.checkMovement(i,j);
-            for(let squarei=0;squarei<8;squarei++)
-            for(let squarej=0;squarej<8;squarej++)
+            for(let squarei=0;squarei<4+size*4;squarei++)
+            for(let squarej=0;squarej<size*8;squarej++)
             if(this.path[squarei][squarej])
             for(let promo=0;promo<4;promo++)
             {
                 let newMove=this.clone();
                 newMove.clearPath();
                 newMove.movePiece(i,j,squarei,squarej);
-                if(newMove.board[squarei][squarej].piece=="p" && (squarei==0 || squarei==7))
+                if(newMove.board[squarei][squarej].piece=="p" && (squarei==0 || squarei==4+size*4-1))
                 {
                     newMove.promote(squarei,squarej,promo+1);
                     let newPoint=newMove.computeBest(times-1,!computer);
@@ -531,8 +647,12 @@ class Chess
         if(bestPoint==undefined)
         if(times==this.level)
         return;
+        else if(computer)
+        return this.point-100;
+        else if(this.checkmate(this.side)==0)
+        return this.point-2;
         else
-        return computer?this.point-100:this.point+100;
+        return this.point+100;
 
         if(times!=this.level)
         return bestPoint;
@@ -547,18 +667,18 @@ class Chess
             if(pointList[i][4]>0)
             {
                 this.promote(pointList[i][2],pointList[i][3],pointList[i][4]);
-                document.getElementById("label").innerText=cut+String.fromCharCode(pointList[i][3]+97)+(8-pointList[i][2])+" = "+this.board[pointList[i][2]][pointList[i][3]].piece.toUpperCase()+" was played";
+                document.getElementById("label").innerText=cut+String.fromCharCode(pointList[i][3]+97)+(4+size*4-pointList[i][2])+" = "+this.board[pointList[i][2]][pointList[i][3]].piece.toUpperCase()+" was played";
             }
             else
-            document.getElementById("label").innerText=""+(this.board[pointList[i][2]][pointList[i][3]].piece=="p"?"":this.board[pointList[i][2]][pointList[i][3]].piece.toUpperCase())+cut+String.fromCharCode(pointList[i][3]+97)+(8-pointList[i][2])+" was played";
+            document.getElementById("label").innerText=""+(this.board[pointList[i][2]][pointList[i][3]].piece=="p"?"":this.board[pointList[i][2]][pointList[i][3]].piece.toUpperCase())+cut+String.fromCharCode(pointList[i][3]+97)+(4+size*4-pointList[i][2])+" was played";
             return;
         }
     }
 }
-let side,currentmove,tempmove,previousmove,nextmove,clicki,clickj,askPromo,end;
+let size,side,currentmove,tempmove,previousmove,nextmove,clicki,clickj,askPromo,end;
 function doTask()
 {
-    if(currentmove.checkmate(1-side))
+    if(currentmove.checkmate(1-side)!=-1)
     {
         document.getElementById("label").innerText="Good heavens! You win :D";
         end=true;
@@ -566,7 +686,7 @@ function doTask()
     else
     {
         currentmove.computeBest(currentmove.level,true);
-        if(currentmove.checkmate(side))
+        if(currentmove.checkmate(side)!=-1)
         {
             document.getElementById("label").innerText="Sorry amigo! You lose D:";
             end=true;
@@ -580,24 +700,108 @@ function doTask()
 }
 function start()
 {
+    document.getElementById("sidetype").remove();
+    document.getElementById("optiongroup").style.visibility="visible";
+    document.getElementById("optiongroup").style.display="flex";
+    let table=document.createElement("table");
+    table.id="board";
+    document.body.insertBefore(table,document.getElementById("optiongroup"));
+    table.createTBody();
+    let span=""+Math.floor(69*8/(4+size*4))+"px";
+    for(let i=0;i<4+size*4;i++)
+    {
+        let tr=document.createElement("tr");
+        table.tBodies[0].appendChild(tr);
+        let tdl=document.createElement("td");
+        tr.appendChild(tdl);
+        tdl.id=`number${i}`;
+        tdl.classList.add("label");
+        tdl.style.fontSize=""+(1.3-size/10)+"rem";
+        tdl.style.height=span;
+        tdl.style.width=span;
+        tdl.innerText=""+side==0?(4+size*4-i):(i+1);
+        for(let j=0;j<size*8;j++)
+        {
+            let td=document.createElement("td");
+            tr.appendChild(td);
+            td.id=`${i}td${j}`;
+            td.classList.add("matrix");
+            td.style.height=td.style.width=span;
+            let img=document.createElement("img");
+            td.appendChild(img);
+            img.id=`${i}img${j}`;
+            if((i+j)%2==0)
+            document.getElementById(`${i}td${j}`).classList.add("whitebox");
+            else
+            document.getElementById(`${i}td${j}`).classList.add("blackbox");
+        }
+    }
+    let tr=document.createElement("tr");
+    table.tBodies[0].appendChild(tr);
+    let tdl=document.createElement("td");
+    tr.appendChild(tdl);
+    tdl.style.height=tdl.style.width=span;
+    for(let i=0;i<size*8;i++)
+    {
+        let td=document.createElement("td");
+        tr.appendChild(td);
+        td.id=`letter${i}`;
+        td.classList.add("label");
+        td.style.fontSize=""+(1.3-size/10)+"rem";
+        td.style.height=td.style.width=span;
+        td.innerText=""+side==0?String.fromCharCode(i+97):String.fromCharCode((size*8-1-i)+97);
+    }
     document.getElementById("label").innerText="Click on the corresponding piece to move. Press U to undo and R to redo.";
     document.getElementById("optiongroup").style.visibility="visible";
-    for(let i=0;i<8;i++)
-    document.getElementById(`number${i}`).innerText=""+side==0?(8-i):(i+1);
-    for(let i=0;i<8;i++)
-    document.getElementById(`letter${i}`).innerText=""+side==0?String.fromCharCode(i+97):String.fromCharCode((7-i)+97);
     document.getElementById("bishopi").src=new Bishop().src[side];
     document.getElementById("knighti").src=new Knight().src[side];
     document.getElementById("rooki").src=new Rook().src[side];
     document.getElementById("queeni").src=new Queen().src[side];
 
-    currentmove=new Chess(side,3);
+    currentmove=new Chess(size,side,4-size);
     currentmove.setBoard();
     if(side==1)
     currentmove.computeBest(currentmove.level,true);
     currentmove.show();
 
     tempmove=currentmove.clone(),previousmove=undefined,nextmove=undefined,clicki=-1,clickj=-1,askPromo=false,end=false;
+
+    for(let i=0;i<4+size*4;i++)
+    for(let j=0;j<size*8;j++)
+    document.getElementById(`${side==0?i:4+size*4-1-i}td${side==0?j:size*8-1-j}`).addEventListener("click",function(event)
+    {
+        if(!askPromo && !end)
+        if(currentmove.path[i][j])
+        {
+            currentmove.movePiece(clicki,clickj,i,j);
+            currentmove.clearPath();
+            if(currentmove.board[i][j].piece=="p" && (i==0 || i==4+size*4-1))
+            {
+                askPromo=true;
+                document.getElementById("promo").style.visibility="visible";
+                document.getElementById("promo").style.display="flex";
+                clicki=i;
+                clickj=j;
+            }
+            else
+            doTask();
+        }
+        else if(clicki==i && clickj==j)
+        {
+            currentmove.clearPath();
+            clicki=clickj=-1;
+        }
+        else
+        {
+            currentmove.clearPath();
+            if(currentmove.board[i][j].side==side)
+            currentmove.checkMovement(i,j);
+            clicki=i;
+            clickj=j;
+        }
+        currentmove.show();
+    }
+    );
 
     document.getElementById("bishop").addEventListener("click",function(event)
     {
@@ -631,47 +835,6 @@ function start()
         document.getElementById("promo").style.visibility="hidden";
     }
     );
-    for(let i=0;i<8;i++)
-    for(let j=0;j<8;j++)
-    {
-        if((i+j)%2==0)
-        document.getElementById(`td${i}${j}`).classList.add("whitebox");
-        else
-        document.getElementById(`td${i}${j}`).classList.add("blackbox");
-        document.getElementById(`td${side==0?i:7-i}${side==0?j:7-j}`).addEventListener("click",function(event)
-        {
-            if(!askPromo && !end)
-            if(currentmove.path[i][j])
-            {
-                currentmove.movePiece(clicki,clickj,i,j);
-                currentmove.clearPath();
-                if(currentmove.board[i][j].piece=="p" && (i==0 || i==7))
-                {
-                    askPromo=true;
-                    document.getElementById("promo").style.visibility="visible";
-                    clicki=i;
-                    clickj=j;
-                }
-                else
-                doTask();
-            }
-            else if(clicki==i && clickj==j)
-            {
-                currentmove.clearPath();
-                clicki=clickj=-1;
-            }
-            else
-            {
-                currentmove.clearPath();
-                if(currentmove.board[i][j].side[side])
-                currentmove.checkMovement(i,j);
-                clicki=i;
-                clickj=j;
-            }
-            currentmove.show();
-        }
-        );
-    }
     document.getElementById("undo").addEventListener("click",function(event)
     {
         if(askPromo)
@@ -753,28 +916,66 @@ function start()
 }
 function ChessMain()
 {
-    let board=document.getElementById("board");
-    let options=document.getElementById("optiongroup");
-    let promos=document.getElementById("promo");
-    board.remove();
-    options.remove();
-    promos.remove();
+    let duh=0,time;
+    document.getElementById("single").addEventListener("click",function(event)
+    {
+        document.getElementById("label").innerText="Choose your side";
+        document.getElementById("chesstype").remove();
+        document.getElementById("sidetype").style.visibility="visible";
+        document.getElementById("sidetype").style.display="unset";
+        size=1;
+        duh++;
+    }
+    );
+    document.getElementById("double").addEventListener("click",function(event)
+    {
+        document.getElementById("label").innerText="Choose your side";
+        document.getElementById("chesstype").remove();
+        document.getElementById("sidetype").style.visibility="visible";
+        document.getElementById("sidetype").style.display="unset";
+        size=2;
+        duh++;
+    }
+    );
+    window.addEventListener("keydown",function(event)
+    {
+        if((event.code=="Enter" || event.code=="NumpadEnter") && duh==0)
+        {
+            document.getElementById("label").innerText="Choose your side";
+            document.getElementById("chesstype").remove();
+            document.getElementById("sidetype").style.visibility="visible";
+            document.getElementById("sidetype").style.display="unset";
+            size=3;
+            duh++;
+        }
+    }
+    );
+    window.addEventListener("touchstart",function(event)
+    {
+        time=new Date().getTime();
+    }
+    );
+    window.addEventListener("touchend",function(event)
+    {
+        if(duh==0 && new Date().getTime()-time>3000)
+        {
+            document.getElementById("label").innerText="Choose your side";
+            document.getElementById("chesstype").remove();
+            document.getElementById("sidetype").style.visibility="visible";
+            document.getElementById("sidetype").style.display="unset";
+            size=3;
+            duh++;
+        }
+    }
+    );
     document.getElementById("white").addEventListener("click",function(event)
     {
-        document.getElementById("done").remove();
-        document.body.appendChild(board);
-        document.body.appendChild(options);
-        document.body.appendChild(promos);
         side=0;
         start();
     }
     );
     document.getElementById("black").addEventListener("click",function(event)
     {
-        document.getElementById("done").remove();
-        document.body.appendChild(board);
-        document.body.appendChild(options);
-        document.body.appendChild(promos);
         side=1;
         start();
     }

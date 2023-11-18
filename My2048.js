@@ -1,4 +1,4 @@
-let current,previous,next,currentcheck,win,lose,hmmm;
+let value,current,previous,next,currentcheck,win,lose,hmmm;
 function r(min,max)
 {
     return Math.floor(Math.random()*(max-min+1)+min);
@@ -28,18 +28,20 @@ function display()
         document.getElementById(`${i}${j}`).innerText=``;
         else
         document.getElementById(`${i}${j}`).innerText=`${current[i][j]}`;
-        if(current[i][j]==2)
+        if(current[i][j]==1)
         document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,255,204,0.6)";
-        else if(current[i][j]==4)
+        else if(current[i][j]==2)
         document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,255,153,0.6)";
-        else if(current[i][j]==8)
+        else if(current[i][j]==4)
         document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,255,102,0.6)";
-        else if(current[i][j]==16)
+        else if(current[i][j]==8)
         document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,255,51,0.6)";
+        else if(current[i][j]==16)
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,238,15,0.6)";
         else if(current[i][j]==32)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,230,0,0.6)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,215,0,0.6)";
         else if(current[i][j]==64)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,205,0,0.6)";
+        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,196,0,0.6)";
         else if(current[i][j]==128)
         document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,162,0,0.6)";
         else if(current[i][j]==256)
@@ -60,8 +62,8 @@ function display()
         document.getElementById(`${i}${j}`).style.backgroundColor="rgba(45,20,0,0.6)";
         else if(current[i][j]==8192*8)
         document.getElementById(`${i}${j}`).style.backgroundColor="rgba(0,16,0,0.6)";
-        else if(current[i][j]==8192*16)
-        document.getElementById(`${i}${j}`).style.backgroundColor="rgba(0,0,0,0.6)";
+        // else if(current[i][j]==8192*16)
+        // document.getElementById(`${i}${j}`).style.backgroundColor="rgba(0,0,0,0.6)";
         else
         document.getElementById(`${i}${j}`).style.backgroundColor="rgba(255,255,255,0.6)";
     }
@@ -75,10 +77,10 @@ function generate()
         j=r(0,3);
     }
     while(current[i][j]!=0);
-    if(r(0,4)==4)
-    current[i][j]=4;
+    if(r(0,4)==value*2)
+    current[i][j]=value*2;
     else
-    current[i][j]=2;
+    current[i][j]=value;
 }
 function highest()
 {
@@ -232,11 +234,11 @@ function change()
 }
 function lol()
 {
-    let c=2;
+    let c=1;
     for(let i=0;i<4;i++)
     if(i%2==0)
     for(let j=0;j<4;j++,c*=2)
-    current[i][j]=Math.max(4,c);
+    current[i][j]=Math.max(2,c);
     else
     for(let j=3;j>=0;j--,c*=2)
     current[i][j]=c;
@@ -246,7 +248,7 @@ function operation()
     if(hmmm=="LLUUDDRR")
     lol();
     display();
-    if(checkwin() && win==Math.pow(2,17))
+    if(checkwin() && win==Math.pow(2,16))
     document.getElementById("label").innerText="Congratulations for fully completing the game! "+win+" is the last tile you can reach here. Hope you had great enjoyment while playing my game :D";
     else if(checkwin())
     {
@@ -257,8 +259,12 @@ function operation()
     document.getElementById("label").innerText="Sorry, game is over. You can undo though";
     lose=false;
 }
-function My2048Main()
+function start()
 {
+    document.getElementById("leveltype").remove();
+    document.getElementById("showlater").style.visibility="visible";
+    document.getElementById("showlater").style.display="block";
+
     let table=document.createElement("table");
     document.getElementById("playground").appendChild(table);
     table.classList.add("board");
@@ -451,6 +457,21 @@ function My2048Main()
             win=Math.max(2048,highest()*2);
         }
         operation();
+    }
+    );
+}
+function My2048Main()
+{
+    document.getElementById("two").addEventListener("click",function(event)
+    {
+        value=2;
+        start();
+    }
+    );
+    document.getElementById("one").addEventListener("click",function(event)
+    {
+        value=1;
+        start();
     }
     );
 }
