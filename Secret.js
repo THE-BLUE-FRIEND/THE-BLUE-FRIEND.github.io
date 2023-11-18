@@ -31,7 +31,7 @@ function SecretMain()
         for(let j=size*3-i+size-4;j<size*3-i+size-4+size+2*i;j++)
         document.getElementById(`${i}td${j}`).style.backgroundColor="rgb(255,0,0)";
     }
-    let love="I Love You";
+    let love="I Love My";
     for(let i=size;i<size*2-1;i++)
     {
         for(let j=0;j<(size*6-5);j++)
