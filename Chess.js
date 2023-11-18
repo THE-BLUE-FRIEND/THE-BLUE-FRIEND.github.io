@@ -602,7 +602,7 @@ class Chess
     }
     computeBest(times,computer)
     {
-        // if(times==0)
+        if(times==0)
         return this.point;
 
         let pointList=new Array(),bestPoint=undefined,turn=0;
@@ -768,7 +768,7 @@ function start()
     for(let j=0;j<size*8;j++)
     document.getElementById(`${side==0?i:4+size*4-1-i}td${side==0?j:size*8-1-j}`).addEventListener("click",function(event)
     {
-        // if(!askPromo && !end)
+        if(!askPromo && !end)
         if(currentmove.path[i][j])
         {
             currentmove.movePiece(clicki,clickj,i,j);
@@ -792,7 +792,7 @@ function start()
         else
         {
             currentmove.clearPath();
-            // if(currentmove.board[i][j].side==side)
+            if(currentmove.board[i][j].side==side)
             currentmove.checkMovement(i,j);
             clicki=i;
             clickj=j;
