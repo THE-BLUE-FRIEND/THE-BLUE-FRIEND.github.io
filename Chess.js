@@ -521,9 +521,9 @@ class Chess
         if(!opponentPath[i][j] && this.board[i][j].cast)
         {
             if(this.board[i][j-4].cast && this.board[i][j-1].side==-1 && this.board[i][j-2].side==-1 && this.board[i][j-3].side==-1)
-            this.path[i][j-2]=opponentPath[i][j-1] && opponentPath[i][j-2];
+            this.path[i][j-2]=!opponentPath[i][j-1] && !opponentPath[i][j-2];
             if(this.board[i][j+3].cast && this.board[i][j+1].side==-1 && this.board[i][j+2].side==-1)
-            this.path[i][j+2]=opponentPath[i][j+1] && opponentPath[i][j+2];
+            this.path[i][j+2]=!opponentPath[i][j+1] && !opponentPath[i][j+2];
         }
         for(let squarei=0;squarei<4+size*4;squarei++)
         for(let squarej=0;squarej<size*8;squarej++)
