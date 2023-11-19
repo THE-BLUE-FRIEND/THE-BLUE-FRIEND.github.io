@@ -41,7 +41,7 @@ function SecretMain()
         document.getElementById(`${i}td${j}`).innerText=""+love.charAt(Math.floor(j-((size*6-5)-love.length)/2));
         else if(i==size+Math.floor(size/2)+1)
         for(let j=Math.floor(((size*6-5)-name.length)/2);j<((size*6-5)+name.length)/2;j++)
-        document.getElementById(`${i}td${j}`).innerText=""+name.charAt(Math.floor(j-((size*6-5)-name.length)/2));
+        document.getElementById(`${i}td${j}`).innerText=""+name.charAt(Math.floor(j-((size*6-5)-name.length-1)/2));
     }
     for(let i=size*2-1;i<size*2-3+5*size/2;i++)
     for(let j=i-(size*2-1)+1;j<(size*6-5)-(i-(size*2-1)+1);j++)

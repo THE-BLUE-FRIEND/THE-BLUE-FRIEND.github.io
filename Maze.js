@@ -382,7 +382,7 @@ function MazeMain()
         if(row==0)
         document.getElementById("label").innerText="You can't go back coward";
         else if(matrix[row-1][col]==String.fromCharCode(9632))
-        document.getElementById("label").innerText="You can't go that side. There's a wall";
+        document.getElementById("label").innerText="You can't go that side. There's a wall.";
         else
         {
             document.getElementById("label").innerText="Up";
@@ -406,7 +406,7 @@ function MazeMain()
         if(col==0)
         document.getElementById("label").innerText="You can't go back coward";
         else if(matrix[row][col-1]==String.fromCharCode(9632))
-        document.getElementById("label").innerText="You can't go that side. There's a wall";
+        document.getElementById("label").innerText="You can't go that side. There's a wall.";
         else
         {
             document.getElementById("label").innerText="Left";
@@ -430,7 +430,7 @@ function MazeMain()
         if(row==matrix.length-1)
         document.getElementById("label").innerText="You can't go back coward";
         else if(matrix[row+1][col]==String.fromCharCode(9632))
-        document.getElementById("label").innerText="You can't go that side. There's a wall";
+        document.getElementById("label").innerText="You can't go that side. There's a wall.";
         else
         {
             document.getElementById("label").innerText="Down";
@@ -454,7 +454,7 @@ function MazeMain()
         if(col==matrix[0].length-1)
         document.getElementById("label").innerText="You can't go back coward";
         else if(matrix[row][col+1]==String.fromCharCode(9632))
-        document.getElementById("label").innerText="You can't go that side. There's a wall";
+        document.getElementById("label").innerText="You can't go that side. There's a wall.";
         else
         {
             document.getElementById("label").innerText="Down";
@@ -485,7 +485,7 @@ function MazeMain()
             if(row==0)
             document.getElementById("label").innerText="You can't go back coward";
             else if(matrix[row-1][col]==String.fromCharCode(9632))
-            document.getElementById("label").innerText="You can't go that side. There's a wall";
+            document.getElementById("label").innerText="You can't go that side. There's a wall.";
             else
             {
                 document.getElementById("label").innerText="Up";
@@ -499,7 +499,7 @@ function MazeMain()
             if(col==0)
             document.getElementById("label").innerText="You can't go back coward";
             else if(matrix[row][col-1]==String.fromCharCode(9632))
-            document.getElementById("label").innerText="You can't go that side. There's a wall";
+            document.getElementById("label").innerText="You can't go that side. There's a wall.";
             else
             {
                 document.getElementById("label").innerText="Left";
@@ -513,7 +513,7 @@ function MazeMain()
             if(row==matrix.length-1)
             document.getElementById("label").innerText="You can't go back coward";
             else if(matrix[row+1][col]==String.fromCharCode(9632))
-            document.getElementById("label").innerText="You can't go that side. There's a wall";
+            document.getElementById("label").innerText="You can't go that side. There's a wall.";
             else
             {
                 document.getElementById("label").innerText="Down";
@@ -527,7 +527,7 @@ function MazeMain()
             if(col==matrix[0].length-1)
             document.getElementById("label").innerText="You can't go back coward";
             else if(matrix[row][col+1]==String.fromCharCode(9632))
-            document.getElementById("label").innerText="You can't go that side. There's a wall";
+            document.getElementById("label").innerText="You can't go that side. There's a wall.";
             else
             {
                 document.getElementById("label").innerText="Down";

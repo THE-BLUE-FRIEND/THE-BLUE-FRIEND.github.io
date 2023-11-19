@@ -311,6 +311,7 @@ function start()
     rightarrow.classList.add("move");
     rightarrow.id="right";
     rightarrow.innerText="➜";
+    document.getElementById("label").innerText="Press W,A,S,D or 8,4,2,6 or arrow keys to play. Press U to undo and R to redo.";
 
     current=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
     win=2048;
