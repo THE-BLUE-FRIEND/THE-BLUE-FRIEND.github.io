@@ -240,7 +240,7 @@ class Chess
         for(let side=0;side<2;side++)
         for(let n=0;n<this.size;n++)
         for(let c=0;c<this.kings[side][n].checker.length;c++)
-        if(!this.pieceInBetween(this.kings[side][n].i,this.kings[side][n].j,this.kings[side][n].checker[c][0],this.kings[side][n].checker[c][1]))
+        if(this.board[this.kings[side][n].checker[c][0]][this.kings[side][n].checker[c][1]].piece=="n" || !this.pieceInBetween(this.kings[side][n].i,this.kings[side][n].j,this.kings[side][n].checker[c][0],this.kings[side][n].checker[c][1]))
         {
             checkPath[this.kings[side][n].i][this.kings[side][n].j]=true;
             break;
@@ -404,6 +404,11 @@ class Chess
             this.path[squarei][squarej]=this.path[squarei][squarej] && (this.onSameLine(this.kings[parity][n].threat[t][0],this.kings[parity][n].threat[t][1],squarei,squarej,i,j) || this.onSameLine(i,j,squarei,squarej,this.kings[parity][n].i,this.kings[parity][n].j));
 
             if(this.kings[parity][n].checker.length>0)
+            if(this.board[badPiece[0]][badPiece[1]].piece=="n")
+            for(let squarei=0;squarei<4+this.size*4;squarei++)
+            for(let squarej=0;squarej<this.size*8;squarej++)
+            this.path[squarei][squarej]=this.path[squarei][squarej] && squarei==badPiece[0] && squarej==badPiece[1];
+            else
             for(let squarei=0;squarei<4+this.size*4;squarei++)
             for(let squarej=0;squarej<this.size*8;squarej++)
             this.path[squarei][squarej]=this.path[squarei][squarej] && this.onSameLine(badPiece[0],badPiece[1],squarei,squarej,this.kings[parity][n].i,this.kings[parity][n].j);
@@ -832,7 +837,7 @@ function start()
         else
         {
             currentmove.clearPath();
-            if(currentmove.board[i][j].side==side)
+            if(currentmove.board[i][j].side==currentmove.side)
             currentmove.checkMovement(i,j);
             clicki=i;
             clickj=j;
