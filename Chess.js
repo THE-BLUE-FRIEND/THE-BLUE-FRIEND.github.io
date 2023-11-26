@@ -281,6 +281,21 @@ class Chess
         for(let j=0;j<this.size*8;j++)
         this.path[i][j]=false;
     }
+    draw()
+    {
+        let parity=new Array();
+        parity[0]="";
+        parity[1]="";
+        for(let i=0;i<4+this.size*4;i++)
+        for(let j=0;j<this.size*8;j++)
+        if(this.board[i][j].side!=-1)
+        parity[this.board[i][j].side]=parity[this.board[i][j].side]+this.board[i][j].piece;
+        parity[0]=parity[0].split("").sort().join("");
+        parity[1]=parity[1].split("").sort().join("");
+        if(((parity[0]=="k" || parity[0]=="bk" || parity[0]=="kn") && (parity[1]=="k" || parity[1]=="bk" || parity[1]=="kn")) || (parity[0]=="k" && parity[1]=="knn") || (parity[1]=="k" && parity[0]=="knn"))
+        return true;
+        return false;
+    }
     checkmate(parity)
     {
         let check=0;
@@ -691,7 +706,12 @@ class Chess
 let size,side,currentmove,tempmove,previousmove,nextmove,clicki,clickj,askPromo,end;
 function doTask()
 {
-    if(currentmove.checkmate(1-side)!=-1)
+    if(currentmove.draw())
+    {
+        document.getElementById("label").innerText="The game is a draw :/";
+        end=true;
+    }
+    else if(currentmove.checkmate(1-side)!=-1)
     {
         document.getElementById("label").innerText="Good heavens! You win :D";
         end=true;
@@ -699,7 +719,12 @@ function doTask()
     else
     {
         currentmove.computeBest(currentmove.level,true);
-        if(currentmove.checkmate(side)!=-1)
+        if(currentmove.draw())
+        {
+            document.getElementById("label").innerText="The game is a draw :/";
+            end=true;
+        }
+        else if(currentmove.checkmate(side)!=-1)
         {
             document.getElementById("label").innerText="Sorry amigo! You lose D:";
             end=true;
