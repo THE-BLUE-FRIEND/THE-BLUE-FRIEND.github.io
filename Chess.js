@@ -55,6 +55,15 @@ class King
         this.checker=new Array();
         this.threat=new Array();
     }
+    clone()
+    {
+        let k=new King();
+        k.i=this.i;
+        k.j=this.j;
+        k.checker=JSON.parse(JSON.stringify(this.checker));
+        k.threat=JSON.parse(JSON.stringify(this.threat));
+        return k;
+    }
 }
 class Square
 {
@@ -124,8 +133,8 @@ class Chess
         this.kings[1]=new Array();
         for(let i=0;i<this.size;i++)
         {
-            this.kings[0][i]=new King()
-            this.kings[1][i]=new King()
+            this.kings[0][i]=new King();
+            this.kings[1][i]=new King();
         }
         this.enpPiecei=-1;
         this.enpPiecej=-1;
@@ -144,11 +153,10 @@ class Chess
         ch.side=this.side;
         ch.point=this.point;
         ch.level=this.level;
-        for(let i=0;i<2;i++)
-        for(let j=0;j<this.size;j++)
+        for(let i=0;i<this.size;i++)
         {
-            ch.kings[i][j].i=this.kings[i][j].i;
-            ch.kings[i][j].j=this.kings[i][j].j;
+            ch.kings[0][i]=this.kings[0][i].clone();
+            ch.kings[1][i]=this.kings[1][i].clone();
         }
         ch.enpPiecei=this.enpPiecei;
         ch.enpPiecej=this.enpPiecej;
