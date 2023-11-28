@@ -308,17 +308,9 @@ function MazeMain()
     for(let i=0;i<4;i++)
     group[i].style.visibility="visible";
     document.getElementById("enter").remove();
-    try
-    {
-        if(h=="")
-        h=rm(8,42);
-        else
-        h=parseInt(h);
-    }
-    catch(e)
-    {
-        h=rm(8,42);
-    }
+    h=parseInt(h);
+    if(isNaN(h))
+    h=rm(8,42);
     if(h<8)
     h=8;
     else if(h>133)

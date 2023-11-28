@@ -384,17 +384,9 @@ function SudokuMain()
     boxi=boxj=num=option=-1;
     hexa=false;
     let c=0;
-    try
-    {
-        if(size=="")
-        size=rm(2,5);
-        else
-        size=parseInt(size);
-    }
-    catch(e)
-    {
-        size=rm(2,5);
-    }
+    size=parseInt(size);
+    if(isNaN(size))
+    size=rm(2,5);
     if(size<2)
     {
         document.getElementById("label").innerText="Oop! Size too smol lol. Play at 2.";
