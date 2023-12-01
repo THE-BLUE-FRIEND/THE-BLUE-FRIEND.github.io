@@ -99,6 +99,14 @@ function checkcompletemap()
     return false;
     return true;
 }
+function checkcompleteboard()
+{
+    for(let i=0;i<size*size;i++)
+    for(let j=0;j<size*size;j++)
+    if(user[i][j]==0)
+    return false;
+    return true;
+}
 function initializemap()
 {
     for(let i=0;i<size*size;i++)
@@ -595,6 +603,8 @@ function SudokuMain()
                 }
                 if(checkequalboard(answer,user))
                 document.getElementById("label").innerText="Congratulations! You've completed my sudoku! Thank you for playing <3";
+                else if(checkcompleteboard())
+                document.getElementById("label").innerText="Your solution is not correct";
             }
             else
             document.getElementById("label").innerText="That space is occupied by default. Sorry lol";
