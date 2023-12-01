@@ -474,6 +474,7 @@ function MazeMain()
     {
         if(event.code=="ArrowUp"||event.code=="KeyW"||event.code=="Numpad8")
         {
+            event.preventDefault();
             if(row==0)
             document.getElementById("label").innerText="You can't go back coward";
             else if(matrix[row-1][col]==String.fromCharCode(9632))
@@ -488,6 +489,7 @@ function MazeMain()
         }
         else if(event.code=="ArrowLeft"||event.code=="KeyA"||event.code=="Numpad4")
         {
+            event.preventDefault();
             if(col==0)
             document.getElementById("label").innerText="You can't go back coward";
             else if(matrix[row][col-1]==String.fromCharCode(9632))
@@ -502,6 +504,7 @@ function MazeMain()
         }
         else if(event.code=="ArrowDown"||event.code=="KeyS"||event.code=="Numpad2")
         {
+            event.preventDefault();
             if(row==matrix.length-1)
             document.getElementById("label").innerText="You can't go back coward";
             else if(matrix[row+1][col]==String.fromCharCode(9632))
@@ -516,6 +519,7 @@ function MazeMain()
         }
         else if(event.code=="ArrowRight"||event.code=="KeyD"||event.code=="Numpad6")
         {
+            event.preventDefault();
             if(col==matrix[0].length-1)
             document.getElementById("label").innerText="You can't go back coward";
             else if(matrix[row][col+1]==String.fromCharCode(9632))

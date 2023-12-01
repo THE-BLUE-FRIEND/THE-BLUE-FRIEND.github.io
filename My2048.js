@@ -402,11 +402,12 @@ function start()
     }
     );
 
-    window.addEventListener("keyup",function(event)
+    window.addEventListener("keydown",function(event)
     {
         currentcheck=copyboard(current);
         if(event.code=="ArrowUp"||event.code=="KeyW"||event.code=="Numpad8")
         {
+            event.preventDefault();
             up();
             if(checkequalboard(currentcheck,current)==false)
             document.getElementById("label").innerText="Moved up";
@@ -415,6 +416,7 @@ function start()
         }
         else if(event.code=="ArrowLeft"||event.code=="KeyA"||event.code=="Numpad4")
         {
+            event.preventDefault();
             left();
             if(checkequalboard(currentcheck,current)==false)
             document.getElementById("label").innerText="Moved left";
@@ -423,6 +425,7 @@ function start()
         }
         else if(event.code=="ArrowDown"||event.code=="KeyS"||event.code=="Numpad2")
         {
+            event.preventDefault();
             down();
             if(checkequalboard(currentcheck,current)==false)
             document.getElementById("label").innerText="Moved down";
@@ -431,6 +434,7 @@ function start()
         }
         else if(event.code=="ArrowRight"||event.code=="KeyD"||event.code=="Numpad6")
         {
+            event.preventDefault();
             right();
             if(checkequalboard(currentcheck,current)==false)
             document.getElementById("label").innerText="Moved right";

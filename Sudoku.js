@@ -623,6 +623,7 @@ function SudokuMain()
         }
         if(s=="ArrowUp" || (event.shiftKey && s=="KeyW"))
         {
+            event.preventDefault();
             if(boxi==-1)
             {
                 boxi=size*size-1;
@@ -633,6 +634,7 @@ function SudokuMain()
         }
         if(s=="ArrowLeft" || (event.shiftKey && s=="KeyA"))
         {
+            event.preventDefault();
             if(boxi==-1)
             {
                 boxi=size*size-1;
@@ -643,16 +645,18 @@ function SudokuMain()
         }
         if(s=="ArrowDown" || (event.shiftKey && s=="KeyS"))
         {
+            event.preventDefault();
             if(boxi==-1)
             {
                 boxi=0;
-                boxj=size*size;
+                boxj=size*size-1;
             }
             else if(boxi<size*size-1)
             boxi++;
         }
         if(s=="ArrowRight" || (event.shiftKey && s=="KeyD"))
         {
+            event.preventDefault();
             if(boxi==-1)
             {
                 boxi=0;
